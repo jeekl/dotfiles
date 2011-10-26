@@ -1,0 +1,43 @@
+[user]
+        name  = Jeff Eklund
+        email = jeff.eklund@gmail.com
+[core]
+        excludesfile = ~/.gitignore
+[github]
+        user  = jeekl
+        token = 130035504a3b08f1d1014396a9912a97
+[color]
+        diff = auto
+        status = auto
+        branch = auto
+        interactive = auto
+	pager = yes
+[alias]
+        st  = status
+        ci  = commit
+        br  = branch
+        co  = checkout
+        df  = diff
+        who = shortlog -s --
+        lg  = log -p
+        lgc = log ORIG_HEAD.. --stat --no-merges
+	lgp = log --pretty=format:'%Cred%h%Creset -- %cn, %cr\t%Cgreen%s%Creset'
+        lgg = log --graph --pretty=format:\"%Cred%h%Creset -- %cn, %cr\t%Cgreen%s%Creset\"
+        undo-last-commit = reset --soft HEAD^
+        staged = diff --cached
+        stage = add
+        unstage = reset HEAD
+	update-all-submodules = submodule foreach 'echo $path `git pull`'
+	submodule-rev = submodule foreach 'echo $path `git rev-parse HEAD`'
+	wdiff = diff --color-words
+	info = remote -v
+	authors = "!git log --format='%aN <%aE>' | sort -u"
+	ignored = ls-files --others
+	oneline = log --oneline --decorate
+	changes = diff --name-status -r
+        wdiff = diff --color-words
+        wlog = log -p --word-diff=color
+	graphviz = "!f() { echo 'digraph git {' ; git log --pretty='format:  %h -> { %p }' \"$@\" | sed 's/[0-9a-f]\\+/\"&\"/g' ; echo '}'; }; f"
+	mnc = merge --no-commit
+	tagme = !sh -c '[ -z "$1" ] && exit 1 || git tag -s v\"$1\" -m \"release \"$1\"\"' sh
+	

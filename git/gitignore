@@ -1,0 +1,49 @@
+#---- General
+.DS_Store		# OSX
+thumbs.db		# Windows
+*.elc			# Elisp
+.eunit			# Erlang
+.nohup			# nohup
+.hi			# Haskell
+.directory		# KDE
+
+#---- Python
+*.py[co]
+*.egg
+*.egg-info
+
+#---- Ruby
+*.rbc
+#-- Rails
+test/tmp
+test/version_tmp
+.bundle
+db/*.sqlite3
+log/*.log
+tmp/*/*
+spec/reports
+*.sassc
+.sass-cache
+
+#---- Latex
+*.nav
+*.snm
+*.vrb
+
+#---- Emacs
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+
+#---- Vim
+*.un~
+.*.sw[a-z]
+
+#---- Textmate
+*.tmproj
+tmtags
+
+#---- Multiple
+*~			# Emacs, Vim
+*.o			# C, C++, Erlang, Haskell and others
+*.out			# Latex, others
