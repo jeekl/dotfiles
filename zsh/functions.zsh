@@ -200,15 +200,6 @@ xunfunction() {
     return 0
 }
 
-# this allows us to stay in sync with grml's zshrc and put own
-# modifications in ~/.zshrc.local
-zrclocal() {
-    xsource "/etc/zsh/zshrc.local"
-    xsource "${HOME}/.zshrc.local"
-    return 0
-}
-
-
 grml_toggle_abbrev () {
     if (( ${NOABBREVIATION} > 0 )) ; then
         NOABBREVIATION=0
