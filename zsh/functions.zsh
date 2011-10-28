@@ -827,3 +827,10 @@ wiki() {
 
     dig +short txt $1.wp.dg.cx; 
 }
+
+source-host-config () {
+    host=${$(hostname)//.*/}
+    if [ -f "$HOME/.zsh/hosts/${host}.zsh" ] ; then
+        source "$HOME/.zsh/hosts/${host}.zsh"
+    fi
+}

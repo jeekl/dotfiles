@@ -330,4 +330,4 @@ zrcautoload lookupinit && lookupinit
 # set terminal property (used e.g. by msgid-chooser)
 export COLORTERM="yes"
 
-zrclocal
+source-host-config
