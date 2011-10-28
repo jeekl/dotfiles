@@ -17,7 +17,6 @@ alias devlog='tail -f log/development.log'
 alias rfind='find . -name *.rb | xargs grep -n'
 alias afind='ack-grep -il'
 
-alias .='pwd'
 alias ..='cd ..'
 alias ...='cd ../..'
 alias cd..='cd ..'
