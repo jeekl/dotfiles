@@ -19,12 +19,13 @@ xkb_symbols "us" {
     key <AD05> { [ t, T, thorn, THORN ] };
     key <AD07> { [ u, U, udiaeresis, Udiaeresis ] };
     key <AD09> { [ o, O, oslash, Ooblique] };
-    key <AD11> { [ bracketleft, braceleft, adiaeresis, Adiaeresis ] };
-    key <AD12> { [ bracketright, braceright, aring, Aring ] };
+    key <AD11> { [ bracketleft, braceleft, aring, Aring ] };
+    key <AD12> { [ bracketright, braceright ] };
     key <AC01> { [ a, A, ae, AE ] };
     key <AC02> { [ s, S, ssharp, NoSymbol ] };
     key <AC03> { [ d, D, eth, ETH ] };
-    key <AC11> { [ apostrophe, quotedbl, odiaeresis, Odiaeresis ] };
+    key <AC10> { [ semicolon, colon, odiaeresis, Odiaeresis ] };
+    key <AC11> { [ apostrophe, quotedbl, adiaeresis, Adiaeresis ] };
     key <AB03> { [ c, C, copyright ] };
     key <AB06> { [ n, N, ntilde, Ntilde ] };
     key <AB07> { [ m, M, mu, NoSymbol ] };
