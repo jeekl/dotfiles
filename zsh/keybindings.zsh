@@ -28,6 +28,8 @@ bindkey -e
 # use vi style:
 # bindkey -v
 
+# Disable flow control to be able to use C-s
+setopt NO_FLOW_CONTROL
 
 #if [[ "$TERM" == screen ]] ; then
 bindkey '\e[1~' beginning-of-line       # home
