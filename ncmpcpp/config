@@ -133,7 +133,7 @@ browser_playlist_prefix = "$2playlist$9 "
 ##   not available.
 
 #song_columns_list_format = "(7f)[green]{l} (25)[cyan]{a} (40)[]{t|f} (30)[red]{b}"
-song_columns_list_format = "(18)[]{a} (23)[white]{t} (6f)[green]{NEr} (6f){y} (25)[cyan]{b} (8f)[magenta]{l}"
+song_columns_list_format = "(18)[]{a} (23)[white]{t|f} (6f)[green]{NEr} (6f){yE} (25)[cyan]{b|D} (8f)[magenta]{l}"
 #song_list_format = "{$6%n|}|{}{$5%a $8» $0%t$5 %l}|{$5%a $8» <null>$5 %l}|{$5 <null> $8» $0%t}$R{$7[$8%b$7]$5 %y}|{$7[$8%b$7]$8 0000}|{$7[$0<null>$7]$5 %y}|{}"
 #song_columns_list_format = "(4)[blue]{n}(5)[cyan]{l}(20)[magenta]{a}(30)[white]{t}(38)[blue]{b}(4)[blue]{y}"
 
@@ -218,7 +218,7 @@ fancy_scrolling = "yes"
 #ask_before_clearing_main_playlist = "no"
 clock_display_seconds = "yes"
 display_volume_level = "yes"
-#display_bitrate = "no"
+display_bitrate = "yes"
 #display_remaining_time = "no"
 #regular_expressions = "basic" (basic/extended)
 
