@@ -44,4 +44,4 @@
 	graphviz = "!f() { echo 'digraph git {' ; git log --pretty='format:  %h -> { %p }' \"$@\" | sed 's/[0-9a-f]\\+/\"&\"/g' ; echo '}'; }; f"
 	mnc = merge --no-commit
 	tagme = !sh -c '[ -z "$1" ] && exit 1 || git tag -s v\"$1\" -m \"release \"$1\"\"' sh
-	
+	search = !git_search

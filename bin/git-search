@@ -1,0 +1,4 @@
+pattern=$1
+git branch -a | awk 'BEGIN{found=0}
+                /'$pattern'/{found=1;print}
+                END{if(found==0) {print "No such branch.\nRemembered to fetch?"}}'
