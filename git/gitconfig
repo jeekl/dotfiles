@@ -1,6 +1,6 @@
 [user]
         name  = Jeff Eklund
-        email = jeff.eklund@gmail.com
+        email = jeff.eklund@klarna.com
 [core]
         excludesfile = ~/.gitignore
 [github]
@@ -24,6 +24,9 @@
         lgc = log ORIG_HEAD.. --stat --no-merges
 	lgp = log --pretty=format:'%Cred%h%Creset -- %cn, %cr\t%Cgreen%s%Creset'
         lgg = log --graph --pretty=format:\"%Cred%h%Creset -- %cn, %cr\t%Cgreen%s%Creset\"
+	glog  = log --graph --abbrev-commit --pretty=oneline
+	lol = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+	lola = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative --all
         undo-last-commit = reset --soft HEAD^
         staged = diff --cached
         stage = add
