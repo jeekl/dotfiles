@@ -57,3 +57,6 @@ alias man='TERMINFO=~/.config/dotfiles/terminfo/ LESS=C TERM=mostlike PAGER=less
 # get top 10 shell commands:
 alias historymeme='print -l ? ${(o)history%% *} | uniq -c | sort -nr | head -n 10'
 alias nautilus='nautilus --no-desktop'
+
+# Requires python-pygments, cats src highlighted to stdout.
+alias ccat='pygmentize -f terminal -g'
