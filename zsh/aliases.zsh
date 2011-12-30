@@ -2,21 +2,6 @@
 alias pu='pushd'
 alias po='popd'
 
-# Ruby stuff
-alias ss='thin --stats "/thin/stats" start'
-alias sg='ruby script/generate'
-alias sd='ruby script/destroy'
-alias sp='ruby script/plugin'
-alias ssp='ruby script/spec'
-alias rdbm='rake db:migrate'
-alias sc='ruby script/console'
-alias sd='ruby script/server --debugger'
-alias devlog='tail -f log/development.log'
-
-# Find ruby file
-alias rfind='find . -name *.rb | xargs grep -n'
-alias afind='ack-grep -il'
-
 alias ..='cd ..'
 alias ...='cd ../..'
 alias cd..='cd ..'
