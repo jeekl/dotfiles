@@ -45,3 +45,4 @@
 	mnc = merge --no-commit
 	tagme = !sh -c '[ -z "$1" ] && exit 1 || git tag -s v\"$1\" -m \"release \"$1\"\"' sh
 	search = !git_search
+	tags = for-each-ref --sort='*authordate' --format='%(tag)' refs/tags
