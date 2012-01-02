@@ -45,3 +45,6 @@ alias nautilus='nautilus --no-desktop'
 
 # Requires python-pygments, cats src highlighted to stdout.
 alias ccat='pygmentize -f terminal -g'
+
+# Pretty print json documents (usefull together with ccat)
+alias jsonlint='python -mjson.tool'
