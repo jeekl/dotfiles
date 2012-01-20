@@ -44,6 +44,7 @@ alias historymeme='print -l ? ${(o)history%% *} | uniq -c | sort -nr | head -n 1
 alias nautilus='nautilus --no-desktop'
 
 # Requires python-pygments, cats src highlighted to stdout.
+# python2-pygments on Arch, python-pygments on ubuntu.
 alias ccat='pygmentize -f terminal -g'
 
 # Pretty print json documents (usefull together with ccat)
