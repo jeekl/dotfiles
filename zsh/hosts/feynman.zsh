@@ -25,7 +25,7 @@ function stderl () {
 r14b03
 
 ### Cope on ubuntu
-export PATH="/usr/local/share/perl/5.10.1/auto/share/dist/Cope:${ORIG_PATH}"
+export PATH="/usr/local/share/perl/5.12.4/auto/share/dist/Cope:${ORIG_PATH}"
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern root)
 ZSH_HIGHLIGHT_STYLES[root]='bg=red'
