@@ -1,0 +1,28 @@
+server {
+        listen       443;
+        server_name  i.jeekl.me;
+
+        access_log  /var/log/nginx/i.access.log;
+        error_log   /var/log/nginx/i.error.log;
+
+        ssl                  on;
+        ssl_certificate      /etc/nginx/ssl/jeekl.me.crt;
+        ssl_certificate_key  /etc/nginx/ssl/jeekl.me.key;
+
+        ssl_session_timeout  5m;
+
+        ssl_protocols  SSLv2 SSLv3 TLSv1;
+        ssl_ciphers ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP;
+        ssl_prefer_server_ciphers   on;
+
+        location / {
+                root /var/www/i;
+        }
+}
+
+server {
+    listen      80;
+    server_name i.jeekl.me;
+    rewrite     ^(.*) https://i.jeekl.me$1? permanent;
+}
+

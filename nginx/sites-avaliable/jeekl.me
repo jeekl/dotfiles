@@ -1,0 +1,29 @@
+server {
+    listen      80;
+    server_name jeekl.me;
+    rewrite     ^(.*) https://jeekl.me$1? permanent;
+}
+
+server {
+        listen       443;
+        server_name  jeekl.me;
+
+        access_log  /var/log/nginx/jeekl.me.access.log;
+        error_log   /var/log/nginx/jeekl.me.error.log;
+
+        ssl                  on;
+        ssl_certificate      /etc/nginx/ssl/jeekl.me.crt;
+        ssl_certificate_key  /etc/nginx/ssl/jeekl.me.key;
+
+        ssl_session_timeout  5m;
+
+        ssl_protocols  SSLv2 SSLv3 TLSv1;
+        ssl_ciphers ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP;
+        ssl_prefer_server_ciphers   on;
+
+        root /var/www;
+        location  /poddradio/ {
+                autoindex  on;
+        }
+}
+
