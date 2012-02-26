@@ -568,6 +568,7 @@ Perl! :-D
 Prefer Cperl to regular perl mode
 #+begin_src emacs-lisp
 (defalias 'perl-mode 'cperl-mode)
+(setq cperl-hairy)
 #+end_src
 *** File extensions
 #+begin_src emacs-lisp
@@ -1364,6 +1365,16 @@ Automatically insert newlines, matching braces, indentation and so on.
 #+begin_src emacs-lisp
 (require 'volatile-highlights)
 (volatile-highlights-mode t)
+#+end_src
+** Change background color on read-only
+When editing a file that is read-only, show this visually, by turning the
+background yellow.
+[[http://permalink.gmane.org/gmane.emacs.help/83843][mailing-list link]]
+#+begin_src emacs-lisp
+(add-hook 'find-file-hooks
+ (lambda ()
+   (when buffer-read-only
+   (set-background-color "yellow"))))
 #+end_src
 * Misc
 ** Xterm
