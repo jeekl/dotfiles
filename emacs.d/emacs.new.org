@@ -625,6 +625,14 @@ TODO, this does not work?
             (turn-on-haskell-doc-mode)
             (turn-on-haskell-indentation)))
 #+end_src
+** C
+#+begin_src emacs-lisp
+  (defun indent-makefile-mode-hook ()
+    (setq indent-tabs-mode t)
+    (setq tab-width 4))
+  (add-hook 'makefile-mode-hook 'indent-makefile-mode-hook)
+#+end_src
+
 * Modes
 ** Ido mode
 #+begin_src emacs-lisp
@@ -1070,12 +1078,19 @@ and in TODOs, bind them.
               ("h" "Habit" entry (file "~/Dropbox/org/capture.org")
                "* NEXT %?\n%U\n%a\nSCHEDULED: %t .+1d/3d\n:PROPERTIES:\n:STYLE: bit\n:REPEAT_TO_STATE: NEXT\n:END:\n  %i"))))
 #+end_src
-*** Keybindings
-Workaround to make yasnippet work nice with org mode.
+*** Electricity
+The new electric layout is really annoying in org-mode. Turn it off.
 #+begin_src emacs-lisp
-;            (make-variable-buffer-local 'yas/trigger-key)
-;            (org-set-local 'yas/trigger-key [tab])
-;            (define-key yas/keymap [tab] 'yas/next-field-group)
+  (defun electric-org-mode-hook ()
+    (electric-layout-mode -1))
+(add-hook 'org-mode-hook 'electric-org-mode-hook)
+#+end_src
+*** Keybindings
+  Workaround to make yasnippet work nice with org mode.
+  ,#+begin_src emacs-lisp
+  ;            (make-variable-buffer-local 'yas/trigger-key)
+  ;            (org-set-local 'yas/trigger-key [tab])
+  ;            (define-key yas/keymap [tab] 'yas/next-field-group)
 #+end_src
 ** Agenda files
 These files will be included in org modes agenda.
