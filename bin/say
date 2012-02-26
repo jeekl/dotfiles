@@ -1,0 +1,10 @@
+#!/bin/bash
+
+string_to_say=""
+
+for i in $@;
+do
+        string_to_say="$string_to_say $i"
+done
+
+echo $string_to_say | festival --tts
