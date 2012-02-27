@@ -100,176 +100,164 @@ Packages that I/someone else have not yet written recipies for.
 **** Basic / Misc
 These are packages that add basic or very general functionality to emacs.
 #+begin_src emacs-lisp
-(setq my-packages
-      (append
-       '(el-get
-gist
-hl-sexp
-smex)
-       (mapcar 'el-get-source-name el-get-sources)))
+  (setq my-packages
+        (append
+         '(el-get
+           gist
+           hl-sexp
+           smex)
+         (mapcar 'el-get-source-name el-get-sources)))
 #+end_src
 
 ***** UI
 #+begin_src emacs-lisp
-(setq my-packages
-      (append
-'(smooth-scrolling
-ioccur
-diminish
-fill-column-indicator
-nyan-mode
-)
-       my-packages))
+  (setq my-packages
+        (append
+         '(smooth-scrolling
+           ioccur
+           diminish
+           fill-column-indicator
+           nyan-mode)
+         my-packages))
 #+end_src
 ***** Indentation
 #+begin_src emacs-lisp
-(setq my-packages
-      (append
-'(fuzzy-format
-ethan-wspace
-
-)
-       my-packages))
+  (setq my-packages
+        (append
+         '(fuzzy-format
+           ethan-wspace)
+         my-packages))
 #+end_src
 
 ***** Buffer handling
 
 ***** Google Services
 #+begin_src emacs-lisp
-(setq my-packages
-      (append
-       '(google-weather
-      google-maps)
-       my-packages))
+  (setq my-packages
+        (append
+         '(google-weather
+           google-maps)
+         my-packages))
 #+end_src
 
 ***** Windows / frames
 Navigating, handling windows and frames.
 #+begin_src emacs-lisp
-(setq my-packages
-      (append
-       '(switch-window
-buffer-move
-)
-       my-packages))
+  (setq my-packages
+        (append
+         '(switch-window
+           buffer-move)
+         my-packages))
+
 #+end_src
 **** Editing
 ***** Kill ring / undo / redo
 Yanking stuff, killing stuff, putting back, or not, and so on.
 #+begin_src emacs-lisp
-(setq my-packages
-      (append
-       '(pos-tip ;; requirement for popup-kill-ring
-popup-kill-ring
-undo-tree
-browse-kill-ring
-)
-       my-packages))
+  (setq my-packages
+        (append
+         '(pos-tip ;; requirement for popup-kill-ring
+           popup-kill-ring
+           undo-tree
+           browse-kill-ring)
+         my-packages))
 #+end_src
 ***** Lines / Regions
 Working smarter with lines, regions and blocks.
 #+begin_src emacs-lisp
-(setq my-packages
-      (append
-       '(whole-line-or-region
-)
-       my-packages))
+  (setq my-packages
+        (append
+         '(whole-line-or-region)
+         my-packages))
 #+end_src
 **** Programming
 ***** Auto-complete
 #+begin_src emacs-lisp
-(setq my-packages
-      (append
-       '(auto-complete
-      ac-slime
-ac-dabbrev)
-       my-packages))
+  (setq my-packages
+        (append
+         '(auto-complete
+           ac-slime
+           ac-dabbrev)
+         my-packages))
 #+end_src
 ***** Flymake
 #+begin_src emacs-lisp
-(setq my-packages
-      (append
-       '(fringe-helper
-      flymake-point)
-       my-packages))
+  (setq my-packages
+        (append
+         '(fringe-helper
+           flymake-point)
+         my-packages))
 #+end_src
 ***** Lisp
 #+begin_src emacs-lisp
-(setq my-packages
-      (append
-       '(paredit
-clojure-mode
-elein
-autopair)
-       my-packages))
+  (setq my-packages
+        (append
+         '(paredit
+           clojure-mode
+           elein
+           autopair)
+         my-packages))
 #+end_src
 ***** Erlang
 #+begin_src emacs-lisp
-(setq my-packages
-      (append
-       '(erlware-mode
-distel
-      )
-       my-packages))
+  (setq my-packages
+        (append
+         '(erlware-mode
+           distel)
+         my-packages))
 #+end_src
 ***** Haskell
 #+begin_src emacs-lisp
-(setq my-packages
-      (append
-       '(haskell-mode
-      )
-       my-packages))
+  (setq my-packages
+        (append
+         '(haskell-mode)
+         my-packages))
 #+end_src
 ***** Javascript
 #+begin_src emacs-lisp
-(setq my-packages
-      (append
-       '(js2-mode
-      )
-       my-packages))
+  (setq my-packages
+        (append
+         '(js2-mode)
+         my-packages))
 #+end_src
 
 ***** Python
 #+begin_src emacs-lisp
-(setq my-packages
-      (append
-       '(ropemacs
-      )
-       my-packages))
+  (setq my-packages
+        (append
+         '(ropemacs)
+         my-packages))
 #+end_src
 ***** Ruby
 #+begin_src emacs-lisp
-(setq my-packages
-      (append
-       '(rspec-mode
-haml-mode
-sass-mode
-rvm
-rhtml-mode
-rdebug
-ruby-mode
-      )
-       my-packages))
+  (setq my-packages
+        (append
+         '(rspec-mode
+           haml-mode
+           sass-mode
+           rvm
+           rhtml-mode
+           rdebug
+           ruby-mode)
+         my-packages))
 #+end_src
 
 **** Org-mode
 #+begin_src emacs-lisp
-(setq my-packages
-      (append
-       '(org-mode
-org-fstree
-      )
-       my-packages))
+  (setq my-packages
+        (append
+         '(org-mode
+           org-fstree)
+         my-packages))
 #+end_src
 **** Text formats
 #+begin_src emacs-lisp
-(setq my-packages
-      (append
-       '(crontab-mode
-rst-mode
-yaml-mode
-      )
-       my-packages))
+  (setq my-packages
+        (append
+         '(crontab-mode
+           rst-mode
+           yaml-mode)
+         my-packages))
 #+end_src
 
 
@@ -310,8 +298,8 @@ TODO: This gives an
 *** RVM
 Ruby versoion manager
 #+begin_src emacs-lisp
-;(require 'rvm)
-;(rvm-use-default)
+(require 'rvm)
+(rvm-use-default)
 #+end_src
 *** Keybindings
 *** File extensions
@@ -362,8 +350,8 @@ Replace the keyword "lambda" with the actual lambda sign.
                     'font-lock-keyword-face))))))
 #+end_src
 *** Search lispdoc
+From [[http://bc.tech.coop/blog/070515.html][here]]
 #+begin_src emacs-lisp
-;; From http://bc.tech.coop/blog/070515.html
 (defun lispdoc ()
   "Searches lispdoc.com for SYMBOL, which is by default the symbol currently under the curser"
   (interactive)
@@ -982,7 +970,7 @@ inspired by TextMate's templating syntax.
 #+end_src
 ** SMerge-mode
 For dealing with conflicts and diffs
-[[http://atomized.org/2010/06/resolving-merge-conflicts-the-easy-way-with-smerge-kmacro/][link]] 
+[[http://atomized.org/2010/06/resolving-merge-conflicts-the-easy-way-with-smerge-kmacro/][link]]
 TODO: Keybindings
 #begin_src emacs-lisp
 (defun sm-try-smerge ()
