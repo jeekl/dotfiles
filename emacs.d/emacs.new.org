@@ -95,7 +95,6 @@ Packages that I/someone else have not yet written recipies for.
                                feedback on some operations."
                  :type elpa)
           ))
-
 #+end_src
 
 **** Basic / Misc
@@ -514,9 +513,9 @@ Durendal - various odd tricks and stunts from Technomancy. Pretty cool guy eh?
 ** Erlang
 #+begin_src emacs-lisp
 (setq erlang-root-dir "/usr/lib/erlang")
-;(require 'erlang-start)
-;(require 'distel)
-;(distel-setup)
+(require 'erlang-start)
+(require 'distel)
+(distel-setup)
 #+end_src
 
 Erlang settings
@@ -816,7 +815,7 @@ TODO, set this up to work with yasnippet and tab
 ;(require 'auto-complete-config)
 ;(global-auto-complete-mode t)
 ;(setq ac-auto-start nil)
-(setq ac-auto-start 5)
+(setq ac-auto-start 7)
 (setq ac-dwim t)
 #+end_src
 
@@ -931,11 +930,6 @@ C-x U for visual undo tree
 (global-set-key (kbd "C-z") 'undo)
 #+end_src
 
-Just override to make undo work like everywhere else...
-#+begin_src emacs-lisp
-(global-set-key (kbd "C-z") 'undo)
-#+end_src
-
 ** whole-line-or-region
 Kill, yank and such on current line if no region is selected.
 #+begin_src emacs-lisp
@@ -967,10 +961,10 @@ Prevent flickery behaviour due to hl-sexp-mode unhighlighting before each comman
 ** Diminish
 Shorten names of minor modes in modeline.
 #+begin_src emacs-lisp
-;(require 'diminish)
-;(eval-after-load "undo-tree" '(diminish 'undo-tree-mode))
-;r(eval-after-load "whole-line-or-region-mode" (diminish 'whole-line-or-region-mode))
-;(eval-after-load "fuzzy-format-mode" (diminish 'fuzzy-format-mode))
+(require 'diminish)
+(eval-after-load "undo-tree" '(diminish 'undo-tree-mode))
+(eval-after-load "whole-line-or-region-mode" (diminish 'whole-line-or-region-mode))
+(eval-after-load "fuzzy-format-mode" (diminish 'fuzzy-format-mode))
 #+end_src
 ** Yasnippet
 [[http://code.google.com/p/yasnippet/][yasnippet]] is yet another snippet expansion system for Emacs. It is
@@ -988,7 +982,7 @@ inspired by TextMate's templating syntax.
 #+end_src
 ** SMerge-mode
 For dealing with conflicts and diffs
-http://atomized.org/2010/06/resolving-merge-conflicts-the-easy-way-with-smerge-kmacro/
+[[http://atomized.org/2010/06/resolving-merge-conflicts-the-easy-way-with-smerge-kmacro/][link]] 
 TODO: Keybindings
 #begin_src emacs-lisp
 (defun sm-try-smerge ()
@@ -1083,12 +1077,13 @@ and in TODOs, bind them.
 The new electric layout is really annoying in org-mode. Turn it off.
 #+begin_src emacs-lisp
   (defun electric-org-mode-hook ()
-    (electric-layout-mode -1))
-(add-hook 'org-mode-hook 'electric-org-mode-hook)
+    (electric-layout-mode -1)
+    (electric-indent-mode -1))
+  (add-hook 'org-mode-hook 'electric-org-mode-hook)
 #+end_src
 *** Keybindings
   Workaround to make yasnippet work nice with org mode.
-  ,#+begin_src emacs-lisp
+#+begin_src emacs-lisp
   ;            (make-variable-buffer-local 'yas/trigger-key)
   ;            (org-set-local 'yas/trigger-key [tab])
   ;            (define-key yas/keymap [tab] 'yas/next-field-group)
@@ -1100,7 +1095,7 @@ These files will be included in org modes agenda.
                                "~/Dropbox/org/projects.org"
                                "~/Dropbox/org/work.org"
                                "~/Dropbox/org/appointments.org"
-"~/tmp/testcal.org"
+                               "~/tmp/testcal.org"
                                "~/Dropbox/org/remember-collection.org"))
 #+end_src
 *** Show agenda if idle for too long
@@ -1304,8 +1299,6 @@ Add warning highlighting of todo/fix keywords.
 
 ** Highlight current line
 
-TODO: This for some reason, does not show the line on startup. removing it and reenabling it fixes it though. Strange.
-
 Highlights the current line.
 Might want to use http://www.emacswiki.org/emacs/hl-line+.el ?
 hl-line+ can just flash the line when being idle for too long, and to not clutter the ui with a constant line.
@@ -1324,7 +1317,7 @@ Show trailing whitespace and excessive eol,
 trim trailing whitespace and eol by default,
 convert tabs to spaces and more.
 #+begin_src emacs-lisp
-;(global-ethan-wspace-mode 1)
+(global-ethan-wspace-mode 1)
 #+end_src
 ** Modeline
 #+begin_src emacs-lisp
@@ -1656,12 +1649,12 @@ Navigate windows with C-c <left>, C-c <right> and so on
 
 *** When splitting show (other-buffer) in new window
 #+begin_src emacs-lisp
-  ;; (defun split-window-func-with-other-buffer (split-function)
-  ;;   (lexical-let ((s-f split-function))
-  ;;     (lambda ()
-  ;;       (interactive)
-  ;;       (funcall s-f)
-  ;;       (set-window-buffer (next-window) (other-buffer)))))
+  (defun split-window-func-with-other-buffer (split-function)
+    (lexical-let ((s-f split-function))
+      (lambda ()
+        (interactive)
+        (funcall s-f)
+        (set-window-buffer (next-window) (other-buffer)))))
 #+end_src
 
 *** Rearrange split windows
@@ -1686,18 +1679,18 @@ Navigate windows with M-<arrows>
 #+end_src
 *** Keybindings
 #+begin_src emacs-lisp
-  ;; (global-set-key (kbd "\C-x 2") (split-window-func-with-other-buffer 'split-window-vertically))
-  ;; (global-set-key (kbd "\C-x 3") (split-window-func-with-other-buffer 'split-window-horizontally))
-  ;; (global-set-key (kbd "\C-x -") 'split-window-horizontally-instead)
-  ;; (global-set-key (kbd "\C-x _") 'split-window-vertically-instead)
+  (global-set-key (kbd "\C-x 2") (split-window-func-with-other-buffer 'split-window-vertically))
+  (global-set-key (kbd "\C-x 3") (split-window-func-with-other-buffer 'split-window-horizontally))
+  (global-set-key (kbd "\C-x -") 'split-window-horizontally-instead)
+  (global-set-key (kbd "\C-x _") 'split-window-vertically-instead)
 #+end_src
 *** TODO Keybindings for buffer-move
 TODO: Kolla igenom detta, det fungerar uselt med org-mode.
 #+begin_src emacs-lisp
-(global-set-key (kbd "<C-up>") 'buf-move-up)
-(global-set-key (kbd "<C-down>") 'buf-move-down)
-(global-set-key (kbd "<C-left>") 'buf-move-left)
-(global-set-key (kbd "<C-right>") 'buf-move-right)
+  (global-set-key (kbd "<C-up>") 'buf-move-up)
+  (global-set-key (kbd "<C-down>") 'buf-move-down)
+  (global-set-key (kbd "<C-left>") 'buf-move-left)
+  (global-set-key (kbd "<C-right>") 'buf-move-right)
 #+end_src
 ** Delete selection
 Deletes selected text by pressid DEL and typing something else
@@ -1708,11 +1701,16 @@ Deletes selected text by pressid DEL and typing something else
 ** Diff current buffer with file
 Diff the current buffer with the file contents
 #+begin_src emacs-lisp
-(defun my-diff-current-buffer-with-disk ()
+(defun diff-current-buffer-with-file ()
  "Compare the current buffer with it's disk file."
  (interactive)
  (diff-buffer-with-file (current-buffer)))
 #+end_src
+*** Keybinding
+#+begin_src emacs-lisp
+(global-set-key (kbd "C-x =") 'diff-current-buffer-with-file)
+#+end_src
+
 ** Saveplace
 Save your position in a file
 #+begin_src emacs-lisp
@@ -1720,21 +1718,18 @@ Save your position in a file
 (setq save-place-file "~/.emacs.d/cache/saveplace")
 (setq-default save-place t)
 #+end_src
-*** Keybinding
-#+begin_src emacs-lisp
-(global-set-key (kbd "C-x =") 'my-diff-current-buffer-with-disk)
-#+end_src
 
 ** Backups / autosaves and so on
-Settings for Emacs autosave, backup and similar systems. Basically they litter your system with useless files everywhere. :-/
+Settings for Emacs autosave, backup and similar systems. Basically they litter
+your system with useless files everywhere. :-/
 #+begin_src emacs-lisp
   (defvar autosave-dir "~/.emacs.d/cache/autosave")
   (make-directory autosave-dir t)
   (defvar backup-dir (concat "~/.emacs.d/cache/backup"))
   (setq backup-directory-alist (list (cons "." backup-dir)))
   (setq
-     version-control t ;; user numbers for backups
-     delete-old-versions t ;; silently delete extra backup versions
+     version-control t            ;; user numbers for backups
+     delete-old-versions t        ;; silently delete extra backup versions
      backup-by-copying t
      kept-new-versions 6
      kept-old-versions 2
