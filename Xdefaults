@@ -32,12 +32,12 @@ URxvt.background:       black
 URxvt.foreground:       white
 !URxvt.cursorColor:      green
 URxvt.underlineColor:   yellow
-URxvt.font:             xft:Dejavu Sans Mono:pixelsize=12:antialias=true
+URxvt.font:             xft:Dejavu Sans Mono:pixelsize=14:antialias=true
 !Terminus:pixelsize=14:antialias=false
-URxvt.boldFont:         xft:Dejavu Sans Mono:bold:pixelsize=12:antialias=true
+URxvt.boldFont:         xft:Dejavu Sans Mono:bold:antialias=true
 !Terminus:bold:pixelsize=14:antialias=false
-urxvt.italicFont:       xft:Dejavu Sans Mono:italic:pixelsize=12:antialias=true
-urxvt.boldItalicFont:   xft:Dejavu Sans Mono:bold:italic:pixelsize=12:antialias=true
+urxvt.italicFont:       xft:Dejavu Sans Mono:italic:antialias=true
+urxvt.boldItalicFont:   xft:Dejavu Sans Mono:bold:italic:antialias=true
 URxvt.perl-ext-common:  default,matcher,url-select
 URxvt.urlLauncher:      /usr/bin/firefox
 URxvt.matcher.button:   1
