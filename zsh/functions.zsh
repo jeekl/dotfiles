@@ -50,8 +50,6 @@ isutfenv() {
 }
 
 # autoload wrapper - use this one instead of autoload directly
-# We need to define this function as early as this, because autoloading
-# 'is-at-least()' needs it.
 function zrcautoload() {
     emulate -L zsh
     setopt extended_glob
@@ -197,6 +195,16 @@ xunfunction() {
         [[ -n ${functions[$func]} ]] \
             && unfunction $func
     done
+    return 0
+}
+
+# this allows us to stay in sync with grml's zshrc and put own
+# modifications in ~/.zshrc.local
+source-host-config () {
+    host=${$(hostname)//.*/}
+    if [ -f "$HOME/.zsh/hosts/${host}.zsh" ] ; then
+	source "$HOME/.zsh/hosts/${host}.zsh"
+    fi
     return 0
 }
 
@@ -828,9 +836,11 @@ wiki() {
     dig +short txt $1.wp.dg.cx; 
 }
 
-source-host-config () {
-    host=${$(hostname)//.*/}
-    if [ -f "$HOME/.zsh/hosts/${host}.zsh" ] ; then
-        source "$HOME/.zsh/hosts/${host}.zsh"
-    fi
+function start_agent {
+    /usr/bin/env gpg-agent --daemon --enable-ssh-support \
+        --write-env-file ${GPG_ENV} > /dev/null
+    chmod 600 ${GPG_ENV}
+    . ${GPG_ENV} > /dev/null
 }
+
+
