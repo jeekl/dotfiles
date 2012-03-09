@@ -94,6 +94,9 @@ Packages that I/someone else have not yet written recipies for.
                  :description "Minor mode for visual
                                feedback on some operations."
                  :type elpa)
+          (:name find-file-in-project
+                 :description "Find files in projects."
+                 :type elpa)
           ))
 #+end_src
 
@@ -1249,7 +1252,7 @@ Make buffer names more unique when multiple share the same name.
 Default font/text size
 #+begin_src emacs-lisp
 ;(set-default-font "Bitstream Vera Sans Mono-11")
-(set-default-font "DejaVu Sans Mono-12")
+(set-default-font "DejaVu Sans Mono-15")
 #+end_src
 
 Increase/decrese text size with keys
