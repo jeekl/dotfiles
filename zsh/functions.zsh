@@ -227,7 +227,8 @@ zle -N commit-to-history
 
 # only slash should be considered as a word separator:
 slash-backward-kill-word () {
-    local WORDCHARS="${WORDCHARS:s@/@}"
+    local WORDCHARS='*?_<>~&!#$%^(){}'
+    # local WORDCHARS="${WORDCHARS:s@/@}"
     # zle backward-word
     zle backward-kill-word
 }
