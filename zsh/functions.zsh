@@ -617,19 +617,6 @@ genthumbs () {
 </html>" >> index.html
 }
 
-# Show some status info
-status () {
-    print
-    print "Date..: "$(date "+%Y-%m-%d %H:%M:%S")
-    print "Shell.: Zsh $ZSH_VERSION (PID = $$, $SHLVL nests)"
-    print "Term..: $TTY ($TERM), ${BAUD:+$BAUD bauds, }$COLUMNS x $LINES chars"
-    print "Login.: $LOGNAME (UID = $EUID) on $HOST"
-    print "System: $(cat /etc/[A-Za-z]*[_-][rv]e[lr]*)"
-    print "Uptime:$(uptime)"
-    print
-}
-
-
 # Reload given functions
 reloadfunctio () {
     for func in $argv ; do
