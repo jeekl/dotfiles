@@ -50,3 +50,4 @@
 	whatrelease = name-rev --name-only
 	contains = branch --contains
 	brage = "!f() { git for-each-ref --sort=committerdate refs/heads $1  --format=\"%(refname:short)\" ; }; g() { for C in $(f $1) ; do git show -s --pretty=format:\"%Cgreen%ci %Cblue%cr%Creset  $C\" \"$C\" -- ; done; }; g "
+	repourl = config --get remote.origin.url
