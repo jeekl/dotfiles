@@ -1,5 +1,5 @@
 ## Command history configuration
-HISTFILE=$HOME/.config/dotfiles/cache/.zsh_history
+HISTFILE=$HOME/.config/cache/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
 
