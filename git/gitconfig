@@ -46,3 +46,7 @@
 	tagme = !sh -c '[ -z "$1" ] && exit 1 || git tag -s v\"$1\" -m \"release \"$1\"\"' sh
 	search = !git_search
 	tags = for-each-ref --sort='*authordate' --format='%(tag)' refs/tags
+	unpushed = cherry -v
+	whatrelease = name-rev --name-only
+	contains = branch --contains
+	brage = "!f() { git for-each-ref --sort=committerdate refs/heads $1  --format=\"%(refname:short)\" ; }; g() { for C in $(f $1) ; do git show -s --pretty=format:\"%Cgreen%ci %Cblue%cr%Creset  $C\" \"$C\" -- ; done; }; g "
