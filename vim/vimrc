@@ -4,3 +4,9 @@ if has("autocmd")
   au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
     \| exe "normal g'\"" | endif
 endif
+set incsearch
+set hlsearch
+set wrapscan
+set noic
+set nocompatible
+filetype plugin indent on
