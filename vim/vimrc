@@ -10,3 +10,12 @@ set wrapscan
 set noic
 set nocompatible
 filetype plugin indent on
+
+
+" Reselect visual block after indent/outdent
+" http://vimbits.com/bits/20
+vnoremap < <gv
+vnoremap > >gv
+
+" automatically reload vimrc when it's saved
+au BufWritePost .vimrc so ~/.vimrc
