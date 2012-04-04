@@ -97,6 +97,9 @@ Packages that I/someone else have not yet written recipies for.
           (:name find-file-in-project
                  :description "Find files in projects."
                  :type elpa)
+          (:name diminish
+                 :description "Diminishes minor mode to not show in minibuffer"
+                 :type elpa)
           ))
 #+end_src
 
@@ -118,7 +121,6 @@ These are packages that add basic or very general functionality to emacs.
         (append
          '(smooth-scrolling
            ioccur
-           diminish
            fill-column-indicator
            nyan-mode)
          my-packages))
