@@ -1,0 +1,6 @@
+#!/bin/bash
+for archive in $(find "$1" -iname "*.lzma")
+do
+  path_to_extract=$(dirname $archive)
+  lzma -d $archive $path_to_extract 2> /dev/null
+done

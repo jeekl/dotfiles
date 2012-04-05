@@ -1,0 +1,2 @@
+sudo mount.cifs //clu-dfs1.internal.machines/users$ /media/samba/users/ -o username='tele\jeff.eklund',uid=jeff //
+sudo mount.cifs //clu-dfs1.internal.machines/groups$ /media/samba/groups/ -o username='tele\jeff.eklund',uid=jeff //
