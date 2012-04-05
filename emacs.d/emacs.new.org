@@ -983,7 +983,7 @@ inspired by TextMate's templating syntax.
 #+begin_src emacs-lisp
 ; the following is obsolete, right?
 ;(add-to-list 'yas/snippet-dirs (concat user-emacs-directory "snippets"))
-;(add-to-list 'yas/root-directory "/home/jeff/.emacs.d/snippets/")
+(add-to-list 'yas/root-directory "/home/jeff/.emacs.d/snippets/")
 (require 'yasnippet)
 (yas/global-mode 1)
 #+end_src
