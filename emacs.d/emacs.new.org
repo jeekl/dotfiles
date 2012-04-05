@@ -1372,7 +1372,7 @@ Columns are 80 chars, not 72, yo.
 ** Nyan-mode
 Nyanyanyanyanyan!
 #+begin_src emacs-lisp
-  (nyan-mode 1)
+;  (nyan-mode 1)
   (setq nyan-wavy-trail 1)
   (nyan-start-animation)
 #+end_src
