@@ -97,9 +97,25 @@ Packages that I/someone else have not yet written recipies for.
           (:name find-file-in-project
                  :description "Find files in projects."
                  :type elpa)
-          (:name diminish
-                 :description "Diminishes minor mode to not show in minibuffer"
+          (:name yasnippet-bundle
+                 :description "Yasnippet bundle"
                  :type elpa)
+          (:name yasnippet
+                 :description "Textmate like snippets."
+                 :type elpa)
+          (:name ioccur
+                 :description "Incremental occur."
+                 :type elpa)
+          (:name diminish
+                 :description "Diminished modes are minor modes with no modeline display"
+                 :type elpa)
+          (:name knife-mode
+               :type git
+               :url "https://github.com/bryanwb/knife-mode.git"
+               :load-path "."
+               :description "Helper functions for dealing with chef files"
+               :website "https://github.com/bryanb/knife-mode"
+               )
           ))
 #+end_src
 
@@ -119,8 +135,8 @@ These are packages that add basic or very general functionality to emacs.
 #+begin_src emacs-lisp
   (setq my-packages
         (append
-         '(smooth-scrolling
-           ioccur
+         '(;smooth-scrolling
+           diminish
            fill-column-indicator
            nyan-mode)
          my-packages))
