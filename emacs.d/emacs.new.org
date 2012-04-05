@@ -1784,6 +1784,14 @@ Paste at point instead of at mouse
 #+begin_src emacs-lisp
 (setq mouse-yank-at-point t)
 #+end_src
+*** Mouse scrolling
+#+begin_src emacs-lisp
+;; mouse-wheel scroll one line at a time
+(setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
+;; but accelerate
+(setq mouse-wheel-progressive-speed t)
+#+end_src
+
 ** Savehist
 Save my searches and other stuff
 #+begin_src emacs-lisp
