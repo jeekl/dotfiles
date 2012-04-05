@@ -1517,7 +1517,7 @@ TODO: Look at ibuffer-vc again. It sorts code inteo projects based on .git and s
         ;; Modify the default ibuffer-formats
         (setq ibuffer-formats
               '((mark modified read-only " "
-                      (name 20 20 :left :elide)
+                      (name 30 30 :left :elide)
                       " "
                       (size-h 9 -1 :right)
                       " "
