@@ -983,6 +983,26 @@ inspired by TextMate's templating syntax.
 #+begin_src emacs-lisp
 ; the following is obsolete, right?
 ;(add-to-list 'yas/snippet-dirs (concat user-emacs-directory "snippets"))
+;(add-to-list 'yas/root-directory "/home/jeff/.emacs.d/snippets/")
+(require 'yasnippet)
+(yas/global-mode 1)
+#+end_src
+*** Workaround for org-mode
+#+begin_src emacs-lisp
+  (defun yas/org-very-safe-expand ()
+    (let ((yas/fallback-behavior 'return-nil)) (yas/expand)))
+
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (make-variable-buffer-local 'yas/trigger-key)
+              (setq yas/trigger-key [tab])
+              (add-to-list 'org-tab-first-hook 'yas/org-very-safe-expand)
+              (define-key yas/keymap [tab] 'yas/next-field)))
+
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (org-set-local 'yas/trigger-key [tab])
+              (define-key yas/keymap [tab] 'yas/next-field-or-maybe-expand)))
 #+end_src
 ** Crontab mode
 #+begin_src emacs-lisp
@@ -1686,6 +1706,15 @@ Navigate windows with M-<arrows>
   (windmove-default-keybindings 'meta)
   (setq windmove-wrap-around t)
 #+end_src
+**** Workaround for org-mode
+Make windmove shift-arrows work in org-mode:
+#+begin_src emacs-lisp
+  (add-hook 'org-shiftup-final-hook 'windmove-up)
+  (add-hook 'org-shiftleft-final-hook 'windmove-left)
+  (add-hook 'org-shiftdown-final-hook 'windmove-down)
+  (add-hook 'org-shiftright-final-hook 'windmove-right)
+#+end_src
+
 *** Keybindings
 #+begin_src emacs-lisp
   (global-set-key (kbd "\C-x 2") (split-window-func-with-other-buffer 'split-window-vertically))
