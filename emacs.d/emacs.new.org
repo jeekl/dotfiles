@@ -1965,3 +1965,34 @@ Align your code in a pretty way.
         time-stamp-format "%04y-%02m-%02d %02H:%02M:%02S (%u)") ; date format
   (add-hook 'write-file-hooks 'time-stamp) ; update when saving
 #+end_src
+** Desktop-save-mode
+Save buffers active on exit and on idle
+#+begin_src emacs-lisp
+  (require 'desktop)
+  (desktop-save-mode 1)
+
+  (setq history-length 250)
+  (add-to-list 'desktop-globals-to-save 'file-name-history)
+#+end_src
+*** Save buffers on editor idle
+#+begin_src emacs-lisp
+  (defun my-desktop-save ()
+    (interactive)
+    ;; Don't call desktop-save-in-desktop-dir, as it prints a message.
+    (if (eq (desktop-owner) (emacs-pid))
+        (desktop-save desktop-dirname)))
+  (add-hook 'auto-save-hook 'my-desktop-save)
+#+end_src
+*** Buffers not to save
+#+begin_src emacs-lisp
+  (add-to-list 'desktop-modes-not-to-save 'dired-mode)
+  (add-to-list 'desktop-modes-not-to-save 'Info-mode)
+  (add-to-list 'desktop-modes-not-to-save 'info-lookup-mode)
+  (add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
+
+  (setq desktop-buffers-not-to-save
+        (concat "\\("
+                "^nn\\.a[0-9]+\\|\\.log\\|(ftp)\\|^tags\\|^TAGS"
+                "\\|\\.diary\\|\\.newsrc-dribble\\|\\.bbdb"
+                "\\)$"))
+#+end_src
