@@ -1737,6 +1737,16 @@ Deletes selected text by pressid DEL and typing something else
   (delete-selection-mode 1)
   (pending-delete-mode t) ;; Basically same thing as transient mark mode?
 #+end_src
+** Delete from point to beginning of line
+#+begin_src emacs-lisp
+  (defun kill-to-start-of-line ()
+    "kill from point to start of line"
+    (interactive)
+    (kill-line 0)
+  )
+
+  (global-set-key (kbd "C-u") 'kill-to-start-of-line)
+#+end_src
 ** Diff current buffer with file
 Diff the current buffer with the file contents
 #+begin_src emacs-lisp
