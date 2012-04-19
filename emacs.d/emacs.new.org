@@ -1060,6 +1060,7 @@ and in TODOs, bind them.
         (require 'org-clock)
         (require 'org-checklist)
         (require 'org-fstree)
+        (require 'org-wikinodes)
         (require 'org-google-weather)))
 
 
