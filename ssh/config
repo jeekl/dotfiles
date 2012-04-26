@@ -1,0 +1,10 @@
+Host jeekl.me
+	Port 2222
+	user jeff
+
+Host smartos
+	user root
+
+host *
+	ControlPath ~/.ssh/ssh-%r@%h:%p
+	Compression yes
