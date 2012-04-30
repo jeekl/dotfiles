@@ -8,3 +8,5 @@ Host smartos
 host *
 	ControlPath ~/.ssh/ssh-%r@%h:%p
 	Compression yes
+        # Keep ssh from timing out when leaving the connection idle.
+        ServerAliveInterval 300
