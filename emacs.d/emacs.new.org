@@ -1060,8 +1060,8 @@ and in TODOs, bind them.
         (require 'org-clock)
         (require 'org-checklist)
         (require 'org-fstree)
-        (require 'org-wikinodes)
-        (require 'org-google-weather)))
+        (require 'org-google-weather)
+        (require 'org-wikinodes)))
 
 
      (setq org-return-follows-link t)
@@ -1118,7 +1118,7 @@ The new electric layout is really annoying in org-mode. Turn it off.
   ;            (org-set-local 'yas/trigger-key [tab])
   ;            (define-key yas/keymap [tab] 'yas/next-field-group)
 #+end_src
-** Agenda files
+*** Agenda files
 These files will be included in org modes agenda.
 #+begin_src emacs-lisp
   (setq org-agenda-files (list "~/Dropbox/org/todo.org"
@@ -1128,7 +1128,7 @@ These files will be included in org modes agenda.
                                "~/tmp/testcal.org"
                                "~/Dropbox/org/remember-collection.org"))
 #+end_src
-*** Show agenda if idle for too long
+**** Show agenda if idle for too long
 Show agenda if idle for 20 mins.
 #+begin_src emacs-lisp
   (defun jump-to-org-agenda ()
@@ -1394,10 +1394,10 @@ When editing a file that is read-only, show this visually, by turning the
 background yellow.
 [[http://permalink.gmane.org/gmane.emacs.help/83843][mailing-list link]]
 #+begin_src emacs-lisp
-(add-hook 'find-file-hooks
- (lambda ()
-   (when buffer-read-only
-   (set-background-color "yellow"))))
+  (add-hook 'find-file-hooks
+   (lambda ()
+     (when buffer-read-only
+       (set-background-color "yellow"))))
 #+end_src
 * Misc
 ** Xterm
@@ -1969,10 +1969,18 @@ Align your code in a pretty way.
 Save buffers active on exit and on idle
 #+begin_src emacs-lisp
   (require 'desktop)
-  (desktop-save-mode 1)
 
   (setq history-length 250)
   (add-to-list 'desktop-globals-to-save 'file-name-history)
+
+  (setq desktop-dirname             "~/.emacs.d/desktop/"
+        desktop-base-file-name      "emacs.desktop"
+        desktop-base-lock-name      "lock"
+        desktop-path                (list desktop-dirname)
+        desktop-save                t
+        desktop-load-locked-desktop nil)
+
+  (desktop-save-mode 1)
 #+end_src
 *** Save buffers on editor idle
 #+begin_src emacs-lisp
@@ -1985,14 +1993,15 @@ Save buffers active on exit and on idle
 #+end_src
 *** Buffers not to save
 #+begin_src emacs-lisp
-  (add-to-list 'desktop-modes-not-to-save 'dired-mode)
-  (add-to-list 'desktop-modes-not-to-save 'Info-mode)
-  (add-to-list 'desktop-modes-not-to-save 'info-lookup-mode)
-  (add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
-
   (setq desktop-buffers-not-to-save
         (concat "\\("
                 "^nn\\.a[0-9]+\\|\\.log\\|(ftp)\\|^tags\\|^TAGS"
                 "\\|\\.diary\\|\\.newsrc-dribble\\|\\.bbdb"
                 "\\)$"))
+
+  (add-to-list 'desktop-modes-not-to-save 'dired-mode)
+  (add-to-list 'desktop-modes-not-to-save 'Info-mode)
+  (add-to-list 'desktop-modes-not-to-save 'info-lookup-mode)
+  (add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
+  (add-to-list 'desktop-modes-not-to-save "^$") ; tramp
 #+end_src
