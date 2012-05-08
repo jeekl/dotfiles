@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+# Count number of wtfs in a dir tree.
+
+TODOS=$(grep -ir todo . 2>/dev/null | wc -l)
+HACKS=$(grep -ir hack . 2>/dev/null | wc -l)
+FIXMES=$(grep -ir fixme . 2>/dev/null | wc -l)
+WTFS=$((${TODOS:-0} + ${HACKS:-0} + ${FIXMES:-0}))
+
+echo "$PWD contains:"
+echo "${TODOS:-0} todos"
+echo "${HACKS:-0} hacks"
+echo "${FIXME:-0} fixmes"
+echo "For a total of $WTFS WTFs."
