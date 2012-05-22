@@ -33,18 +33,18 @@ URxvt.foreground:       white
 !URxvt.cursorColor:      green
 URxvt.underlineColor:   yellow
 URxvt.font:             xft:Dejavu Sans Mono:pixelsize=14:antialias=true
-!Terminus:pixelsize=14:antialias=false
 URxvt.boldFont:         xft:Dejavu Sans Mono:bold:antialias=true
-!Terminus:bold:pixelsize=14:antialias=false
 urxvt.italicFont:       xft:Dejavu Sans Mono:italic:antialias=true
 urxvt.boldItalicFont:   xft:Dejavu Sans Mono:bold:italic:antialias=true
-URxvt.perl-ext-common:  default,matcher,url-select
-URxvt.urlLauncher:      /usr/bin/firefox
+URxvt.perl-ext-common:  default,matcher,url-select,font
+URxvt.urlLauncher:      /usr/bin/conkeror
 URxvt.matcher.button:   1
 URxvt.keysym.M-u:       perl:url-select:select_next
+urxvt.keysym.Control-Shift-Up:   perl:font:increment
+urxvt.keysym.Control-Shift-Down: perl:font:decrement
 URxvt.scrollBar:	false
 URxvt.scrollstyle:      plain
-URxvt.saveLines:        15535
+URxvt.saveLines:        65535
 URxvt.secondaryScroll:  true
 URxvt.mapAlert:         true
 !URxvt.visualBell:       true
@@ -56,100 +56,6 @@ URxvt.keysym.C-plus:    command:\033]710;xft:DejaVu Sans Mono:pixelsize=15:antia
 
 
 !!!!! Colors
-!!! Normal
-! color0    black
-! color1    red
-! color2    green
-! color3    yellow
-! color4    blue
-! color5    purple
-! color6    cyan
-! color7    white
-!!! Bold
-! color8    black
-! color9    red
-! color10   green
-! color11   yellow
-! color12   blue
-! color13   purple
-! color14   cyan
-! color15   white
-
-! From http://phraktured.net/terminal-colors/
-!Theme Nine
-!*background: rgb:00/00/00
-!*foreground: rgb:ff/ff/ff
-!*color0:     rgb:00/00/00
-!*color1:     rgb:9e/18/28
-!*color2:     rgb:00/88/00
-!*color3:     rgb:96/8a/38
-!*color4:     rgb:41/41/71
-!*color5:     rgb:96/3c/59
-!*color6:     rgb:41/81/79
-!*color7:     rgb:be/be/be
-!*color8:     rgb:66/66/66
-!*color9:     rgb:cf/61/71
-!*color10     rgb:7c/bc/8c
-!*color11     rgb:ff/f7/96
-!*color12     rgb:41/86/be
-!*color13     rgb:cf/9e/be
-!*color14     rgb:f1/ee/ee
-!*color15:    rgb:ff/ff/ff
-
-
-
-!!! This is th dante olor theme from http://blog.jwcxz.com/?p=547
-!Color    Regular Intense
-!------------------------
-!Black:   #1B1D1E #343737
-!Red:     #F92673 #FF5996
-!Green:   #86B413 #B8E354
-!Yellow:  #FDB436 #FEED6A
-!Blue:    #55C5D6 #8CEEFF
-!Magenta: #8952FE #9C6EFE
-!Teal:    #465457 #899CA1
-!Gray:    #CCCCC7 #FFFFFF
-
-!*background: rgb:00/00/00
-!*foreground: rgb:ff/ff/ff
-!*color0:     rgb:1b/1d/1e
-!*color1:     rgb:f9/26/73
-!*color2:     rgb:86/b4/36
-!*color3:     rgb:fd/b4/13
-!*color4:     rgb:55/c5/d6
-!*color5:     rgb:89/52/fe
-!*color6:     rgb:46/54/57
-!*color7:     rgb:cc/cc/c7
-!*color8:     rgb:34/37/37
-!*color9:     rgb:ff/59/96
-!*color10:    rgb:b8/e3/54
-!*color11:    rgb:fe/ed/6a
-!*color12:    rgb:8c/ee/ff
-!*color13:    rgb:9c/6e/fe
-!*color14:    rgb:89/9c/a1
-!*color15:    rgb:ff/ff/ff
-!Foreground: #FFFFFF
-!Background: #000000 (semi-transparent)
-!*background: rgb:00/00/00
-!*foreground: rgb:ff/ff/ff
-!*color0:     rgb:27/29/30
-!*color1:     rgb:249/38/115
-!*color2:     rgb:134/180/19
-!*color3:     rgb:253/180/54
-!*color4:     rgb:85/197/214
-!*color5:     rgb:137/82/254
-!*color6:     rgb:70/84/87
-!*color7:     rgb:204/204/199
-!*color8:     rgb:52/55/55
-!*color9:     rgb:255/89/150
-!*color10     rgb:184/227/84
-!*color11     rgb:254/237/106
-!*color12     rgb:140/238/255
-!*color13     rgb:156/110/254
-!*color14     rgb:137/156/161
-!*color15:    rgb:ff/ff/ff
-
-
 ! terminal colours
 *foreground:#a0a0a0
 *background:#1b1d1e
