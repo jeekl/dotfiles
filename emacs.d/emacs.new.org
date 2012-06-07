@@ -275,7 +275,7 @@ Working smarter with lines, regions and blocks.
 #+begin_src emacs-lisp
   (setq my-packages
         (append
-         '(org-mode
+         '(
            org-fstree)
          my-packages))
 #+end_src
