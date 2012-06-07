@@ -2023,3 +2023,8 @@ Save buffers active on exit and on idle
   (add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
   (add-to-list 'desktop-modes-not-to-save "^$") ; tramp
 #+end_src
+** Games
+Various settings for games
+#+begin_src emacs-lisp
+(setq tetris-score-file "~/.emacs.d/cache/tetris-scores")
+#+end_src
