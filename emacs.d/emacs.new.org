@@ -1753,8 +1753,7 @@ TODO: Kolla igenom detta, det fungerar uselt med org-mode.
 ** Delete selection
 Deletes selected text by pressid DEL and typing something else
 #+begin_src emacs-lisp
-  (delete-selection-mode 1)
-  (pending-delete-mode t) ;; Basically same thing as transient mark mode?
+  (delete-selection-mode t)
 #+end_src
 ** Delete from point to beginning of line
 #+begin_src emacs-lisp
