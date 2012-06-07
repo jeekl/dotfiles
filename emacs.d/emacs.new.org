@@ -130,7 +130,6 @@ These are packages that add basic or very general functionality to emacs.
   (setq my-packages
         (append
          '(el-get
-           gist
            hl-sexp
            smex)
          (mapcar 'el-get-source-name el-get-sources)))
