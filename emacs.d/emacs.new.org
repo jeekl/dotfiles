@@ -183,7 +183,7 @@ Yanking stuff, killing stuff, putting back, or not, and so on.
         (append
          '(pos-tip ;; requirement for popup-kill-ring
            popup-kill-ring
-           undo-tree
+           ;undo-tree
            browse-kill-ring)
          my-packages))
 #+end_src
@@ -931,21 +931,21 @@ See http://www.emacswiki.org/emacs/auto-pair+.el
 ** Undo-tree
 Fancy tree of undo history.
 #+begin_src emacs-lisp
-(require 'undo-tree)
-(global-undo-tree-mode)
+;(require 'undo-tree)
+;(global-undo-tree-mode)
 #+end_src
 *** Keybindings
 C-x u for undo
 C-x r for redo
 C-x U for visual undo tree
 #+begin_src emacs-lisp
-(global-set-key (kbd "\C-x r") 'undo-tree-redo)
-(define-key undo-tree-map (kbd "C-x r") 'undo-tree-redo)
-(global-set-key (kbd "\C-x u") 'undo-tree-undo)
-(define-key undo-tree-map (kbd "C-x u") 'undo-tree-undo)
-(global-set-key (kbd "\C-x U") 'undo-tree-visualize)
-(define-key undo-tree-map (kbd "\C-x U") 'undo-tree-visualize)
-(global-set-key (kbd "C-z") 'undo)
+;(global-set-key (kbd "\C-x r") 'undo-tree-redo)
+;(define-key undo-tree-map (kbd "C-x r") 'undo-tree-redo)
+;(global-set-key (kbd "\C-x u") 'undo-tree-undo)
+;(define-key undo-tree-map (kbd "C-x u") 'undo-tree-undo)
+;(global-set-key (kbd "\C-x U") 'undo-tree-visualize)
+;(define-key undo-tree-map (kbd "\C-x U") 'undo-tree-visualize)
+;(global-set-key (kbd "C-z") 'undo)
 #+end_src
 
 ** whole-line-or-region
