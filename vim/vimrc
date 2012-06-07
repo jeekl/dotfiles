@@ -17,5 +17,4 @@ filetype plugin indent on
 vnoremap < <gv
 vnoremap > >gv
 
-" automatically reload vimrc when it's saved
-au BufWritePost .vimrc so ~/.vimrc
+au BufRead,BufNewFile Vagrantfile set filetype=ruby
