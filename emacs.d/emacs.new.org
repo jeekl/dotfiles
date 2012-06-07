@@ -74,9 +74,7 @@ Packages that I/someone else have not yet written recipies for.
 #+begin_src emacs-lisp
   (setq el-get-sources
         '(
-          (:name rainbow-mode
-                 :description "Colorize color names in buffers"
-                 :type elpa)
+
           ;; (:name ibuffer-vc
           ;;              :type git
           ;; :url "https://github.com/purcell/ibuffer-vc.git")
@@ -106,8 +104,15 @@ Packages that I/someone else have not yet written recipies for.
           (:name ioccur
                  :description "Incremental occur."
                  :type elpa)
+          (:name rainbow-mode
+                 :description "Rainbow mode, pretty colors."
+                 :type elpa)
+          (:name rainbow-delimiters
+                 :description "Coloring for parens in lisp modes."
+                 :type elpa)
           (:name diminish
-                 :description "Diminished modes are minor modes with no modeline display"
+                 :description "Diminished modes are minor modes
+                               with no modeline display"
                  :type elpa)
           (:name knife-mode
                :type git
@@ -614,11 +619,16 @@ TODO, this does not work?
 #+end_src
 ** CSS
 #+begin_src emacs-lisp
+  ;; CSS and Rainbow modes
+  (defun all-css-modes() (css-mode) (rainbow-mode))
 
-(autoload 'rainbow-turn-on "rainbow-mode" "Enable rainbow mode colour literal overlays")
-(add-hook 'css-mode-hook 'rainbow-turn-on)
-(add-hook 'html-mode-hook 'rainbow-turn-on)
-(add-hook 'sass-mode-hook 'rainbow-turn-on)
+  ;; Load both major and minor modes in one call based on file type
+  (add-to-list 'auto-mode-alist '("\\.css$" . all-css-modes))
+
+  (autoload 'rainbow-turn-on "rainbow-mode" "Enable rainbow mode colour literal overlays")
+  (add-hook 'css-mode-hook 'rainbow-turn-on)
+  (add-hook 'html-mode-hook 'rainbow-turn-on)
+  (add-hook 'sass-mode-hook 'rainbow-turn-on)
 
 #+end_src
 ** Haskell
