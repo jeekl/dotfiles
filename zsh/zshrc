@@ -274,6 +274,7 @@ precmd () {
     case $TERM in
         (xterm*|rxvt*)
             set_title ${(%):-"%n@%m: %~"}
+	    echo -n "\ek${(%):-"%~"}\e\\"
             ;;
     esac
 }
@@ -293,6 +294,7 @@ preexec () {
     case $TERM in
         (xterm*|rxvt*)
             set_title "${(%):-"%n@%m:"}" "$1"
+	    echo -n "\ek${(%):-"$1"}\e\\"
             ;;
     esac
 }
@@ -340,16 +342,16 @@ zrcautoload lookupinit && lookupinit
 # set terminal property (used e.g. by msgid-chooser)
 export COLORTERM="yes"
 
-# SSH agent settings
+# executed for interactive shells
+
 if [ -f ~/.config/ssh-agent ]; then
     source ~/.config/ssh-agent
 fi
 
 if [ -z "$SSH_AUTH_SOCK" ] || [ ! -w "$SSH_AUTH_SOCK" ]; then
-    ssh-agent -s > ~/.config/ssh-agent && \
-        source ~/.config/ssh-agent     && \
-        ssh-add
+        ssh-agent -s > ~/.config/ssh-agent		&& \
+            source ~/.config/ssh-agent			&& \
+            ssh-add
 fi
-
 
 source-host-config
