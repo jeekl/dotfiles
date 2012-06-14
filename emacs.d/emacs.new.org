@@ -84,6 +84,9 @@ Packages that I/someone else have not yet written recipies for.
           (:name expand-region
                  :type git
                  :url "https://github.com/magnars/expand-region.el.git")
+          (:name yasnippet-snippets ; TODO
+                 :type git
+                 :url "https://github.com/AndreaCrotti/yasnippet-snippets.git")
           (:name httpcode
                  ;; use command M-x hc to explain http status.
                  :description "Explain the meaning of HTTP status codes."
