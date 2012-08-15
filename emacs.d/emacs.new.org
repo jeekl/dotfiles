@@ -22,7 +22,13 @@ sources of emacs-loot.
 
 This file depends on Emacs24 with a recent (summmer 2011 and beyond) org-mode.
 
-** Real preparati/ons
+** Real preparations
+This is set after init.el has been loaded, but works well enough.
+#+begin_src emacs-lisp
+(setq message-log-max 16384)
+(defconst emacs-start-time (current-time))
+#+end_src
+
 Some preparations to make the initilisation smoother.
 #+begin_src emacs-lisp
 (require 'cl)
