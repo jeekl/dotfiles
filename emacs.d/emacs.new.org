@@ -49,17 +49,101 @@ Some preparations to make the initilisation smoother.
 Emacs lisp package archive. Bundled in emacs 24.
 
 #+begin_src emacs-lisp
-(require 'package)
-(eval-after-load "package"
-  '(progn
-    (add-to-list 'package-archives '("tromey" . "http://tromey.com/elpa/"))
-    (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
-  ;  (add-to-list 'package-archives '("technomancy" . "http://repo.technomancy.us/emacs"))
-))
+  (require 'package)
+  (eval-after-load "package"
+    '(progn
+       (add-to-list 'package-archives '("tromey" . "http://tromey.com/elpa/"))
+       (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
+       (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))))
+  (package-initialize)
+  ;; required because of a package.el bug
+  (setq url-http-attempt-keepalives nil)
 #+end_src
+** Install packages from elpa & others
 
+#+begin_src emacs-lisp
+
+
+
+  (defvar elpa-packages
+    '(ac-dabbrev
+      ack-and-a-half
+      ac-slime
+      auto-complete
+      autopair
+      browse-kill-ring
+      buffer-move
+      calfw
+      calfw-gcal
+      clojure-mode
+      crontab-mode
+      csv-mode
+      diminish
+      elein
+      erlang
+      expand-region
+      fill-column-indicator
+      find-file-in-project
+      flymake
+      flymake-cursor
+      flymake-ruby
+      flymake-shell
+      fringe-helper
+      gist
+      google-maps
+      google-weather
+      haml-mode
+      haskell-mode
+      hl-sexp
+      httpcode
+      ioccur
+      js2-mode
+      magit
+      mediawiki
+      melpa
+      melpa
+      org-fstree
+      org-jekyll
+      otp
+      paredit
+      pymacs
+      rainbow-delimiters
+      rainbow-mode
+      rspec-mode
+      rvm
+      sass-mode
+      smex
+      switch-window
+      volatile-highlights
+      whole-line-or-region
+      yaml-mode
+      yasnippet
+      yasnippet-bundle)
+    "A list of packages to ensure are installed at launch.")
+
+  (defun elpa-packages-installed-p ()
+      (loop for p in elpa-packages
+            when (not (package-installed-p p)) do (return nil)
+            finally (return t)))
+
+    (defun elpa-install-packages ()
+      (unless (elpa-packages-installed-p)
+        ;; check for new packages (package versions)
+        (message "%s" "Emacs is now refreshing its package database...")
+        (package-refresh-contents)
+        (message "%s" " done.")
+        ;; install the missing packages
+        (dolist (p elpa-packages)
+          (unless (package-installed-p p)
+            (package-install p)))))
+
+    (elpa-install-packages)
+
+
+#+end_src
 ** El-get
-El-get manages pacakges from different package sources, like ELPA, git, svn, apt and so on.
+El-get manages pacakges from different package sources, like ELPA, git, svn,
+apt and so on.
 *** Load El-get
 Try to load el-get and install el-get if it fails.
 #+begin_src emacs-lisp
@@ -76,84 +160,17 @@ Try to load el-get and install el-get if it fails.
 #+end_src
 *** Define packages
 **** Own definitions
-Packages that I/someone else have not yet written recipies for.
-#+begin_src emacs-lisp
-  (setq el-get-sources
-        '(
 
-          ;; (:name ibuffer-vc
-          ;;              :type git
-          ;; :url "https://github.com/purcell/ibuffer-vc.git")
-          (:name flymake-shell
-                 :type git
-                 :url "https://github.com/purcell/flymake-shell.git")
-          (:name expand-region
-                 :type git
-                 :url "https://github.com/magnars/expand-region.el.git")
-          (:name yasnippet-snippets ; TODO
-                 :type git
-                 :url "https://github.com/AndreaCrotti/yasnippet-snippets.git")
-          (:name httpcode
-                 ;; use command M-x hc to explain http status.
-                 :description "Explain the meaning of HTTP status codes."
-                 :type elpa)
-          (:name volatile-highlights
-                 :description "Minor mode for visual
-                               feedback on some operations."
-                 :type elpa)
-          (:name find-file-in-project
-                 :description "Find files in projects."
-                 :type elpa)
-          (:name yasnippet-bundle
-                 :description "Yasnippet bundle"
-                 :type elpa)
-          (:name yasnippet
-                 :description "Textmate like snippets."
-                 :type elpa)
-          (:name ioccur
-                 :description "Incremental occur."
-                 :type elpa)
-          (:name rainbow-mode
-                 :description "Rainbow mode, pretty colors."
-                 :type elpa)
-          (:name rainbow-delimiters
-                 :description "Coloring for parens in lisp modes."
-                 :type elpa)
-          (:name diminish
-                 :description "Diminished modes are minor modes
-                               with no modeline display"
-                 :type elpa)
-          (:name knife-mode
-               :type git
-               :url "https://github.com/bryanwb/knife-mode.git"
-               :load-path "."
-               :description "Helper functions for dealing with chef files"
-               :website "https://github.com/bryanb/knife-mode"
-               )
-          ))
-#+end_src
 
 **** Basic / Misc
 These are packages that add basic or very general functionality to emacs.
 #+begin_src emacs-lisp
   (setq my-packages
         (append
-         '(el-get
-           hl-sexp
-           smex)
-         (mapcar 'el-get-source-name el-get-sources)))
+         '(el-get)
+        ))
 #+end_src
 
-***** UI
-#+begin_src emacs-lisp
-  (setq my-packages
-        (append
-         '(;smooth-scrolling
-           diminish
-           fill-column-indicator
-           nyan-mode)
-         my-packages))
-#+end_src
 ***** Indentation
 #+begin_src emacs-lisp
   (setq my-packages
@@ -163,27 +180,6 @@ These are packages that add basic or very general functionality to emacs.
          my-packages))
 #+end_src
 
-***** Buffer handling
-
-***** Google Services
-#+begin_src emacs-lisp
-  (setq my-packages
-        (append
-         '(google-weather
-           google-maps)
-         my-packages))
-#+end_src
-
-***** Windows / frames
-Navigating, handling windows and frames.
-#+begin_src emacs-lisp
-  (setq my-packages
-        (append
-         '(switch-window
-           buffer-move)
-         my-packages))
-
-#+end_src
 **** Editing
 ***** Kill ring / undo / redo
 Yanking stuff, killing stuff, putting back, or not, and so on.
@@ -193,47 +189,12 @@ Yanking stuff, killing stuff, putting back, or not, and so on.
          '(pos-tip ;; requirement for popup-kill-ring
            popup-kill-ring
            ;undo-tree
-           browse-kill-ring)
-         my-packages))
-#+end_src
-***** Lines / Regions
-Working smarter with lines, regions and blocks.
-#+begin_src emacs-lisp
-  (setq my-packages
-        (append
-         '(whole-line-or-region)
-         my-packages))
-#+end_src
-**** Programming
-***** Auto-complete
-#+begin_src emacs-lisp
-  (setq my-packages
-        (append
-         '(auto-complete
-           ac-slime
-           ac-dabbrev
-           ac-math
            )
          my-packages))
 #+end_src
-***** Flymake
-#+begin_src emacs-lisp
-  (setq my-packages
-        (append
-         '(fringe-helper
-           flymake-point)
-         my-packages))
-#+end_src
-***** Lisp
-#+begin_src emacs-lisp
-  (setq my-packages
-        (append
-         '(paredit
-           clojure-mode
-           elein
-           autopair)
-         my-packages))
-#+end_src
+
+**** Programming
+
 ***** Erlang
 #+begin_src emacs-lisp
   (setq my-packages
@@ -242,27 +203,13 @@ Working smarter with lines, regions and blocks.
            distel)
          my-packages))
 #+end_src
-***** Haskell
-#+begin_src emacs-lisp
-  (setq my-packages
-        (append
-         '(haskell-mode)
-         my-packages))
-#+end_src
-***** Javascript
-#+begin_src emacs-lisp
-  (setq my-packages
-        (append
-         '(js2-mode)
-         my-packages))
-#+end_src
 
 ***** Python
 #+begin_src emacs-lisp
   (setq my-packages
         (append
          '(ropemacs
-           pymacs
+
            )
          my-packages))
 #+end_src
@@ -270,34 +217,11 @@ Working smarter with lines, regions and blocks.
 #+begin_src emacs-lisp
   (setq my-packages
         (append
-         '(rspec-mode
-           haml-mode
-           sass-mode
-           rvm
-           rhtml-mode
+         '(rhtml-mode
            rdebug
-           ruby-mode)
+           )
          my-packages))
 #+end_src
-
-**** Org-mode
-#+begin_src emacs-lisp
-  (setq my-packages
-        (append
-         '(
-           org-fstree)
-         my-packages))
-#+end_src
-**** Text formats
-#+begin_src emacs-lisp
-  (setq my-packages
-        (append
-         '(crontab-mode
-           rst-mode
-           yaml-mode)
-         my-packages))
-#+end_src
-
 
 #+begin_src emacs-lisp
 (setq erlang-root-dir "/usr/lib/erlang")
@@ -320,6 +244,14 @@ Working smarter with lines, regions and blocks.
 
   ;; (add-hook 'after-make-frame-functions 'run-after-make-frame-hooks)
 #+end_src
+*** Load path
+#+begin_src emacs-lisp
+(let ((default-directory "~/.emacs.d/elpa/"))
+      (normal-top-level-add-subdirs-to-load-path))
+(let ((default-directory "~/.emacs.d/el-get/"))
+      (normal-top-level-add-subdirs-to-load-path))
+#+end_src
+
 * Languages
 ** TODO Automatic major mode for buffers
 Automatically set major mode for buffers not connected to any file based on
