@@ -484,14 +484,14 @@ Durendal - various odd tricks and stunts from Technomancy. Pretty cool guy eh?
 
 Erlang settings
 #+begin_src emacs-lisp
-(setq erlang-tab-mode nil
-      erlang-indent-level '2
-      erlang-electric-commands '(erlang-electric-semicolon
-                                 erlang-electric-comma
-                                 erlang-electric-arrow
-                                 erlang-electric-newline
-                               ; erlang-electric-gt ; ...annoying
-                                 erlang-electric-lt))
+  (setq erlang-tab-mode nil
+        erlang-indent-level '2
+        erlang-electric-commands '(erlang-electric-semicolon
+                                   erlang-electric-comma
+                                   erlang-electric-arrow
+                                   erlang-electric-newline
+                                          ; erlang-electric-gt ; ...annoying
+                                   erlang-electric-lt))
 #+end_src
 *** Setup distel
 #+begin_src emacs-lisp
@@ -505,19 +505,19 @@ Find in kred dirs.
 Stolen from rndwiki.
 
 #+begin_src emacs-lisp
-;(defun kfind (&optional word)
-; (interactive "r")
-(defun kfind (word)
-  (interactive "MFind: ")
-  (kfind-at
-   ;(concat (car (split-string (buffer-file-name) "lib")) "{lib,test}/")
-   "$HOME/code/erlang/dev/{lib,test}/"
-   word))
+  ;(defun kfind (&optional word)
+  ; (interactive "r")
+  (defun kfind (word)
+    (interactive "MFind: ")
+    (kfind-at
+     ;(concat (car (split-string (buffer-file-name) "lib")) "{lib,test}/")
+     "$HOME/code/erlang/dev/{lib,test}/"
+     word))
 
-(defun kfind-at (path word)
-  (grep-find
-   (concat "find " path
-           (concat " -type f \\( -name '*.erl' -o -name '*.hrl' \\) | xargs grep --color=auto " word))))
+  (defun kfind-at (path word)
+    (grep-find
+     (concat "find " path
+             (concat " -type f \\( -name '*.erl' -o -name '*.hrl' \\) | xargs grep --color=auto " word))))
 #+end_src
 *** File bindings
 #+begin-src emacs-lisp
