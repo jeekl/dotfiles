@@ -777,7 +777,6 @@ TODO, set this up to work with yasnippet and tab
 #+end_src
 **** LaTeX
 #+begin_src emacs-lisp
-  (require 'ac-math)
 
   ; make auto-complete aware of {{{latex-mode}}}
   (add-to-list 'ac-modes 'latex-mode)
@@ -992,14 +991,14 @@ and in TODOs, bind them.
    ; direct children
    (setq org-hierarchical-checkbox-statistics t)
 
+
   (eval-after-load "org"
      '(progn
         (require 'org-exp)
         (require 'org-clock)
-        (require 'org-checklist)
         (require 'org-fstree)
         (require 'org-google-weather)
-        (require 'org-wikinodes)))
+        ))
 
 
      (setq org-return-follows-link t)
