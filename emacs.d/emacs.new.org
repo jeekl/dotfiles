@@ -1320,14 +1320,14 @@ Columns are 80 chars, not 72, yo.
 ** Nyan-mode
 Nyanyanyanyanyan!
 #+begin_src emacs-lisp
-;  (nyan-mode 1)
-  (setq nyan-wavy-trail 1)
-  (nyan-start-animation)
+    ;; (nyan-mode 1)
+    ;; (setq nyan-wavy-trail 1)
+    ;; (nyan-start-animation)
 #+end_src
 ** Electric layouts/indentation/pairing
 Automatically insert newlines, matching braces, indentation and so on.
 #+begin_src emacs-lisp
-(electric-pair-mode t)
+;(electric-pair-mode t)
 (electric-indent-mode t)
 (electric-layout-mode t)
 #+end_src
@@ -1619,9 +1619,10 @@ TODO set file paths and stuff for recentf
 Different settings for window management.
 
 *** Winner mode
-Navigate windows with C-c <left>, C-c <right> and so on
+Navigate through previous/upcomming window layouts with  C-c <left>, C-c <right>
+and so on
 #+begin_src emacs-lisp
-;(winner-mode 1)
+(winner-mode 1)
 #+end_src
 
 *** When splitting show (other-buffer) in new window
