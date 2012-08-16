@@ -1097,6 +1097,9 @@ Show agenda if idle for 20 mins.
 (define-key global-map (kbd "<f12>") 'org-agenda)
 (define-key global-map (kbd "\C-ca") 'org-agenda)
 (define-key global-map (kbd "\C-cb") 'org-iswitchb)
+(add-hook 'org-mode-hook
+  (lambda ()
+    (define-key org-mode-map (kbd "C-c v") 'org-show-todo-tree)))
 #+end_src
 ** Popup-kill-ring
 Nice popup for easily browsing the kill ring
