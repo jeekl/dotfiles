@@ -923,6 +923,7 @@ inspired by TextMate's templating syntax.
 (add-to-list 'yas/root-directory "/home/jeff/.emacs.d/snippets/")
 (require 'yasnippet)
 (yas/global-mode 1)
+(yas/reload-all)
 #+end_src
 *** Workaround for org-mode
 #+begin_src emacs-lisp
