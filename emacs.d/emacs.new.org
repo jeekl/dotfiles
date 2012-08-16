@@ -1341,10 +1341,17 @@ When editing a file that is read-only, show this visually, by turning the
 background yellow.
 [[http://permalink.gmane.org/gmane.emacs.help/83843][mailing-list link]]
 #+begin_src emacs-lisp
-  (add-hook 'find-file-hooks
-   (lambda ()
-     (when buffer-read-only
-       (set-background-color "yellow"))))
+  ;; (add-hook 'find-file-hooks
+  ;;  (lambda ()
+  ;;    (when buffer-read-only
+  ;;      (set-background-color "yellow"))))
+#+end_src
+** Ranbow delimiters
+#+begin_src emacs-lisp
+(require 'rainbow-delimiters)
+(add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode)
+(add-hook 'scheme-mode-hook 'rainbow-delimiters-mode)
+(add-hook 'clojure-mode-hook 'rainbow-delimiters-mode)
 #+end_src
 * Misc
 ** Xterm
