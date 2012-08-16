@@ -654,6 +654,7 @@ https://github.com/technomancy/ido-ubiquitous
 
 ** Smex
 #+begin_src emacs-lisp
+(smex-initialize)
   (global-set-key (kbd "M-x") 'smex)
   (global-set-key (kbd "C-x C-m") 'execute-extended-command) ; backup
   (global-set-key (kbd "M-X") 'smex-major-mode-commands)
