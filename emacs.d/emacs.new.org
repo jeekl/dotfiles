@@ -942,6 +942,11 @@ inspired by TextMate's templating syntax.
               (org-set-local 'yas/trigger-key [tab])
               (define-key yas/keymap [tab] 'yas/next-field-or-maybe-expand)))
 #+end_src
+** Magit
+#+begin_src emacs-lisp
+(autoload 'magit-status "magit" nil t)
+(global-set-key (kbd "C-c g") 'magit-status)
+#+end_src
 ** Crontab mode
 #+begin_src emacs-lisp
 (autoload 'crontab-mode "crontab-mode" "Mode for editing crontab files" t)
