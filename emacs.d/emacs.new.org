@@ -1693,11 +1693,11 @@ Deletes selected text by pressid DEL and typing something else
 #+end_src
 ** Delete from point to beginning of line
 #+begin_src emacs-lisp
-  (defun kill-to-start-of-line ()
-    "kill from point to start of line"
-    (interactive)
-    (kill-line 0)
-  )
+    (defun kill-to-start-of-line ()
+      "kill from point to start of line"
+      (interactive)
+      (kill-region (save-excursion (beginning-of-line) (point))
+                   (point)))
 
   (global-set-key (kbd "C-u") 'kill-to-start-of-line)
 #+end_src
