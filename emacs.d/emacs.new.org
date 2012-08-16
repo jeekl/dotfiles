@@ -1212,6 +1212,7 @@ Various apperance related settings
 Add themes directory to load path for emacs24 themes.
 #+begin_src emacs-lisp
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
+(load-theme 'SexyPonies t)
 #+end_src
 
 ** Title
