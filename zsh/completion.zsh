@@ -77,7 +77,7 @@ grmlcomp () {
     zstyle ':completion:correct:'          prompt 'correct to: %e'
 
     # Ignore completion functions for commands you don't have:
-    zstyle ':completion::(^approximate*):*:functions' ignored-patterns '_*'
+    zstyle ':completion::(^approximate*):*:functions' ignored-patterns '(_*|pre(cmd|exec))'
 
     # Provide more processes in completion of programs like killall:
     zstyle ':completion:*:processes-names' command 'ps c -u ${USER} -o command | uniq'
