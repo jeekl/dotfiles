@@ -127,6 +127,12 @@ grmlcomp () {
     [[ -d $ZSHDIR/cache ]] && zstyle ':completion:*' use-cache yes && \
                             zstyle ':completion::complete:*' cache-path $ZSHDIR/cache/
 
+    # Mutt
+    if [[ -s "$HOME/.mutt/aliases" ]]; then
+        zstyle ':completion:*:*:mutt:*' menu yes select
+        zstyle ':completion:*:mutt:*' users ${${${(f)"$(<"$HOME/.mutt/aliases")"}#alias[[:space:]]}%%[[:space:]]*}
+    fi
+
     # host completion /* add brackets as vim can't parse zsh's complex cmdlines 8-) */
     if is42 ; then
         [[ -r ~/.ssh/known_hosts ]] && _ssh_hosts=(${${${${(f)"$(<$HOME/.ssh/known_hosts)"}:#[\|]*}%%\ *}%%,*}) || _ssh_hosts=()
