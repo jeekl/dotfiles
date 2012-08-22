@@ -315,25 +315,26 @@ is4 && [[ $NOPRECMD -eq 0 ]] && \
 }
 
 EXITCODE="%(?..%?%1v )"
-PS2='\`%_> '      # secondary prompt, printed when the shell needs more information to complete a command.
+PS2='\`%_> '      # secondary prompt, printed when the shell needs more
+                  # information to complete a command.
 PS3='?# '         # selection prompt used within a select loop.
-PS4='+%N:%i:%_> ' # the execution trace prompt (setopt xtrace). default: '+%N:%i>'
+PS4='+%N:%i:%_> ' # the execution trace prompt (setopt xtrace).
+                  # default: '+%N:%i>'
 
 # don't use colors on dumb terminals (like emacs):
 if [[ "$TERM" == dumb ]] ; then
-    PROMPT="${EXITCODE} %n@%m %40<...<%B%~%b%<< "
+    PROMPT="$EXITCODE} %n@%m %40<...<%B%~%b%<< "
 else
-    if [[ $(command id -u) -eq 0 ]] ; then
-        P_EXIT="${RED}${EXITCODE}"
-        P_USER='${RED}%n${NO_COLOUR}'
-        P_AT='@'
-        P_HOST='${YELLOW}%m'
-        P_CWD=' ${BOLD_CYAN}%40<...<%B%~%b%<< '
-        #PROMPT="${PROMPT}"'${RED}%n${NO_COLOUR}@${YELLOW}%m ${BOLD_CYAN}%40<...<%B%~%b%<< '
-        PROMPT="${PROMPT}${P_EXIT}${P_USER}${P_AT}${P_HOST}${P_CWD}"
-    else
-        PROMPT="${RED}${EXITCODE}"
-        PROMPT="${PROMPT}"'${MAGENTA}%n${NO_COLOUR}@${YELLOW}%m ${BOLD_CYAN}%40<...<%B%~%b%<< '
+    P_EXIT="${RED}${EXITCODE}"
+    P_ROOT_USER='${RED}%n${NO_COLOUR}'
+    P_NORMAL_USER='${MAGENTA}%n${NO_COLOUR}'
+    P_AT='@'
+    P_HOST='${YELLOW}%m'
+    P_CWD=' ${BOLD_CYAN}%40<...<%B%~%b%<< '
+    if [[ $(command id -u) -eq 0 ]] ; then # if root
+        PROMPT="${PROMPT}${P_EXIT}${P_ROOT_USER}${P_AT}${P_HOST}${P_CWD}"
+    else                                   # if not root
+        PROMPT="${PROMPT}${P_EXIT}${P_NORMAL_USER}${P_AT}${P_HOST}${P_CWD}"
     fi
 fi
 
