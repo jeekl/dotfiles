@@ -87,6 +87,9 @@ grmlcomp () {
     zstyle ':completion:*:manuals.*'  insert-sections   true
     zstyle ':completion:*:man:*'      menu yes select
 
+    # Environmental Variables
+    zstyle ':completion::*:(-command-|export):*' fake-parameters ${${${_comps[(I)-value-*]#*,}%%,*}:#-*-}
+
     # provide .. as a completion
     zstyle ':completion:*' special-dirs ..
 
