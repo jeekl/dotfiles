@@ -31,6 +31,8 @@ alias mkdir='nocorrect mkdir'   # no spelling correction on mkdir
 alias mv='nocorrect mv'         # no spelling correction on mv
 alias rm='nocorrect rm'         # no spelling correction on rm
 
+alias packer='packer-color'
+
 # TODO should make this a function and pass it an argument, if no argument, try all files
 alias notes="ack 'TODO|FIXME|XXX|HACK' --ignore-dir=tmp --ignore-dir=log *"
 
