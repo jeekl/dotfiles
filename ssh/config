@@ -1,9 +1,22 @@
 Host jeekl.me
-	Port 2222
-	user jeff
+        port 2222
+        user jeff
+        IdentityFile ~/.ssh/id_dsa
 
 Host smartos
 	user root
+
+host ftp.klarna.com
+        user ftp
+
+host saxfisk
+        user root
+
+host jenkins-*
+        user root
+
+host rapid-depl-*
+        user root
 
 host *
 	ControlPath ~/.ssh/ssh-%r@%h:%p
