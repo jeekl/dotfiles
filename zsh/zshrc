@@ -274,7 +274,12 @@ precmd () {
     case $TERM in
         (xterm*|rxvt*)
             set_title ${(%):-"%n@%m: %~"}
-	    echo -n "\ek${(%):-"%~"}\e\\"
+            # echo -ne "\ek$(basename "$(pwd)")/\e\\"
+            echo -n "\ek${(%):-"%~"}\e\\"
+            ;;
+        (screen*)
+            set_title ${(%):-"%n@%m: %~"}
+            echo -n "\ek${(%):-"%~"}\e\\"
             ;;
     esac
 }
@@ -293,8 +298,10 @@ preexec () {
     [[ ${NOTITLE} -gt 0 ]] && return 0
     case $TERM in
         (xterm*|rxvt*)
+            set_title "${(%):-"%n@%m:"}" "$1" ;;
+        (screen*)
             set_title "${(%):-"%n@%m:"}" "$1"
-	    echo -n "\ek${(%):-"$1"}\e\\"
+            echo -n "\ek${(%):-"$1"}\e\\"
             ;;
     esac
 }
@@ -310,7 +317,7 @@ if [[ "$TERM" == dumb ]] ; then
 else
     if [[ $(command id -u) -eq 0 ]] ; then
         P_EXIT="${RED}${EXITCODE}"
-	P_USER='${RED}%n${NO_COLOUR}'
+        P_USER='${RED}%n${NO_COLOUR}'
         P_AT='@'
         P_HOST='${YELLOW}%m'
         P_CWD=' ${BOLD_CYAN}%40<...<%B%~%b%<< '
@@ -349,8 +356,8 @@ if [ -f ~/.config/ssh-agent ]; then
 fi
 
 if [ -z "$SSH_AUTH_SOCK" ] || [ ! -w "$SSH_AUTH_SOCK" ]; then
-        ssh-agent -s > ~/.config/ssh-agent		&& \
-            source ~/.config/ssh-agent			&& \
+        ssh-agent -s > ~/.config/ssh-agent              && \
+            source ~/.config/ssh-agent                  && \
             ssh-add
 fi
 
