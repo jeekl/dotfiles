@@ -19,26 +19,32 @@ for config_file ($ZSH/*.zsh) source $config_file
 zrcautoload is-at-least || is-at-least() { return 1 }
 
 
-setopt append_history       # append history list to the history file (important for multiple parallel zsh sessions!)
-is4 && setopt SHARE_HISTORY # import new commands from the history file also in other zsh-session
-setopt extended_history     # save each command's beginning timestamp and the duration to the history file
-is4 && setopt histignorealldups # If  a  new  command  line being added to the history
-                            # list duplicates an older one, the older command is removed from the list
+setopt append_history       # append history list to the history file (important
+                            # for multiple parallel zsh sessions!)
+is4 && setopt SHARE_HISTORY # import new commands from the history file also in
+                            # other zsh-session
+setopt extended_history     # save each command's beginning timestamp and the
+                            # duration to the history file
+is4 && setopt histignorealldups # If a new command line being added to the
+                            # history list duplicates an older one, the older
+                            # command is removed from the list
 setopt histignorespace      # remove command lines from the history list when
                             # the first character on the line is a space
-setopt auto_cd              # if a command is issued that can't be executed as a normal command,
-                            # and the command is the name of a directory, perform the cd command to that directory
+setopt auto_cd              # if a command is issued that can't be executed as a
+                            # normal command, and the command is the name of a
+                            # directory, perform the cd command to that directory
 setopt extended_glob        # in order to use #, ~ and ^ for filename generation
                             # grep word *~(*.gz|*.bz|*.bz2|*.zip|*.Z) ->
                             # -> searches for word not in compressed files
                             # don't forget to quote '^', '~' and '#'!
 setopt longlistjobs         # display PID when suspending processes as well
 setopt notify               # report the status of backgrounds jobs immediately
-setopt hash_list_all        # Whenever a command completion is attempted, make sure \
-                            # the entire command path is hashed first.
+setopt hash_list_all        # Whenever a command completion is attempted,
+                            # make sure the entire command path is hashed first.
 setopt completeinword       # not just at the end
 setopt nohup                # and don't kill them, either
-setopt auto_pushd           # make cd push the old directory onto the directory stack.
+setopt auto_pushd           # make cd push the old directory onto the directory
+                            # stack.
 setopt nonomatch            # try to avoid the 'zsh: no matches found...'
 setopt nobeep               # avoid "beep"ing
 setopt pushd_ignore_dups    # don't push the same dir twice.
@@ -101,7 +107,8 @@ export LESS_TERMCAP_so=$'\E[01;44;33m'
 export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
 
-REPORTTIME=5       # report about cpu-/system-/user-time of command if running longer than 5 seconds
+REPORTTIME=5       # report about cpu-/system-/user-time of
+                   # command if running longer than 5 seconds
 watch=(notme root) # watch for everyone but me and root
 
 # automatically remove duplicates from these arrays
@@ -162,7 +169,7 @@ fi
 is4 && zrcautoload zed # use ZLE editor to edit a file or function
 
 is4 && \
-for mod in complist deltochar mathfunc ; do
+    for mod in complist deltochar mathfunc ; do
     zmodload -i zsh/${mod} 2>/dev/null || print "Notice: no ${mod} available :("
 done
 
@@ -237,88 +244,97 @@ zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b%F{1}:%F{11}%r'
 zstyle ':vcs_info:*' enable git svn hg
 
-
+# precmd() => a function running each prompt
 is4 && [[ $NOPRECMD -eq 0 ]] && \
-precmd () {
+    precmd () {
     [[ $NOPRECMD -gt 0 ]] && return 0
     # update VCS information
     if [[ -z $(git ls-files --other --exclude-standard 2> /dev/null) ]] {
-        zstyle ':vcs_info:*' formats '[%F{green}%b%c%u%F{blue}]'
-    } else {
-        zstyle ':vcs_info:*' formats '[%F{green}%b%c%u%F{red}●%F{blue}]'
-    }
-    vcs_info
+            zstyle ':vcs_info:*' formats '[%F{green}%b%c%u%F{blue}]'
+        } else {
+            zstyle ':vcs_info:*' formats '[%F{green}%b%c%u%F{red}●%F{blue}]'
+        }
+        vcs_info
 
-    if [[ $TERM == screen* ]] ; then
-        if [[ -n ${VCS_INFO_message_1_} ]] ; then
-            ESC_print ${VCS_INFO_message_1_}
-        elif [[ -n ${vcs_info_msg_1_} ]] ; then
-            ESC_print ${vcs_info_msg_1_}
-        else
-            ESC_print "zsh"
+        if [[ $TERM == screen* ]] ; then
+            if [[ -n ${VCS_INFO_message_1_} ]] ; then
+                ESC_print ${VCS_INFO_message_1_}
+            elif [[ -n ${vcs_info_msg_1_} ]] ; then
+                ESC_print ${vcs_info_msg_1_}
+            else
+                ESC_print "zsh"
+            fi
         fi
-    fi
-    # just use DONTSETRPROMPT=1 to be able to overwrite RPROMPT
-    if [[ $DONTSETRPROMPT -eq 0 ]] ; then
-        if [[ $BATTERY -gt 0 ]] ; then
+        # just use DONTSETRPROMPT=1 to be able to overwrite RPROMPT
+        if [[ $DONTSETRPROMPT -eq 0 ]] ; then
+            if [[ $BATTERY -gt 0 ]] ; then
             # update battery (dropped into $PERCENT) information
-            battery
-            RPROMPT="%(?..:() ${PERCENT}"
-        else
-            RPROMPT="%(?..:() "
+                battery
+                RPROMPT="%(?..:() ${PERCENT}"
+            else
+                RPROMPT="%(?..:() "
+            fi
         fi
-    fi
-    # adjust title of xterm
-    # see http://www.faqs.org/docs/Linux-mini/Xterm-Title.html
-    [[ ${NOTITLE} -gt 0 ]] && return 0
-    case $TERM in
-        (xterm*|rxvt*)
-            set_title ${(%):-"%n@%m: %~"}
-	    echo -n "\ek${(%):-"%~"}\e\\"
-            ;;
-    esac
+        # adjust title of xterm
+        # see http://www.faqs.org/docs/Linux-mini/Xterm-Title.html
+        [[ ${NOTITLE} -gt 0 ]] && return 0
+        case $TERM in
+            xterm*|rxvt*)
+                set_title ${(%):-"%n@%m: %~"}
+                # echo -ne "\ek$(basename "$(pwd)")/\e\\"
+                echo -n "\ek${(%):-"%~"}\e\\"
+                ;;
+            screen*)
+                set_title ${(%):-"%n@%m: %~"}
+                echo -n "\ek${(%):-"%~"}\e\\"
+                ;;
+        esac
 }
 
-# preexec() => a function running before every command
+# preexec() => a function running before every command, when the command has been
+# read, but not yet executed.
 is4 && [[ $NOPRECMD -eq 0 ]] && \
-preexec () {
+    preexec () {
     [[ $NOPRECMD -gt 0 ]] && return 0
 
     # set hostname
     if [[ -n "$HOSTNAME" ]] && [[ "$HOSTNAME" != $(hostname) ]] ; then
-       NAME="@$HOSTNAME"
+        NAME="@$HOSTNAME"
     fi
 
     # adjust title of xterm/rxvt
     [[ ${NOTITLE} -gt 0 ]] && return 0
     case $TERM in
-        (xterm*|rxvt*)
+        xterm*|rxvt*)
+            set_title "${(%):-"%n@%m:"}" "$1" ;;
+        screen*)
             set_title "${(%):-"%n@%m:"}" "$1"
-	    echo -n "\ek${(%):-"$1"}\e\\"
+            echo -n "\ek${(%):-"$1"}\e\\"
             ;;
     esac
 }
 
 EXITCODE="%(?..%?%1v )"
-PS2='\`%_> '      # secondary prompt, printed when the shell needs more information to complete a command.
+PS2='\`%_> '      # secondary prompt, printed when the shell needs more
+                  # information to complete a command.
 PS3='?# '         # selection prompt used within a select loop.
-PS4='+%N:%i:%_> ' # the execution trace prompt (setopt xtrace). default: '+%N:%i>'
+PS4='+%N:%i:%_> ' # the execution trace prompt (setopt xtrace).
+                  # default: '+%N:%i>'
 
 # don't use colors on dumb terminals (like emacs):
 if [[ "$TERM" == dumb ]] ; then
-    PROMPT="${EXITCODE} %n@%m %40<...<%B%~%b%<< "
+    PROMPT="$EXITCODE} %n@%m %40<...<%B%~%b%<< "
 else
-    if [[ $(command id -u) -eq 0 ]] ; then
-        P_EXIT="${RED}${EXITCODE}"
-	P_USER='${RED}%n${NO_COLOUR}'
-        P_AT='@'
-        P_HOST='${YELLOW}%m'
-        P_CWD=' ${BOLD_CYAN}%40<...<%B%~%b%<< '
-        #PROMPT="${PROMPT}"'${RED}%n${NO_COLOUR}@${YELLOW}%m ${BOLD_CYAN}%40<...<%B%~%b%<< '
-        PROMPT="${PROMPT}${P_EXIT}${P_USER}${P_AT}${P_HOST}${P_CWD}"
-    else
-        PROMPT="${RED}${EXITCODE}"
-        PROMPT="${PROMPT}"'${MAGENTA}%n${NO_COLOUR}@${YELLOW}%m ${BOLD_CYAN}%40<...<%B%~%b%<< '
+    P_EXIT="${RED}${EXITCODE}"
+    P_ROOT_USER='${RED}%n${NO_COLOUR}'
+    P_NORMAL_USER='${MAGENTA}%n${NO_COLOUR}'
+    P_AT='@'
+    P_HOST='${YELLOW}%m'
+    P_CWD=' ${BOLD_CYAN}%40<...<%B%~%b%<< '
+    if [[ $(command id -u) -eq 0 ]] ; then # if root
+        PROMPT="${PROMPT}${P_EXIT}${P_ROOT_USER}${P_AT}${P_HOST}${P_CWD}"
+    else                                   # if not root
+        PROMPT="${PROMPT}${P_EXIT}${P_NORMAL_USER}${P_AT}${P_HOST}${P_CWD}"
     fi
 fi
 
@@ -349,9 +365,9 @@ if [ -f ~/.config/ssh-agent ]; then
 fi
 
 if [ -z "$SSH_AUTH_SOCK" ] || [ ! -w "$SSH_AUTH_SOCK" ]; then
-        ssh-agent -s > ~/.config/ssh-agent		&& \
-            source ~/.config/ssh-agent			&& \
-            ssh-add
+    ssh-agent -s > ~/.config/ssh-agent && \
+        source ~/.config/ssh-agent     && \
+        ssh-add
 fi
 
 source-host-config

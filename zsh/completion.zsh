@@ -77,7 +77,7 @@ grmlcomp () {
     zstyle ':completion:correct:'          prompt 'correct to: %e'
 
     # Ignore completion functions for commands you don't have:
-    zstyle ':completion::(^approximate*):*:functions' ignored-patterns '_*'
+    zstyle ':completion::(^approximate*):*:functions' ignored-patterns '(_*|pre(cmd|exec))'
 
     # Provide more processes in completion of programs like killall:
     zstyle ':completion:*:processes-names' command 'ps c -u ${USER} -o command | uniq'
@@ -86,6 +86,9 @@ grmlcomp () {
     zstyle ':completion:*:manuals'    separate-sections true
     zstyle ':completion:*:manuals.*'  insert-sections   true
     zstyle ':completion:*:man:*'      menu yes select
+
+    # Environmental Variables
+    zstyle ':completion::*:(-command-|export):*' fake-parameters ${${${_comps[(I)-value-*]#*,}%%,*}:#-*-}
 
     # provide .. as a completion
     zstyle ':completion:*' special-dirs ..
@@ -124,6 +127,12 @@ grmlcomp () {
     [[ -d $ZSHDIR/cache ]] && zstyle ':completion:*' use-cache yes && \
                             zstyle ':completion::complete:*' cache-path $ZSHDIR/cache/
 
+    # Mutt
+    if [[ -s "$HOME/.mutt/aliases" ]]; then
+        zstyle ':completion:*:*:mutt:*' menu yes select
+        zstyle ':completion:*:mutt:*' users ${${${(f)"$(<"$HOME/.mutt/aliases")"}#alias[[:space:]]}%%[[:space:]]*}
+    fi
+
     # host completion /* add brackets as vim can't parse zsh's complex cmdlines 8-) */
     if is42 ; then
         [[ -r ~/.ssh/known_hosts ]] && _ssh_hosts=(${${${${(f)"$(<$HOME/.ssh/known_hosts)"}:#[\|]*}%%\ *}%%,*}) || _ssh_hosts=()
@@ -139,8 +148,15 @@ grmlcomp () {
         localhost
     )
     zstyle ':completion:*:hosts' hosts $hosts
-    # TODO: so, why is this here?
-    #  zstyle '*' hosts $hosts
+
+    # SSH/SCP/RSYNC
+    zstyle ':completion:*:(scp|rsync):*' tag-order 'hosts:-host:host hosts:-domain:domain hosts:-ipaddr:ip\ address *'
+    zstyle ':completion:*:(scp|rsync):*' group-order users files all-files hosts-domain hosts-host hosts-ipaddr
+    zstyle ':completion:*:ssh:*' tag-order users 'hosts:-host:host hosts:-domain:domain hosts:-ipaddr:ip\ address *'
+    zstyle ':completion:*:ssh:*' group-order hosts-domain hosts-host users hosts-ipaddr
+    zstyle ':completion:*:(ssh|scp|rsync):*:hosts-host' ignored-patterns '*(.|:)*' loopback ip6-loopback localhost ip6-localhost broadcasthost
+    zstyle ':completion:*:(ssh|scp|rsync):*:hosts-domain' ignored-patterns '<->.<->.<->.<->' '^[-[:alnum:]]##(.[-[:alnum:]]##)##' '*@*'
+    zstyle ':completion:*:(ssh|scp|rsync):*:hosts-ipaddr' ignored-patterns '^(<->.<->.<->.<->|(|::)([[:xdigit:].]##:(#c,2))##(|%*))' '127.0.0.<->' '255.255.255.255' '::1' 'fe80::*'
 
     # use generic completion system for programs not yet defined; (_gnu_generic works
     # with commands that provide a --help option with "standard" gnu-like output.)
