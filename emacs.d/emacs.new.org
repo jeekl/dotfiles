@@ -102,6 +102,7 @@ Emacs lisp package archive. Bundled in emacs 24.
       mediawiki
       melpa
       melpa
+      nginx-mode
       org-fstree
       org-jekyll
       otp
