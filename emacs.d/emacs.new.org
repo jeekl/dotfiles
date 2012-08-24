@@ -1965,3 +1965,12 @@ Various settings for games
 #+begin_src emacs-lisp
 (setq tetris-score-file "~/.emacs.d/cache/tetris-scores")
 #+end_src
+** Read only mode in minibuffer
+Fix the extremely annoying "Text read only" messages when the cursor accidentally
+enters the minibuffer.
+#+begin_src emacs-lisp
+  (setq minibuffer-prompt-properties
+         (plist-put minibuffer-prompt-properties
+                    'point-entered 'minibuffer-avoid-prompt))
+#+end_src
+
