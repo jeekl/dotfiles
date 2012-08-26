@@ -62,9 +62,6 @@ Emacs lisp package archive. Bundled in emacs 24.
 ** Install packages from elpa & others
 
 #+begin_src emacs-lisp
-
-
-
   (defvar elpa-packages
     '(ac-dabbrev
       ack-and-a-half
@@ -96,25 +93,32 @@ Emacs lisp package archive. Bundled in emacs 24.
       haskell-mode
       hl-sexp
       httpcode
+      inf-ruby
       ioccur
       js2-mode
       magit
+      markdown-mode
       mediawiki
-      melpa
       melpa
       nginx-mode
       org-fstree
       org-jekyll
       otp
       paredit
+      pastels-on-dark-theme
+      pkgbuild-mode
+      puppet-mode
       pymacs
       rainbow-delimiters
       rainbow-mode
+      redo+
       rspec-mode
       rvm
       sass-mode
+      ssh-config-mode
       smex
       switch-window
+      unicode-progress-reporter
       volatile-highlights
       whole-line-or-region
       yaml-mode
@@ -148,16 +152,16 @@ apt and so on.
 *** Load El-get
 Try to load el-get and install el-get if it fails.
 #+begin_src emacs-lisp
-(add-to-list 'load-path "~/.emacs.d/el-get/el-get")
+  (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
 
-(unless (require 'el-get nil t)
-  (with-current-buffer
-      (url-retrieve-synchronously
-       "https://raw.github.com/dimitri/el-get/master/el-get-install.el")
-    (end-of-buffer)
-    (eval-print-last-sexp)))
-(setq el-get-verbose t)
-(el-get 'sync)
+  (unless (require 'el-get nil t)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.github.com/dimitri/el-get/master/el-get-install.el")
+      (end-of-buffer)
+      (eval-print-last-sexp)))
+  (setq el-get-verbose t)
+  (el-get 'sync)
 #+end_src
 *** Define packages
 **** Own definitions
@@ -276,6 +280,15 @@ Ruby versoion manager
 #+begin_src emacs-lisp
  (require 'flymake-ruby)
  (add-hook 'ruby-mode-hook 'flymake-ruby-load)
+#+end_src
+*** Inf-ruby
+inf-ruby.el provides a REPL buffer connected to a IRB subprocess.
+
+#+begin_src emacs-lisp
+  (autoload 'inf-ruby "inf-ruby" "Run an inferior Ruby process" t)
+  (autoload 'inf-ruby-setup-keybindings "inf-ruby" "" t)
+  (eval-after-load 'ruby-mode
+    '(add-hook 'ruby-mode-hook 'inf-ruby-setup-keybindings))
 #+end_src
 
 *** Keybindings
@@ -1183,6 +1196,31 @@ Make C-d kill buffer when process is dead.
               (define-key shell-mode-map (kbd "C-d")
                 'comint-delchar-or-eof-or-kill-buffer)))
 #+end_src
+** nginx-mode
+#+begin_src emacs-lisp
+(require 'nginx-mode)
+#+end_src
+
+** Puppet-mode
+#+begin_src emacs-lisp
+(autoload 'puppet-mode "puppet-mode" "Major mode for editing Puppet config" t)
+(setq auto-mode-alist  (cons '(".pp$" . puppet-mode) auto-mode-alist))
+#+end_src
+** Pkgbuild-mode
+Mode for interfacing with Archlinux PKGBUILD system
+#+begin_src emacs-lisp
+  (autoload 'pkgbuild-mode "pkgbuild-mode.el" "PKGBUILD mode." t)
+  (setq auto-mode-alist (append '(("/PKGBUILD$" . pkgbuild-mode))
+  auto-mode-alist))
+#+end_src
+** Markdown mode
+#+begin_src emacs-lisp
+  (autoload 'markdown-mode "markdown-mode"
+    "Major mode for editing Markdown files" t)
+  (add-to-list 'auto-mode-alist '("\\.md" . markdown-mode))
+  (add-to-list 'auto-mode-alist '("\\.markdown" . markdown-mode))
+#+end_src
+
 * Apperance
 Various apperance related settings
 
@@ -1252,7 +1290,7 @@ Increase/decrese text size with keys
 *** Size
 Column size and so on
 #+begin_src emacs-lisp
-(setq-default fill-column 80)
+; (setq-default fill-column 80)
 #+end_src
 *** File-bindings
 Move this?
@@ -1316,7 +1354,7 @@ you are nearing the 80 char limit.
 *** Fill-column
 Columns are 80 chars, not 72, yo.
 #+begin_src emacs-lisp
-(setq fill-column 80)
+;(setq fill-column 80)
 #+end_src
 ** Nyan-mode
 Nyanyanyanyanyan!
@@ -1354,6 +1392,19 @@ background yellow.
 (add-hook 'scheme-mode-hook 'rainbow-delimiters-mode)
 (add-hook 'clojure-mode-hook 'rainbow-delimiters-mode)
 #+end_src
+** unicode-progress-reporter
+#+begin_src emacs-lisp
+(require 'unicode-progress-reporter)
+(unicode-progress-reporter-setup)
+#+end_src
+** ssh config mode
+#+begin_src emacs-lisp
+  (autoload 'ssh-config-mode "ssh-config-mode" t)
+  (add-to-list 'auto-mode-alist '(".ssh/config\\'"  . ssh-config-mode))
+  (add-to-list 'auto-mode-alist '("sshd?_config\\'" . ssh-config-mode))
+  (add-hook 'ssh-config-mode-hook 'turn-on-font-lock)
+#+end_src
+
 * Misc
 ** Xterm
 Setup emacs to work in a xterm (and other terminals)
@@ -1973,4 +2024,8 @@ enters the minibuffer.
          (plist-put minibuffer-prompt-properties
                     'point-entered 'minibuffer-avoid-prompt))
 #+end_src
-
+** Redo+
+#+begin_src emacs-lisp
+  (require 'redo+)
+  (global-set-key (kbd "C-x r") 'redo)
+#+end_src
