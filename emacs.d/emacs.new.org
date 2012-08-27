@@ -818,26 +818,26 @@ TODO, set this up to work with yasnippet and tab
 
 **** Ac-sources
 #+begin_src emacs-lisp
-(set-default 'ac-sources
-             '(ac-source-dictionary
-               ac-source-words-in-buffer
-               ac-source-words-in-same-mode-buffers
-               ac-source-words-in-all-buffer))
+  (set-default 'ac-sources
+               '(ac-source-dictionary
+                 ac-source-words-in-buffer
+                 ac-source-words-in-same-mode-buffers
+                 ac-source-words-in-all-buffer))
 
-(dolist (mode '(magit-log-edit-mode log-edit-mode org-mode text-mode haml-mode
-                sass-mode yaml-mode csv-mode espresso-mode haskell-mode
-                html-mode nxml-mode sh-mode smarty-mode clojure-mode
-                lisp-mode textile-mode markdown-mode tuareg-mode))
-  (add-to-list 'ac-modes mode))
+  (dolist (mode '(magit-log-edit-mode log-edit-mode org-mode text-mode haml-mode
+                  sass-mode yaml-mode csv-mode espresso-mode haskell-mode
+                  html-mode nxml-mode sh-mode smarty-mode clojure-mode
+                  lisp-mode textile-mode markdown-mode tuareg-mode))
+    (add-to-list 'ac-modes mode))
 
-;; Exclude very large buffers from dabbrev
-(defun smp-dabbrev-friend-buffer (other-buffer)
-  (< (buffer-size other-buffer) (* 1 1024 1024)))
+  ;; Exclude very large buffers from dabbrev
+  (defun smp-dabbrev-friend-buffer (other-buffer)
+    (< (buffer-size other-buffer) (* 1 1024 1024)))
 
-(setq dabbrev-friend-buffer-function 'smp-dabbrev-friend-buffer)
+  (setq dabbrev-friend-buffer-function 'smp-dabbrev-friend-buffer)
 
-(setq completion-ignore-case t           ;; ignore case when completing...
- read-file-name-completion-ignore-case t) ;; ...filenames too
+  (setq completion-ignore-case t           ;; ignore case when completing...
+   read-file-name-completion-ignore-case t) ;; ...filenames too
 #+end_src
 *** Built in completion
 emacs >= 23.2
@@ -1219,6 +1219,14 @@ Mode for interfacing with Archlinux PKGBUILD system
     "Major mode for editing Markdown files" t)
   (add-to-list 'auto-mode-alist '("\\.md" . markdown-mode))
   (add-to-list 'auto-mode-alist '("\\.markdown" . markdown-mode))
+#+end_src
+
+** Yaml mode
+#+begin_src emacs-lisp
+  (live-add-pack-lib "yaml-mode")
+  (require 'yaml-mode)
+  (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
+  (add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
 #+end_src
 
 * Apperance
