@@ -2037,3 +2037,14 @@ enters the minibuffer.
   (require 'redo+)
   (global-set-key (kbd "C-x r") 'redo)
 #+end_src
+
+** Create directory on save file if it does not exist
+#+begin_src emacs-lisp
+  (add-hook 'before-save-hook
+          (lambda ()
+            (when buffer-file-name
+              (let ((dir (file-name-directory buffer-file-name)))
+                (when (and (not (file-exists-p dir))
+                           (y-or-n-p (format "Directory %s does not exist. Create it?" dir)))
+                  (make-directory dir t))))))
+#+end_src
