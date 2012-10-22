@@ -11,50 +11,45 @@
         status      = auto
         branch      = auto
         interactive = auto
-	pager       = yes
+        pager       = yes
 [alias]
-        st  = status
-        ci  = commit
-	cm  = commit -m
-        br  = branch
-        co  = checkout
-        df  = diff
-
-	## Log commands
-        who     = shortlog -s --
-        lg      = log -p
-        lgc     = log ORIG_HEAD.. --stat --no-merges
-	lgp     = log --pretty=format:'%Cred%h%Creset -- %cn, %cr\t%Cgreen%s%Creset'
-        lgg     = log --graph --pretty=format:\"%Cred%h%Creset -- %cn, %cr\t%Cgreen%s%Creset\"
-	glog    = log --graph --abbrev-commit --pretty=oneline
-	lol     = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-	lola    = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative --all
-	oneline = log --oneline --decorate
-        wlog    = log -p --word-diff=color
-
-	## Stage commands
-        undo-last-commit = reset --soft HEAD^
-        staged           = diff --cached
-        stage            = add
-        unstage          = reset HEAD
-
-        ## Various
-	submodule-rev = submodule foreach 'echo $path `git rev-parse HEAD`'
-	wdiff         = diff --color-words
-	info          = remote -v
-	authors       = "!git log --format='%aN <%aE>' | sort -u"
-	ignored       = ls-files --others
-	changes       = diff --name-status -r
-        wdiff         = diff --color-words
-	graphviz      = "!f() { echo 'digraph git {' ; git log --pretty='format:  %h -> { %p }' \"$@\" | sed 's/[0-9a-f]\\+/\"&\"/g' ; echo '}'; }; f"
-	mnc           = merge --no-commit
-	tagme         = !sh -c '[ -z "$1" ] && exit 1 || git tag -s v\"$1\" -m \"release \"$1\"\"' sh
-	search        = !git_search
-	tags          = for-each-ref --sort='*authordate' --format='%(tag)' refs/tags
-	unpushed      = cherry -v
-	whatrelease   = name-rev --name-only
-	contains      = branch --contains
-	brage         = "!f() { git for-each-ref --sort=committerdate refs/heads $1  --format=\"%(refname:short)\" ; }; g() { for C in $(f $1) ; do git show -s --pretty=format:\"%Cgreen%ci %Cblue%cr%Creset  $C\" \"$C\" -- ; done; }; g "
-
-	# url of origin, about 99% of what I use git config --list for
-	repourl = config --get remote.origin.url
+        st          = status
+        ci          = commit
+        cm          = commit -m
+        br          = branch
+        co          = checkout
+        df          = diff
+        who         = shortlog -s --
+        lg          = log -p
+        lgc         = log ORIG_HEAD.. --stat --no-merges
+        lgp         = log --pretty=format:'%Cred%h%Creset -- %cn, %cr\t%Cgreen%s%Creset'
+        lgg         = log --graph --pretty=format:\"%Cred%h%Creset -- %cn, %cr\t%Cgreen%s%Creset\"
+        glog        = log --graph --abbrev-commit --pretty=oneline
+        lol         = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+        lola        = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative --all
+        staged      = diff --cached
+        stage       = add
+        unstage     = reset HEAD
+        wdiff       = diff --color-words
+        info        = remote -v
+        authors     = "!git log --format='%aN <%aE>' | sort -u"
+        ignored     = ls-files --others
+        oneline     = log --oneline --decorate
+        changes     = diff --name-status -r
+        wdiff       = diff --color-words
+        wlog        = log -p --word-diff=color
+        graphviz    = "!f() { echo 'digraph git {' ; git log --pretty='format:  %h -> { %p }' \"$@\" | sed 's/[0-9a-f]\\+/\"&\"/g' ; echo '}'; }; f"
+        mnc         = merge --no-commit
+        tagme       = !sh -c '[ -z "$1" ] && exit 1 || git tag -s v\"$1\" -m \"release \"$1\"\"' sh
+        search      = !git_search
+        tags        = for-each-ref --sort='*authordate' --format='%(tag)' refs/tags
+        unpushed    = cherry -v
+        whatrelease = name-rev --name-only
+        contains    = branch --contains
+        brage       = "!f() { git for-each-ref --sort=committerdate refs/heads $1  --format=\"%(refname:short)\" ; }; g() { for C in $(f $1) ; do git show -s --pretty=format:\"%Cgreen%ci %Cblue%cr%Creset  $C\" \"$C\" -- ; done; }; g "
+        repourl     = config --get remote.origin.url
+        update-all-submodules = submodule foreach 'echo $path `git pull`'
+        submodule-rev         = submodule foreach 'echo $path `git rev-parse HEAD`'
+        undo-last-commit      = reset --soft HEAD^
+        
+        brlog = "!sh -c 'for C in $(git for-each-ref --sort=committerdate refs/heads --format=\"%(refname:short)\") ; do git show -s --pretty=format:\"%Cgreen%ci %Cblue%cr%Creset $C\" \"$C\" -- ; git show --stat -s $C ; echo; done'"
