@@ -1689,6 +1689,10 @@ TODO set file paths and stuff for recentf
 
 ** Window management
 Different settings for window management.
+*** Switch window
+#+begin_src emacs-lisp
+  (require 'switch-window)
+#+end_src
 
 *** Winner mode
 Navigate through previous/upcomming window layouts with  C-c <left>, C-c <right>
