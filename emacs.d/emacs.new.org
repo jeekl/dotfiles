@@ -293,6 +293,11 @@ inf-ruby.el provides a REPL buffer connected to a IRB subprocess.
 #+end_src
 
 *** Keybindings
+#+begin_src emacs-lisp
+(global-set-key (kbd "C-m") 'newline-and-indent)
+(define-key global-map (kbd "RET") 'newline-and-indent)
+;(define-key global-mode-map (kbd "C-m") 'newline-and-indent)
+#+end_src
 *** File extensions
 #+begin_src emacs-lisp
   (add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
