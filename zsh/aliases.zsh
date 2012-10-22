@@ -25,6 +25,8 @@ alias termsize='echo $COLUMNS x $LINES'
 alias path='echo -e "${PATH//:/\n}"'
 alias tmux='TERM=xterm-256color tmux-attach'
 alias tmux-attach='tmux attach || tmux new'
+# all clients with a smaller terminal resolution from the local session. If several clients have the same resolution, the youngest clients will be detached.
+alias tmux-p0wn='tmux list-clients | sed "s|^\(/dev/ttys[0-9]\+\).*\[\([0-9]\+x[0-9]\+\).*$|\2 \1|" | sort -r -n | tail -n +2 | cut -d " " -f 2 | xargs -n 1 tmux detach-client -t' 
 alias randcow='cowsay -f $(basename $(echo /usr/share/cows/* | tr -s " " "\n" | shuf | head -1) .cow)'
 alias cp='nocorrect cp'         # no spelling correction on cp
 alias mkdir='nocorrect mkdir'   # no spelling correction on mkdir
