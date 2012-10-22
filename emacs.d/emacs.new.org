@@ -1303,7 +1303,7 @@ Increase/decrese text size with keys
 *** Size
 Column size and so on
 #+begin_src emacs-lisp
-; (setq-default fill-column 80)
+(setq-default fill-column 80)
 #+end_src
 *** File-bindings
 Move this?
