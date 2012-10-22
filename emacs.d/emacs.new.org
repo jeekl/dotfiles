@@ -397,7 +397,7 @@ Stop Slime from overriding <DEL> when backspacing over parens with paredit
 #+end_src
 **** Autocompletion
 Autocomplete symbols and function names using AutoComplete.
-See https://github.com/purcell/ac-slime
+See [[https://github.com/purcell/ac-slime][github-link]]
 #+begin_src emacs-lisp
 ;(eval-after-load "slime"
 ;  '(progn
@@ -637,7 +637,7 @@ TODO, this does not work?
 #+end_src
 
 *** ido-ubiquitous
-https://github.com/technomancy/ido-ubiquitous
+[[https://github.com/technomancy/ido-ubiquitous][github]]
 #+begin_src emacs-lisp
 (require 'ido)
 ;;;###autoload
@@ -688,7 +688,7 @@ On the fly syntax checking.
 (require 'flymake)
 #+end_src
 *** Flymake for erlang
-http://www.emacswiki.org/emacs/FlymakeErlang
+[[http://www.emacswiki.org/emacs/FlymakeErlang][emacswiki link]]
 #+begin_src emacs-lisp
   ;; (defun flymake-erlang-init ()
   ;;   (let* ((temp-file (flymake-init-create-temp-buffer-copy
@@ -703,7 +703,7 @@ http://www.emacswiki.org/emacs/FlymakeErlang
   ;;          (function (lambda () (if buffer-file-name (flymake-mode)))))
 #+end_src
 *** Flymake for elisp
-http://www.emacswiki.org/emacs/FlymakeElisp
+[[http://www.emacswiki.org/emacs/FlymakeElisp][emacswiki link]]
 #+begin_src emacs-lisp
 (defun flymake-elisp-init ()
   (let* ((temp-file   (flymake-init-create-temp-buffer-copy
@@ -719,7 +719,7 @@ http://www.emacswiki.org/emacs/FlymakeElisp
 #+end_src
 *** Fringe helper
 Pretty icons in the fringe
-See http://nschum.de/src/emacs/fringe-helper/
+See [[http://nschum.de/src/emacs/fringe-helper/][link]]
 #+begin_src emacs-lisp
 (eval-after-load "flymake"
   '(progn
@@ -867,7 +867,7 @@ Automatically pair parens, braces and more.
 #+end_src
 *** Auto-pair+
 Automatically match quotes
-See http://www.emacswiki.org/emacs/auto-pair+.el
+See [[http://www.emacswiki.org/emacs/auto-pair+.el][emacswiki: auto-pair+]]
 #+begin_src emacs-lisp
 ;(require 'auto-pair+)
 #+end_src
@@ -1141,7 +1141,7 @@ Regular occur mode is M-s o.
 
 ** Tramp
 tramp, for remote access
-From http://www.djcbsoftware.nl/dot-emacs.html
+From [[http://www.djcbsoftware.nl/dot-emacs.html][djcbs dotemacs]]
 #+begin_src emacs-lisp
 (require 'tramp)
 ;; we need a bit more funky pattern, as tramp will start $SHELL
@@ -1325,7 +1325,7 @@ Add warning highlighting of todo/fix keywords.
 ** Highlight current line
 
 Highlights the current line.
-Might want to use http://www.emacswiki.org/emacs/hl-line+.el ?
+Might want to use [[http://www.emacswiki.org/emacs/hl-line+.el][hl-line+]]?
 hl-line+ can just flash the line when being idle for too long, and to not clutter the ui with a constant line.
 
 #+begin_src emacs-lisp
