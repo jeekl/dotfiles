@@ -1,25 +1,35 @@
-Host jeekl.me
-        port 2222
-        user jeff
-        IdentityFile ~/.ssh/id_dsa
-
-Host smartos
-	user root
-
 host ftp.klarna.com
-        user ftp
+     user ftp
 
 host saxfisk
-        user root
+     user root
+
+host jeekl.me
+     port 2222
+     user jeff
+     IdentityFile ~/.ssh/id_dsa
 
 host jenkins-*
-        user root
+     user root
 
 host rapid-depl-*
-        user root
+     user root
+
+host 10.210.37.150
+     user root
+     IdentityFile ~/.ssh/id_dsa
+
+host staging-prod-gw1
+     user root
+     ForwardAgent yes
+
+host localhost
+     NoHostAuthenticationForLocalhost yes
 
 host *
-	ControlPath ~/.ssh/ssh-%r@%h:%p
-	Compression yes
-        # Keep ssh from timing out when leaving the connection idle.
-        ServerAliveInterval 300
+     user jeff.eklund
+     # Keep ssh from timing out when leaving the connection idle.
+     ServerAliveInterval 300
+     ControlMaster auto
+     ControlPath ~/.ssh/sockets/%r@%h:%p
+     ControlPersist yes
