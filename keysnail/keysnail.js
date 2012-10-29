@@ -483,3 +483,11 @@ key.setCaretKey('M-n', function (ev) {
 key.setViewKey("a", function (ev, arg) {
                    ext.exec("tanything", arg);
                }, "view all tabs", true);
+
+key.setViewKey('e', function (aEvent, aArg) {
+    ext.exec("hok-start-foreground-mode", aArg);
+}, 'Hok - Foreground hint mode', true);
+
+key.setViewKey('E', function (aEvent, aArg) {
+    ext.exec("hok-start-background-mode", aArg);
+}, 'HoK - Background hint mode', true);
