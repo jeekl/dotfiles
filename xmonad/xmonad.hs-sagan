@@ -34,6 +34,7 @@ import XMonad.Layout.MultiToggle.Instances
 import XMonad.Layout.ThreeColumns
 import XMonad.Layout.SubLayouts
 import XMonad.Layout.WindowNavigation
+import XMonad.Layout.ShowWName
 
 import XMonad.Prompt
 import XMonad.Prompt.Shell
@@ -93,7 +94,8 @@ myModMask       = mod4Mask
 --
 -- > workspaces = ["web", "irc", "code" ] ++ map show [4..9]
 --
-myWorkspaces    = ["main","emacs","web","pidgin","music","video","skype","torrents","files"]
+myWorkspaces    = ["main","emacs","web","pidgin",
+                   "music","video","skype","torrents","files"]
 
 myNormalBorderColor  = "snow4"
 myFocusedBorderColor = "#ce613c"
@@ -113,8 +115,9 @@ myKeys =  \conf -> mkKeymap conf $
     , ("M-s", scratchTerm)                                             -- Spawn/banish scratchpad
     , ("M-i", scratchIRC)                                              -- Spawn/banish IRC
     , ("M-t", scratchHtop)                                             -- Spawn/banish Htop
-    , ("M-d", scratchClock)                                            -- Spawn/banish Htop
-    , ("M-m", scratchMusic)                                            -- Spawn/banish Htop
+    , ("M-d", scratchClock)                                            -- Spawn/banish Clock
+    , ("M-m", scratchMusic)                                            -- Spawn/banish ncmcpp
+    , ("M-j", scratchCapture)                                          -- Spawn/banish org-capture
 
     -- app
 --    , ("M-f", runOrRaiseNext "firefox" (className =? "Firefox"))       -- firefox
@@ -162,7 +165,6 @@ myKeys =  \conf -> mkKeymap conf $
     , ("M-g S-u", withFocused (sendMessage . UnMergeAll))              -- Unmerge all window from sublayout group
     , ("M-a", onGroup W.focusUp')                                      -- Focus next window/tab from sublayout group
     , ("M-S-a", onGroup W.focusDown')                                  -- Focus previous window/tab from sublayout group
-
 
 
     -- cycle through workspaces
@@ -214,12 +216,13 @@ myKeys =  \conf -> mkKeymap conf $
     shiftAndView dir = findWorkspace getSortByIndexNoSP dir NonEmptyWS 1
                        >>= \t -> (windows . W.shift $ t) >> (windows . W.greedyView $ t)
     getSortByIndexNoSP = fmap (.scratchpadFilterOutWorkspace) getSortByIndex
-    toggleWSNoSP = windows $ W.view =<< W.tag . head . scratchpadFilterOutWorkspace . W.hidden
-    scratchTerm  = namedScratchpadAction myScratchPads "terminal"
-    scratchIRC   = namedScratchpadAction myScratchPads "irc"
-    scratchHtop  = namedScratchpadAction myScratchPads "htop"
-    scratchClock = namedScratchpadAction myScratchPads "clock"
-    scratchMusic = namedScratchpadAction myScratchPads "music"
+    toggleWSNoSP   = windows $ W.view =<< W.tag . head . scratchpadFilterOutWorkspace . W.hidden
+    scratchTerm    = namedScratchpadAction myScratchPads "terminal"
+    scratchIRC     = namedScratchpadAction myScratchPads "irc"
+    scratchHtop    = namedScratchpadAction myScratchPads "htop"
+    scratchClock   = namedScratchpadAction myScratchPads "clock"
+    scratchMusic   = namedScratchpadAction myScratchPads "music"
+    scratchCapture = namedScratchpadAction myScratchPads "capture"
 
 
 ------------------------------------------------------------------------
@@ -255,6 +258,7 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
 
 
 myLayout = avoidStruts
+           $ showWName
            $ mkToggle (single MIRROR)
            $ mkToggle (single FULL)
            $ smartBorders
@@ -266,8 +270,9 @@ myLayout = avoidStruts
            $ onWorkspace "files" gridLayout
            $ basicLayout
 
+
   where
-    basicLayout  = tiled ||| ThreeCol 1 (3/100) (1/2) ||| Full ||| Grid ||| GridRatio (4/3) ||| simpleTabbed
+    basicLayout  = ThreeCol 1 (3/100) (1/2) ||| Grid ||| simpleTabbed ||| tiled
     pidginLayout = named "IM" $ (IM.withIM (1%7) pidginRoster Grid) where
     pidginRoster = IM.And (ClassName "Pidgin") (Role "buddy_list")
     skypeLayout  = named "IM" $ (IM.withIM (1%7) skypeRoster Grid) where
@@ -304,8 +309,8 @@ myManageHook = composeAll
     [ className =? "MPlayer"        --> doFloat
     , className =? "Gimp"           --> doFloat
     , className =? "Pidgin"         --> doShift "pidgin"
-    , title =? "capture"          --> doCenterFloat
-    , className =? "Emacs"          --> doShift "emacs"
+    , title     =? "Capture Frame"  --> doCenterFloat
+
     , className =? "Firefox"        --> doShift "web"
     , className =? "Chromium"       --> doShift "web"
     , className =? "Skype"          --> doShift "skype"
@@ -322,11 +327,12 @@ myManageHook = composeAll
     , isFullscreen --> doFullFloat
     ] <+> namedScratchpadManageHook myScratchPads
 
-myScratchPads = [ NS "music"    spawnMusic findMusic manageMusic
-                , NS "terminal" spawnTerm  findTerm  manageTerm
-                , NS "irc"      spawnIRC   findIRC   manageIRC
-                , NS "htop"     spawnHtop  findHtop  manageHtop
-                , NS "clock"    spawnClock findClock manageClock
+myScratchPads = [ NS "music"    spawnMusic   findMusic   manageMusic
+                , NS "terminal" spawnTerm    findTerm    manageTerm
+                , NS "irc"      spawnIRC     findIRC     manageIRC
+                , NS "htop"     spawnHtop    findHtop    manageHtop
+                , NS "clock"    spawnClock   findClock   manageClock
+                , NS "capture"  spawnCapture findCapture manageCapture
                 ]
   where
     spawnMusic  = myTerminal ++ " -name scratchpad-music -e ncmpcpp"
@@ -371,15 +377,23 @@ myScratchPads = [ NS "music"    spawnMusic findMusic manageMusic
         t = (1 - h)/2 -- centered top/bottom
         l = (1 - w)/2 -- centered left/right
 
-    spawnClock  = myTerminal ++ " -name scratchpad-clock -geometry 61x13 -e tty-clock -s -C 6 -c"
+    spawnClock  = myTerminal ++ " -name scratchpad-clock -geometry 65x16 -fn 'xft:Bitstream Vera Sans Mono:pixelsize=14' -e tty-clock -s -C 6 -c"
     findClock   = resource   =? "scratchpad-clock"
---    manageClock = nonFloating
     manageClock = customFloating $ W.RationalRect l t w h
---    manageClock = customFloating $ Rect l t w h
 
       where
         h = 0.17       -- height, 100%
         w = 0.26       -- width, 100%
+        t = (1 - h)/2 -- centered top/bottom
+        l = (1 - w)/2 -- centered left/right
+
+    spawnCapture  = "org-capture"
+    findCapture   = title =? "Capture Frame"
+    manageCapture = customFloating $ W.RationalRect l t w h
+
+      where
+        h = (1/2)       -- height, 50%
+        w = (1/2)       -- width, 50%
         t = (1 - h)/2 -- centered top/bottom
         l = (1 - w)/2 -- centered left/right
 
