@@ -27,6 +27,7 @@
         glog        = log --graph --abbrev-commit --pretty=oneline
         lol         = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
         lola        = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative --all
+        current     = log -n1 --pretty=format:%h%d # show branches/tags associated with hash
         staged      = diff --cached
         stage       = add
         unstage     = reset HEAD
