@@ -101,6 +101,7 @@ Emacs lisp package archive. Bundled in emacs 24.
       mediawiki
       melpa
       nginx-mode
+      org-bullets
       org-fstree
       org-jekyll
       otp
@@ -117,6 +118,7 @@ Emacs lisp package archive. Bundled in emacs 24.
       rvm
       sass-mode
       ssh-config-mode
+      stripe-buffer
       smex
       switch-window
       unicode-progress-reporter
@@ -1110,6 +1112,11 @@ Show agenda if idle for 20 mins.
         (funcall (lambda () (org-agenda-list t))))))
 
  ; (run-with-idle-timer 1200 t 'jump-to-org-agenda)
+#+end_src
+*** Org-bullets
+#+begin_src emacs-lisp
+(require 'org-bullets)
+(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 #+end_src
 *** Keybindings
 #+begin_src emacs-lisp
