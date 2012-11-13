@@ -1,3 +1,6 @@
+Compression  yes
+ForwardAgent yes
+
 host ftp.klarna.com
      user ftp
 
