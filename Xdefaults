@@ -79,10 +79,8 @@ URxvt.keysym.C-S-minus: perl:font-size:decglobal
 *color5:    #8c54fe
 *color13:   #9e6ffe
 !cyan
-*color14:    #2771F1
-!*color14:   #406080
-!*color14: #6633FF
-*color6:   #6197F5
+*color14:   #2771F1
+*color6:    #6197F5
 !white
 *color7:    #ccccc6
 *color15:   #f8f8f2
