@@ -30,13 +30,12 @@ Xft.lcdfilter:  	    lcddefault
 URxvt.buffered:         true
 URxvt.background:       black
 URxvt.foreground:       white
-!URxvt.cursorColor:      green
 URxvt.underlineColor:   yellow
 URxvt.font:             xft:Dejavu Sans Mono:pixelsize=14:antialias=true
 URxvt.boldFont:         xft:Dejavu Sans Mono:bold:antialias=true
 urxvt.italicFont:       xft:Dejavu Sans Mono:italic:antialias=true
 urxvt.boldItalicFont:   xft:Dejavu Sans Mono:bold:italic:antialias=true
-URxvt.perl-ext-common:  default,matcher,url-select,font
+URxvt.perl-ext-common:  default,matcher,mark-yank-urls,font-size,keyboard-select
 URxvt.urlLauncher:      /usr/bin/conkeror
 URxvt.matcher.button:   1
 URxvt.keysym.M-u:       perl:url-select:select_next
@@ -47,13 +46,12 @@ URxvt.scrollstyle:      plain
 URxvt.saveLines:        65535
 URxvt.secondaryScroll:  true
 URxvt.mapAlert:         true
-!URxvt.visualBell:       true
 URxvt.urgentOnBell:     true
-! Set small or big font with C-+/-/0
-URxvt.keysym.C-0:       command:\033]710;xft:DejaVu Sans Mono:pixelsize=12:antialias=true\007
-URxvt.keysym.C-minus:   command:\033]710;xft:DejaVu Sans Mono:pixelsize=9:antialias=true\007
-URxvt.keysym.C-plus:    command:\033]710;xft:DejaVu Sans Mono:pixelsize=15:antialias=true\007 
-
+! Set font size with C-+/-
+URxvt.keysym.C-plus:    perl:font-size:increase
+URxvt.keysym.C-minus:   perl:font-size:decrease
+URxvt.keysym.C-S-plus:  perl:font-size:incglobal
+URxvt.keysym.C-S-minus: perl:font-size:decglobal
 
 !!!!! Colors
 ! terminal colours
@@ -81,10 +79,8 @@ URxvt.keysym.C-plus:    command:\033]710;xft:DejaVu Sans Mono:pixelsize=15:antia
 *color5:    #8c54fe
 *color13:   #9e6ffe
 !cyan
-*color14:    #2771F1
-!*color14:   #406080
-!*color14: #6633FF
-*color6:   #6197F5
+*color14:   #2771F1
+*color6:    #6197F5
 !white
 *color7:    #ccccc6
 *color15:   #f8f8f2
