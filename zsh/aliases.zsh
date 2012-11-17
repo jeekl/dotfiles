@@ -32,6 +32,7 @@ alias cp='nocorrect cp'         # no spelling correction on cp
 alias mkdir='nocorrect mkdir'   # no spelling correction on mkdir
 alias mv='nocorrect mv'         # no spelling correction on mv
 alias rm='nocorrect rm'         # no spelling correction on rm
+alias slideshow="feh -zsZFD 5 $1"
 
 alias packer='packer-color'
 
