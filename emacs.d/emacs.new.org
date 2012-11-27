@@ -87,6 +87,9 @@ Emacs lisp package archive. Bundled in emacs 24.
       flymake-shell
       fringe-helper
       gist
+      git-commit-mode
+      gitconfig-mode
+      gitignore-mode
       google-maps
       google-weather
       haml-mode
@@ -967,6 +970,20 @@ inspired by TextMate's templating syntax.
 (autoload 'magit-status "magit" nil t)
 (global-set-key (kbd "C-c g") 'magit-status)
 #+end_src
+*** Auto-fill-mode in commit messages/logs
+#+begin_src emacs-lisp
+(add-hook 'magit-log-edit-mode
+          (lambda()
+            (set-fill-column 72)
+            (auto-fill-mode t)))
+#+end_src
+** git{configure,ignore,-commit}-mode
+#+begin_src emacs-lisp
+(require 'gitconfig-mode)
+(require 'gitignore-mode)
+(require 'git-commit-mode)
+#+end_src
+
 ** Crontab mode
 #+begin_src emacs-lisp
 (autoload 'crontab-mode "crontab-mode" "Mode for editing crontab files" t)
