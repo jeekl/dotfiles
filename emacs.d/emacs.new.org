@@ -1872,6 +1872,18 @@ Various bindings for movement in files/buffers
       (next-line)
       (move-end-of-line nil)))
 #+end_src
+*** insertline-and-move-to-line
+#+begin_src emacs-lisp
+  (defun insertline-and-move-to-line ()
+  "Insert an empty line after the current line and positon
+the curson at its beginning, according to the current mode."
+  (interactive)
+  (move-end-of-line nil)
+  (open-line 1)
+  (forward-line 1)
+  (indent-according-to-mode))
+#+end_src
+
 *** Keybindings
 #+begin_src emacs-lisp
 (global-set-key (kbd "M-g")   'goto-line)
@@ -1879,6 +1891,7 @@ Various bindings for movement in files/buffers
 (global-set-key (kbd "C-c G") 'beginning-of-buffer)
 (global-set-key (kbd "C-a")   'back-to-indentation-or-beginning)
 (global-set-key (kbd "C-e")   'move-end-of-line-or-next-line)
+(global-set-key (kbd "C-o")   'insertline-and-move-to-line)
 #+end_src
 ** Bookmarks
 #+begin_src emacs-lisp
