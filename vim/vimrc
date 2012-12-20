@@ -13,6 +13,8 @@ set hlsearch
 set wrapscan
 set noic
 set nocompatible
+set expandtab " When I hit tab, use spaces.
+set autoindent
 filetype plugin indent on
 
 set backupdir=~/.vim/tmp
