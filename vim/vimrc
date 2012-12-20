@@ -1,4 +1,8 @@
-syn on
+if has("syntax")
+  syn on
+end
+set t_Co=256
+
 set nu
 if has("autocmd")
   au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
