@@ -19,4 +19,7 @@ set directory=~/.vim/tmp
 vnoremap < <gv
 vnoremap > >gv
 
+" Sometimes the terminal isn't setup sanely, fix backspace.
+imap <C-?> <C-h>
+
 au BufRead,BufNewFile Vagrantfile set filetype=ruby
