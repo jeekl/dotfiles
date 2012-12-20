@@ -3,9 +3,10 @@
         email = jeff.eklund@klarna.com
 [core]
         excludesfile = ~/.gitignore
+[push]
+        default = current
 [github]
         user  = jeekl
-        token = 130035504a3b08f1d1014396a9912a97
 [color]
         diff        = auto
         status      = auto
@@ -54,3 +55,4 @@
         undo-last-commit      = reset --soft HEAD^
         
         brlog = "!sh -c 'for C in $(git for-each-ref --sort=committerdate refs/heads --format=\"%(refname:short)\") ; do git show -s --pretty=format:\"%Cgreen%ci %Cblue%cr%Creset $C\" \"$C\" -- ; git show --stat -s $C ; echo; done'"
+        remove-submodule = "!git rm --cached $1 && git config -f .git/config --remove-section submodule.$1 && git config -f .gitmodules --remove-section submodule.$1"
