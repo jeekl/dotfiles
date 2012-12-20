@@ -11,6 +11,8 @@ set noic
 set nocompatible
 filetype plugin indent on
 
+set backupdir=~/.vim/tmp
+set directory=~/.vim/tmp
 
 " Reselect visual block after indent/outdent
 " http://vimbits.com/bits/20
