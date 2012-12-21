@@ -20,7 +20,6 @@ filetype plugin indent on
 set showmatch  " Show me matching close braces
 set ignorecase " Case insensitive searching
 set smartcase  " Unless I really mean case sensitive
-set list       " Show me whitespace where I care
 
 set backupdir=~/.vim/tmp
 set directory=~/.vim/tmp
