@@ -74,6 +74,7 @@ Emacs lisp package archive. Bundled in emacs 24.
       calfw-gcal
       clojure-mode
       crontab-mode
+      cyberpunk-theme
       csv-mode
       diminish
       elein
@@ -1288,7 +1289,7 @@ Various apperance related settings
 Add themes directory to load path for emacs24 themes.
 #+begin_src emacs-lisp
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
-(load-theme 'SexyPonies t)
+(load-theme 'cyberpunk t)
 #+end_src
 
 ** Title
