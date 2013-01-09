@@ -74,8 +74,8 @@ Emacs lisp package archive. Bundled in emacs 24.
       calfw-gcal
       clojure-mode
       crontab-mode
-      cyberpunk-theme
       csv-mode
+      cyberpunk-theme
       diminish
       elein
       erlang
@@ -96,6 +96,7 @@ Emacs lisp package archive. Bundled in emacs 24.
       haml-mode
       haskell-mode
       hl-sexp
+      htmlize
       httpcode
       inf-ruby
       ioccur
