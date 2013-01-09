@@ -1260,6 +1260,13 @@ Mode for interfacing with Archlinux PKGBUILD system
   (add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
 #+end_src
 
+** Mediawiki
+#+begin_src emacs-lisp
+  (require 'mediawiki)
+  (setq mediawiki-site-alist
+      (append '(("rndwiki" "https://rndwiki.hq.kred/mediawiki/" "jeff.eklund" "" "Main Page"))
+              mediawiki-site-alist))
+#+end_src
 * Apperance
 Various apperance related settings
 
