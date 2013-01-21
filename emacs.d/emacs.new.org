@@ -77,6 +77,7 @@ Emacs lisp package archive. Bundled in emacs 24.
       csv-mode
       cyberpunk-theme
       diminish
+      dired-details
       elein
       erlang
       expand-region
@@ -173,7 +174,6 @@ Try to load el-get and install el-get if it fails.
 #+end_src
 *** Define packages
 **** Own definitions
-
 
 **** Basic / Misc
 These are packages that add basic or very general functionality to emacs.
@@ -691,6 +691,13 @@ TODO, this does not work?
 #+begin_src emacs-lisp
 (setq dired-recursive-deletes 'top)
 (define-key dired-mode-map [mouse-2] 'dired-find-file)
+#+end_src
+*** Make dired less verbose
+Toggle showin details with ) and (.
+#+begin_src emacs-lisp
+(require 'dired-details)
+(setq-default dired-details-hidden-string "--- ")
+(dired-details-install)
 #+end_src
 
 ** Flymake
