@@ -2183,3 +2183,16 @@ highlight changes before they are made when doing regex-replace
 (define-key esc-map (kbd "C-r") 'pyregexp-isearch-backward)
 (define-key esc-map (kbd "C-s") 'pyregexp-isearch-forward)
 #+end_src
+** webjump
+Add Urban Dictionary to webjump
+#+begin_src emacs-lisp
+(global-set-key (kbd "C-x g") 'webjump)
+
+(eval-after-load "webjump"
+'(add-to-list 'webjump-sites
+              '("Urban Dictionary" .
+                [simple-query
+                 "www.urbandictionary.com"
+                 "http://www.urbandictionary.com/define.php?term="
+                 ""])))
+#+end_src
