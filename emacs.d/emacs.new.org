@@ -79,6 +79,7 @@ Emacs lisp package archive. Bundled in emacs 24.
       diminish
       dired-details
       elein
+      elisp-slime-nav
       erlang
       expand-region
       fill-column-indicator
@@ -397,6 +398,13 @@ From [[http://bc.tech.coop/blog/070515.html][here]]
      (setq slime-complete-symbol*-fancy t)
      (setq slime-complete-symbol-function 'slime-fuzzy-complete-symbol)
      (add-hook 'sldb-mode-hook #'(lambda () (setq autopair-dont-activate t)))))
+#+end_src
+
+#+begin_src emacs-lisp
+;; Elisp go-to-definition with M-. and back again with M-,
+(autoload 'elisp-slime-nav-mode "elisp-slime-nav")
+(add-hook 'emacs-lisp-mode-hook (lambda () (elisp-slime-nav-mode t)))
+(eval-after-load 'elisp-slime-nav '(diminish 'elisp-slime-nav-mode))
 #+end_src
 
 Stop Slime from overriding <DEL> when backspacing over parens with paredit
