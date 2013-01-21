@@ -10,6 +10,7 @@ partial alphanumeric_keys modifier_keys
 xkb_symbols "us" {
     include "us"
 
+    key <AE02> { [ 2, at, U00B2 ] };
     key <AE03> { [ 3, numbersign, sterling, NoSymbol ] };
     key <AE04> { [ 4, dollar, EuroSign, cent ] };
     key <AE06> { [ 6, asciicircum, yen, NoSymbol ] };
