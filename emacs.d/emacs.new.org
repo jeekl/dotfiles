@@ -934,10 +934,13 @@ Prevent flickery behaviour due to hl-sexp-mode unhighlighting before each comman
 ** Diminish
 Shorten names of minor modes in modeline.
 #+begin_src emacs-lisp
-(require 'diminish)
-(eval-after-load "undo-tree" '(diminish 'undo-tree-mode))
-(eval-after-load "whole-line-or-region-mode" (diminish 'whole-line-or-region-mode))
-(eval-after-load "fuzzy-format-mode" (diminish 'fuzzy-format-mode))
+  (require 'diminish)
+  (eval-after-load "undo-tree" '(diminish 'undo-tree-mode))
+  (eval-after-load "whole-line-or-region-mode" (diminish 'whole-line-or-region-mode))
+  (eval-after-load "fuzzy-format-mode" (diminish 'fuzzy-format-mode))
+  (diminish 'yas/minor-mode)
+  (diminish 'abbrev-mode "Abv")
+  ;; (diminish 'wrap-region-mode)
 #+end_src
 ** Yasnippet
 [[http://code.google.com/p/yasnippet/][yasnippet]] is yet another snippet expansion system for Emacs. It is
