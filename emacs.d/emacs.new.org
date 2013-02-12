@@ -177,8 +177,6 @@ apt and so on.
 *** Load El-get
 Try to load el-get and install el-get if it fails.
 #+begin_src emacs-lisp
-  (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
-
   (unless (require 'el-get nil t)
     (with-current-buffer
         (url-retrieve-synchronously
@@ -272,13 +270,6 @@ Yanking stuff, killing stuff, putting back, or not, and so on.
   ;;                'after-make-console-frame-hooks)))
 
   ;; (add-hook 'after-make-frame-functions 'run-after-make-frame-hooks)
-#+end_src
-*** Load path
-#+begin_src emacs-lisp
-(let ((default-directory "~/.emacs.d/elpa/"))
-      (normal-top-level-add-subdirs-to-load-path))
-(let ((default-directory "~/.emacs.d/el-get/"))
-      (normal-top-level-add-subdirs-to-load-path))
 #+end_src
 
 * Languages
