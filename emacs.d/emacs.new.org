@@ -1119,6 +1119,38 @@ and in TODOs, bind them.
    (setq org-log-done t) ;;timestamp when switching from todo to done
   ;; (org-agenda-repeating-timestamp-show-all t)   ;; ensures that repeating events appear on all relevant dates -- how does this work?
 #+end_src
+*** HTML-export for Jekyll
+#+begin_src emacs-lisp
+  (setq org-publish-project-alist
+        '(("org-jekyll"
+           ;; Path to your org files.
+           :base-directory "~/jekyll/org/"
+           :base-extension "org"
+
+           ;; Path to your Jekyll project.
+           :publishing-directory "~/jekyll/site/"
+           :recursive t
+           :publishing-function org-publish-org-to-html
+           :headline-levels 6
+           :html-extension "html"
+           :body-only t ;; Only export <body>
+           :section-numbers nil
+           :table-of-contents nil
+
+           :author "Jeff Eklund"
+           :email  "jeff.eklund@gmail.com"
+           )
+
+          ("org-jekyll-static"
+           :base-directory "~/jekyll/org"
+           :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
+           :publishing-directory "~/jekyll/site/"
+           :recursive t
+           :publishing-function org-publish-attachment)
+
+          ("jekyll" :components ("org-jekyll" "org-jekyll-static"))))
+#+end_src
+
 *** Auto switch top headers to DONE when all subheadings are done
 #+begin_src emacs-lisp
 (defun org-summary-todo (n-done n-not-done)
