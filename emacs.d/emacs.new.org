@@ -2234,3 +2234,17 @@ Add Urban Dictionary to webjump
                  "http://www.urbandictionary.com/define.php?term="
                  ""])))
 #+end_src
+
+** Ibus
+#+begin_src emacs-lisp
+  (require 'ibus)
+  ;; Turn on ibus-mode automatically after loading .emacs
+  (add-hook 'after-init-hook 'ibus-mode-on)
+  ;; Use C-SPC for Set Mark command
+  (ibus-define-common-key ?\C-\s nil)
+  ;; Change cursor color depending on IBus status
+  (setq ibus-cursor-color '("red" "blue" "limegreen"))
+  (setq ibus-python-shell-command-name "python2")
+;  (custom-set-variables '(ibus-python-shell-command-name "python2"))
+  (global-set-key (kbd "C-S-j") 'ibus-toggle)
+#+end_src
