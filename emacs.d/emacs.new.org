@@ -29,6 +29,12 @@ This is set after init.el has been loaded, but works well enough.
 (defconst emacs-start-time (current-time))
 #+end_src
 
+#+begin_src emacs-lisp
+(make-directory "~/.emacs.d/data" t)
+(make-directory "~/.emacs.d/desktop" t)
+(make-directory "~/.emacs.d/cache" t)
+#+end_src
+
 Some preparations to make the initilisation smoother.
 #+begin_src emacs-lisp
 (require 'cl)
