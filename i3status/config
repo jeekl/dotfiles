@@ -1,0 +1,41 @@
+general {
+  colors = true
+  interval = 2
+}
+
+order += "run_watch VPN"
+order += "wireless wlp3s0"
+order += "ethernet eth0"
+order += "battery 0"
+order += "volume master"
+order += "time"
+
+wireless wlp3s0 {
+  format_up = " W: (%quality @ %essid) %ip "
+  format_down = " W: ✘ "
+}
+
+ethernet eth0 {
+  # sudo setcap cap_net_admin=ep $(which i3status)
+  format_up = " E: %ip "
+  format_down = " E: ✘ "
+}
+
+battery 0 {
+  format = " %status %percentage %remaining "
+}
+
+run_watch VPN {
+  pidfile = "/var/run/openvpn.pid"
+}
+
+time {
+  format = " %d-%m-%Y %H:%M:%S "
+}
+
+volume master {
+  format = " ♪: %volume "
+  device = "default"
+  mixer = "Master"
+  mixer_idx = 0
+}
