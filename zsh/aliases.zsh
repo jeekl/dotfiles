@@ -41,9 +41,6 @@ alias notes="ack 'TODO|FIXME|XXX|HACK' --ignore-dir=tmp --ignore-dir=log *"
 
 alias f='find $1 -iname '
 
-# Color manpages with terminfo file
-alias man='TERMINFO=~/.config/dotfiles/terminfo/ LESS=C TERM=mostlike PAGER=less man'
-
 # get top 10 shell commands:
 alias historymeme='print -l ? ${(o)history%% *} | uniq -c | sort -nr | head -n 10'
 alias nautilus='nautilus --no-desktop'
