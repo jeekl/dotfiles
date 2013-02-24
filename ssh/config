@@ -10,7 +10,6 @@ host saxfisk
 host jeekl.me
      port 2222
      user jeff
-     IdentityFile ~/.ssh/id_dsa
 
 host jenkins-*
      user root
