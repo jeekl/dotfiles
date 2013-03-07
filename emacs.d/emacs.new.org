@@ -661,6 +661,13 @@ TODO, this does not work?
   (ido-everywhere t)
   (setq ido-save-directory-list-file "~/.emacs.d/cache/ido.last")
 #+end_src
+*** vertical results
+Vertical line of results. a little bit like lusty-explorer.
+#+begin_src emacs-lisp
+  (setq ido-decorations (quote ("\n-> " "" "\n   " "\n   ..." "[" "]" " [No match]" " [Matched]" " [Not readable]" " [Too big]" " [Confirm]")))
+  (add-hook 'ido-minibuffer-setup-hook #'(lambda() (set (make-local-variable 'truncate-lines) nil)))
+  (add-hook 'ido-minibuffer-setup-hook #'(lambda() (enlarge-window 10)))
+#+end_src
 
 *** ido-ubiquitous
 [[https://github.com/technomancy/ido-ubiquitous][github]]
