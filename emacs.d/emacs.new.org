@@ -2075,6 +2075,14 @@ the curson at its beginning, according to the current mode."
 (global-set-key (kbd "C-e")   'move-end-of-line-or-next-line)
 (global-set-key (kbd "C-o")   'insertline-and-move-to-line)
 #+end_src
+*** Join line
+#+begin_src emacs-lisp
+  (global-set-key (kbd "M-j")
+            (lambda ()
+                  (interactive)
+                  (join-line -1)))
+#+end_src
+
 ** Bookmarks
 #+begin_src emacs-lisp
 (setq bookmark-default-file "~/.emacs.d/data/bookmarks"
