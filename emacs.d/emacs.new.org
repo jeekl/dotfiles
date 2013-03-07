@@ -983,6 +983,57 @@ inspired by TextMate's templating syntax.
 (yas/global-mode 1)
 (yas/reload-all)
 #+end_src
+*** navigation
+#+begin_src emacs-lisp
+;; Inter-field navigation
+(defun yas/goto-end-of-active-field ()
+  (interactive)
+  (let* ((snippet (car (yas/snippets-at-point)))
+        (position (yas/field-end (yas/snippet-active-field snippet))))
+    (if (= (point) position)
+        (move-end-of-line)
+      (goto-char position))))
+
+(defun yas/goto-start-of-active-field ()
+  (interactive)
+  (let* ((snippet (car (yas/snippets-at-point)))
+        (position (yas/field-start (yas/snippet-active-field snippet))))
+    (if (= (point) position)
+        (move-beginning-of-line)
+      (goto-char position))))
+#+end_src
+
+*** Misc
+#+begin_src emacs-lisp
+;; Don't expand yasnippets in every setting
+(setq yas/expand-only-for-last-commands
+      '(
+        self-insert-command
+        yas/exit-all-snippets
+        yas/abort-snippet
+        yas/skip-and-clear-or-delete-char
+        yas/next-field-or-maybe-expand
+        ))
+;; Wrap around region
+(setq yas/wrap-around-region t)
+#+end_src
+*** File bindings
+#+begin_src emacs-lisp
+  ;; Snippets
+  (add-to-list 'auto-mode-alist '("snippets/" . snippet-mode))
+  (add-to-list 'auto-mode-alist '("\\.yasnippet$" . snippet-mode))
+#+end_src
+
+
+
+*** Keybindings
+#+begin_src emacs-lisp
+(define-key yas/keymap (kbd "<return>") 'yas/exit-all-snippets)
+(define-key yas/keymap (kbd "C-e") 'yas/goto-end-of-active-field)
+(define-key yas/keymap (kbd "C-a") 'yas/goto-start-of-active-field)
+(add-hook 'markdown-mode-hook (lambda () (define-key markdown-mode-map (kbd "<tab>") 'yas/expand)))
+#+end_src
+
 *** Workaround for org-mode
 #+begin_src emacs-lisp
   (defun yas/org-very-safe-expand ()
