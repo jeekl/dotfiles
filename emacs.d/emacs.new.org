@@ -202,8 +202,7 @@ These are packages that add basic or very general functionality to emacs.
 #+begin_src emacs-lisp
   (setq my-packages
         (append
-         '(fuzzy-format
-           ethan-wspace)
+         '(fuzzy-format)
          my-packages))
 #+end_src
 
@@ -1532,8 +1531,16 @@ Show trailing whitespace and excessive eol,
 trim trailing whitespace and eol by default,
 convert tabs to spaces and more.
 #+begin_src emacs-lisp
-(global-ethan-wspace-mode 1)
+;; (global-ethan-wspace-mode 1)
 #+end_src
+** Whitespace-mode
+#+begin_src emacs-lisp
+  (global-whitespace-mode)
+  (setq whitespace-style '(face trailing lines-tail space-before-tab
+                           tabs tab-mark space-after-tab)
+        whitespace-line-column 80)
+#+end_src
+
 ** Modeline
 #+begin_src emacs-lisp
 ;
