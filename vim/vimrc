@@ -15,6 +15,8 @@ set noic
 set nocompatible
 set expandtab " When I hit tab, use spaces.
 set autoindent
+filetype on
+filetype plugin on
 filetype plugin indent on
 
 set showmatch  " Show me matching close braces
@@ -23,6 +25,12 @@ set smartcase  " Unless I really mean case sensitive
 
 set backupdir=~/.vim/tmp
 set directory=~/.vim/tmp
+
+
+" Some plugins like to contain documentation, hurray!
+if isdirectory("~/.vim/doc")
+  helptags ~/.vim/doc
+endif
 
 " Reselect visual block after indent/outdent
 " http://vimbits.com/bits/20
