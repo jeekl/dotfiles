@@ -101,6 +101,7 @@ Emacs lisp package archive. Bundled in emacs 24.
       find-file-in-project
       flymake
       flymake-cursor
+      flymake-python-pyflakes
       flymake-ruby
       flymake-shell
       fringe-helper
@@ -117,6 +118,7 @@ Emacs lisp package archive. Bundled in emacs 24.
       httpcode
       inf-ruby
       ioccur
+      jedi
       js2-mode
       magit
       markdown-mode
@@ -131,7 +133,6 @@ Emacs lisp package archive. Bundled in emacs 24.
       pastels-on-dark-theme
       pkgbuild-mode
       puppet-mode
-      pymacs
       pyregexp
       rainbow-delimiters
       rainbow-mode
@@ -232,12 +233,12 @@ Yanking stuff, killing stuff, putting back, or not, and so on.
 
 ***** Python
 #+begin_src emacs-lisp
-  (setq my-packages
-        (append
-         '(ropemacs
+  ;; (setq my-packages
+  ;;       (append
+  ;;        '(ropemacs
 
-           )
-         my-packages))
+  ;;          )
+  ;;        my-packages))
 #+end_src
 ***** Ruby
 #+begin_src emacs-lisp
@@ -475,6 +476,24 @@ See [[https://github.com/purcell/ac-slime][github-link]]
                                      (require 'slime)
                                      (normal-mode)))))
 #+end_src
+** Python
+#+begin_src emacs-lisp
+(setq jedi:setup-keys t)
+(setq jedi:complete-on-dot t)
+(require 'jedi)
+(autoload 'jedi:setup "jedi" nil t)
+(add-hook 'python-mode-hook 'jedi:setup)
+
+
+;; autopair hook for triple quotes
+(add-hook 'python-mode-hook
+#'(lambda ()
+(setq autopair-handle-action-fns
+(list #'autopair-default-handle-action
+#'autopair-python-triple-quote-action))))
+#+end_src
+
+
 ** Clojure
 #+begin_src emacs-lisp
 (autoload 'clojure-mode "clojure-mode" "Major mode for editing Clojure code." t nil)
@@ -726,6 +745,25 @@ On the fly syntax checking.
 
 (require 'flymake)
 #+end_src
+*** Flymake for python
+
+#+begin_src emacs-lisp
+    ;; (require 'flymake-python-pyflakes)
+    ;; (add-hook 'python-mode-hook 'flymake-python-pyflakes-load)
+  ;; Pyflakes for python
+  (when (load "flymake" t)
+    (defun flymake-pychecker-init ()
+      (let* ((temp-file (flymake-init-create-temp-buffer-copy
+                         'flymake-create-temp-inplace))
+             (local-file (file-relative-name
+                          temp-file
+                          (file-name-directory buffer-file-name))))
+        (list "/home/jeff/bin/flymake-python" (list local-file))))
+    (add-to-list 'flymake-allowed-file-name-masks
+                 '("\\.py\\'" flymake-pychecker-init)))
+
+
+#+end_src
 *** Flymake for erlang
 [[http://www.emacswiki.org/emacs/FlymakeErlang][emacswiki link]]
 #+begin_src emacs-lisp
@@ -809,7 +847,7 @@ TODO, set this up to work with yasnippet and tab
 (require 'auto-complete)
 (require 'auto-complete-config)
 
-;(global-auto-complete-mode t)
+(global-auto-complete-mode t)
 ;(setq ac-auto-start nil)
 (setq ac-auto-start 7)
 (setq ac-dwim t)
@@ -818,16 +856,16 @@ TODO, set this up to work with yasnippet and tab
 #+begin_src emacs-lisp
 (setq ac-use-menu-map t)
 ;; Default settings
-;(define-key ac-menu-map "\C-n" 'ac-next)
-;(define-key ac-menu-map "\C-p" 'ac-previous)
+(define-key ac-menu-map "\C-n" 'ac-next)
+(define-key ac-menu-map "\C-p" 'ac-previous)
 #+end_src
 
 **** Python with ropemacs
 #+begin_src emacs-lisp
-(ac-ropemacs-initialize)
-(add-hook 'python-mode-hook
-          (lambda ()
-            (add-to-list 'ac-sources 'ac-source-ropemacs)))
+  ;; (ac-ropemacs-initialize)
+  ;; (add-hook 'python-mode-hook
+  ;;           (lambda ()
+  ;;             (add-to-list 'ac-sources 'ac-source-ropemacs)))
 #+end_src
 **** LaTeX
 #+begin_src emacs-lisp
