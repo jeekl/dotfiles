@@ -1,7 +1,7 @@
 // load this file by issuing xkbcomp -I$HOME/conf/xkb $HOME/conf/xkb/hhkb2.xkb $DISPLAY
 
 xkb_keymap {
-	xkb_keycodes  { include "evdev+aliases(qwerty)"	};
+        xkb_keycodes  { include "evdev+aliases(qwerty)" };
         xkb_types     { include "complete"  };
         xkb_compat    { include "complete"  };
         xkb_symbols   { include "pc+hhkb(us)+inet(evdev)" };
