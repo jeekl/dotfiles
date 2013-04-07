@@ -3,8 +3,8 @@
 ! vim:enc=utf-8:nu:ai:si:et:ts=4:sw=4:ft=xdefaults:
 ! ----------------------------------------------------------------------------
 
-XTerm*faceName:             Dejavu Sans Mono:size=10
-XTerm*boldFont:             Dejavu Sans Mono:style=Bold:size=10
+XTerm*faceName:             Dejavu Sans Mono:size=11
+XTerm*boldFont:             Dejavu Sans Mono:style=Bold:size=11
 XTerm*loginShell:           true
 XTerm*scrollBar:            false
 XTerm*colorMode:            true
@@ -18,7 +18,6 @@ xterm*jumpScroll:           true
 xterm*multiScroll:          true
 xterm*toolBar:              false
 
-xft.dpi:                    96
 Xft.antialias:		    1 
 Xft.rgba:       	    rgb
 Xft.hinting:    	    1
@@ -52,6 +51,9 @@ URxvt.keysym.C-plus:    perl:font-size:increase
 URxvt.keysym.C-minus:   perl:font-size:decrease
 URxvt.keysym.C-S-plus:  perl:font-size:incglobal
 URxvt.keysym.C-S-minus: perl:font-size:decglobal
+! Needed for ibus
+URxvt.inputMethod: ibus
+URxvt.preeditType: OverTheSpot
 
 !!!!! Colors
 ! terminal colours
