@@ -1,8 +1,4 @@
-if check_com -c vim ; then
-    export EDITOR=${EDITOR:-vim}
-else
-    export EDITOR=${EDITOR:-vi}
-fi
+Export EDITOR=${EDITOR:-vim}
 export PAGER=${PAGER:-less}
 export MAIL=${MAIL:-/var/mail/$USER}
 export SHELL='/bin/zsh'
