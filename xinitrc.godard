@@ -2,6 +2,8 @@
 
 export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
 
+[[ -f ~/.config/Xresources ]] && xrdb -merge ~/.config/Xresources
+
 urxvtd -q -f -o
 
 xsetroot -solid black
@@ -16,15 +18,10 @@ xmodmap -e 'add Control = Control_L'
 
 dropboxd &
 
-xrdb -load $HOME/.Xdefaults
-
-# XFCE stuffs. make my desktop automagic and modern!
 /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 &
-xfce4-power-manager &
-xfce4-volumed
-thunar --daemon &
-nm-applet &
+
+export QT_IM_MODULE=ibus
+export GTK_IM_MODULE=ibus
 ibus-daemon -d -x -r -n awesome
 
-#exec /usr/bin/startfluxbox
-exec /usr/bin/awesome
+exec ck-launch-session /usr/bin/awesome
