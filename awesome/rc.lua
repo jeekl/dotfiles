@@ -8,6 +8,7 @@ require("beautiful")
 require("naughty")
 
 require("teardrop")
+local autostart = require("runonce")
 
 -- Load Debian menu entries
 require("debian.menu")
@@ -36,6 +37,11 @@ do
     end)
 end
 -- }}}
+
+autostart.run("nm-applet &")
+autostart.run("xfce4-volumed")
+autostart.run("xfce4-power-manager &")
+autostart.run("thunar --daemon &")
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
@@ -244,7 +250,7 @@ globalkeys = awful.util.table.join(
         end),
 
     -- Standard program
-    awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end),
+    awful.key({ modkey, "Shift"   }, "Return", function () awful.util.spawn(terminal) end),
     awful.key({ modkey, "Control" }, "r", awesome.restart),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit),
 
