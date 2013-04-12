@@ -18,29 +18,31 @@ xterm*jumpScroll:           true
 xterm*multiScroll:          true
 xterm*toolBar:              false
 
-Xft.antialias:		    1 
-Xft.rgba:       	    rgb
-Xft.hinting:    	    1
-Xft.autohint:   	    0
-Xft.hintstyle:  	    hintslight
-Xft.lcdfilter:  	    lcddefault
+Xft.antialias:              1
+Xft.rgba:                   rgb
+Xft.hinting:                1
+Xft.autohint:               0
+Xft.hintstyle:              hintslight
+Xft.lcdfilter:              lcddefault
 
 
 URxvt.buffered:         true
 URxvt.background:       black
 URxvt.foreground:       white
 URxvt.underlineColor:   yellow
-URxvt.font:             xft:Dejavu Sans Mono:pixelsize=14:antialias=true
+URxvt.font:             xft:Dejavu Sans Mono:pixelsize=15:antialias=true
 URxvt.boldFont:         xft:Dejavu Sans Mono:bold:antialias=true
 urxvt.italicFont:       xft:Dejavu Sans Mono:italic:antialias=true
 urxvt.boldItalicFont:   xft:Dejavu Sans Mono:bold:italic:antialias=true
+URxvt.iconFile:         /usr/share/icons/Tango/scalable/apps/terminal.svg
+URxvt.perl-lib:         /home/jeekl/.config/urxvt/
 URxvt.perl-ext-common:  default,matcher,mark-yank-urls,font-size,keyboard-select
-URxvt.urlLauncher:      /usr/bin/conkeror
+URxvt.urlLauncher:      /usr/bin/firefox
 URxvt.matcher.button:   1
 URxvt.keysym.M-u:       perl:url-select:select_next
 urxvt.keysym.Control-Shift-Up:   perl:font:increment
 urxvt.keysym.Control-Shift-Down: perl:font:decrement
-URxvt.scrollBar:	false
+URxvt.scrollBar:        false
 URxvt.scrollstyle:      plain
 URxvt.saveLines:        65535
 URxvt.secondaryScroll:  true
