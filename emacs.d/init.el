@@ -11,7 +11,7 @@
 (require 'org-install)
 
 ;; load up the main file
-(org-babel-load-file (expand-file-name "emacs.new.org" dotfiles-dir))
+(org-babel-load-file (expand-file-name "emacs.org" dotfiles-dir))
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

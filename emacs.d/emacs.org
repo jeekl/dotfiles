@@ -33,6 +33,8 @@ This is set after init.el has been loaded, but works well enough.
 (make-directory "~/.emacs.d/data" t)
 (make-directory "~/.emacs.d/desktop" t)
 (make-directory "~/.emacs.d/cache" t)
+(make-directory "~/.emacs.d/el-get" t)
+(make-directory "~/.emacs.d/elpa" t)
 #+end_src
 
 Some preparations to make the initilisation smoother.
@@ -80,7 +82,6 @@ Emacs lisp package archive. Bundled in emacs 24.
   (defvar elpa-packages
     '(ac-dabbrev
       ack-and-a-half
-      ac-slime
       auto-complete
       autopair
       browse-kill-ring
@@ -93,17 +94,10 @@ Emacs lisp package archive. Bundled in emacs 24.
       cyberpunk-theme
       diminish
       dired-details
-      elein
-      elisp-slime-nav
       erlang
       expand-region
       fill-column-indicator
       find-file-in-project
-      flymake
-      flymake-cursor
-      flymake-python-pyflakes
-      flymake-ruby
-      flymake-shell
       fringe-helper
       gist
       git-commit-mode
@@ -120,6 +114,7 @@ Emacs lisp package archive. Bundled in emacs 24.
       ioccur
       jedi
       js2-mode
+      lua-mode
       magit
       markdown-mode
       mediawiki
@@ -129,9 +124,9 @@ Emacs lisp package archive. Bundled in emacs 24.
       org-fstree
       org-jekyll
       otp
-      paredit
       pastels-on-dark-theme
       pkgbuild-mode
+      pos-tip ;; requirement for popup-kill-ring
       puppet-mode
       pyregexp
       rainbow-delimiters
@@ -144,12 +139,10 @@ Emacs lisp package archive. Bundled in emacs 24.
       stripe-buffer
       smex
       switch-window
-      unicode-progress-reporter
       volatile-highlights
       whole-line-or-region
       yaml-mode
-      yasnippet
-      yasnippet-bundle)
+      yasnippet)
     "A list of packages to ensure are installed at launch.")
 
   (defun elpa-packages-installed-p ()
@@ -173,7 +166,7 @@ Emacs lisp package archive. Bundled in emacs 24.
 
 #+end_src
 ** El-get
-El-get manages pacakges from different package sources, like ELPA, git, svn,
+pEl-get manages pacakges from different package sources, like ELPA, git, svn,
 apt and so on.
 *** Load El-get
 Try to load el-get and install el-get if it fails.
@@ -195,81 +188,14 @@ These are packages that add basic or very general functionality to emacs.
 #+begin_src emacs-lisp
   (setq my-packages
         (append
-         '(el-get)
+         '(el-get
+           fuzzy-format
+           popup-kill-ring)
         ))
 #+end_src
 
-***** Indentation
 #+begin_src emacs-lisp
-  (setq my-packages
-        (append
-         '(fuzzy-format)
-         my-packages))
-#+end_src
-
-**** Editing
-***** Kill ring / undo / redo
-Yanking stuff, killing stuff, putting back, or not, and so on.
-#+begin_src emacs-lisp
-  (setq my-packages
-        (append
-         '(pos-tip ;; requirement for popup-kill-ring
-           popup-kill-ring
-           ;undo-tree
-           )
-         my-packages))
-#+end_src
-
-**** Programming
-
-***** Erlang
-#+begin_src emacs-lisp
-  (setq my-packages
-        (append
-         '(erlware-mode
-           distel)
-         my-packages))
-#+end_src
-
-***** Python
-#+begin_src emacs-lisp
-  ;; (setq my-packages
-  ;;       (append
-  ;;        '(ropemacs
-
-  ;;          )
-  ;;        my-packages))
-#+end_src
-***** Ruby
-#+begin_src emacs-lisp
-  (setq my-packages
-        (append
-         '(rhtml-mode
-           rdebug
-           )
-         my-packages))
-#+end_src
-
-#+begin_src emacs-lisp
-(setq erlang-root-dir "/usr/lib/erlang")
 (el-get 'sync my-packages)
-#+end_src
-
-#+begin_src emacs-lisp
-  ;; (defvar after-make-console-frame-hooks '()
-  ;;   "Hooks to run after creating a new TTY frame")
-  ;; (defvar after-make-window-system-frame-hooks '()
-  ;;   "Hooks to run after creating a new window-system frame")
-
-  ;; (defun run-after-make-frame-hooks (frame)
-  ;;   "Selectively run either `after-make-console-frame-hooks' or
-  ;; `after-make-window-system-frame-hooks'"
-  ;;   (select-frame frame)
-  ;;   (run-hooks (if window-system
-  ;;                  'after-make-window-system-frame-hooks
-  ;;                'after-make-console-frame-hooks)))
-
-  ;; (add-hook 'after-make-frame-functions 'run-after-make-frame-hooks)
 #+end_src
 
 * Languages
@@ -286,15 +212,10 @@ TODO: This gives an
 #+end_src
 ** Ruby
 *** RVM
-Ruby versoion manager
+Ruby version manager
 #+begin_src emacs-lisp
 (require 'rvm)
 (rvm-use-default)
-#+end_src
-*** Flymake
-#+begin_src emacs-lisp
- (require 'flymake-ruby)
- (add-hook 'ruby-mode-hook 'flymake-ruby-load)
 #+end_src
 *** Inf-ruby
 inf-ruby.el provides a REPL buffer connected to a IRB subprocess.
@@ -328,22 +249,22 @@ Configurations for LISP.
 Turn on Paredit
 This might be obsolete as various electric-funs are included in emacs24?
 #+begin_src emacs-lisp
-(autoload 'paredit-mode "paredit"
-  "Minor mode for pseudo-structurally editing Lisp code." t)
-(autoload 'enable-paredit-mode "paredit" "Turn on paredit mode" t)
+;(autoload 'paredit-mode "paredit"
+;  "Minor mode for pseudo-structurally editing Lisp code." t)
+;(autoload 'enable-paredit-mode "paredit" "Turn on paredit mode" t)
 
-(defadvice enable-paredit-mode (before disable-autopair activate)
-  (setq autopair-dont-activate t)
-  (autopair-mode -1))
+;(defadvice enable-paredit-mode (before disable-autopair activate)
+;  (setq autopair-dont-activate t)
+;  (autopair-mode -1))
 #+end_src
 
 *** conditionally-enable-paredit-mode
 Only enable in minibuffer when editing a sexp. See hooks.
 #+begin_src emacs-lisp
-(defun conditionally-enable-paredit-mode ()
-  "Enable paredit-mode during eval-expression"
-  (if (eq this-command 'eval-expression)
-      (paredit-mode 1)))
+;(defun conditionally-enable-paredit-mode ()
+;  "Enable paredit-mode during eval-expression"
+;  (if (eq this-command 'eval-expression)
+;      (paredit-mode 1)))
 #+end_src
 
 *** Pretty lambda λ
@@ -386,57 +307,8 @@ From [[http://bc.tech.coop/blog/070515.html][here]]
                                 "full+text+search"
                               "basic+search")))))))
 #+end_src
-*** Slime
-#+begin_src emacs-lisp
-;(autoload 'slime-fuzzy-init "slime-fuzzy" "" nil)
-;(eval-after-load "slime-fuzzy"
-;  '(require 'slime-repl))
-
-(setq inferior-lisp-program "/usr/bin/sbcl")
-(add-to-list 'load-path "/usr/share/emacs/site-lisp/slime/")
-(add-to-list 'load-path "/usr/share/emacs/site-lisp/slime/contrib")
-;(require 'slime)
-
-(eval-after-load "slime"
-  '(progn
-     (setq slime-protocol-version 'ignore)
-     (slime-setup '(slime-repl slime-fuzzy ))
-     (setq slime-complete-symbol*-fancy t)
-     (setq slime-complete-symbol-function 'slime-fuzzy-complete-symbol)
-     (add-hook 'sldb-mode-hook #'(lambda () (setq autopair-dont-activate t)))))
-#+end_src
-
-#+begin_src emacs-lisp
-;; Elisp go-to-definition with M-. and back again with M-,
-(autoload 'elisp-slime-nav-mode "elisp-slime-nav")
-(add-hook 'emacs-lisp-mode-hook (lambda () (elisp-slime-nav-mode t)))
-(eval-after-load 'elisp-slime-nav '(diminish 'elisp-slime-nav-mode))
-#+end_src
-
-Stop Slime from overriding <DEL> when backspacing over parens with paredit
-#+begin_src emacs-lisp
-(eval-after-load "slime"
-  '(progn
-     (defun override-slime-repl-bindings-with-paredit ()
-       (define-key slime-repl-mode-map (read-kbd-macro paredit-backward-delete-key) nil))
-     (add-hook 'slime-repl-mode-hook 'override-slime-repl-bindings-with-paredit)))
-#+end_src
-**** Autocompletion
-Autocomplete symbols and function names using AutoComplete.
-See [[https://github.com/purcell/ac-slime][github-link]]
-#+begin_src emacs-lisp
-;(eval-after-load "slime"
-;  '(progn
-;     (require 'ac-slime)
-;     (add-hook 'slime-mode-hook 'set-up-slime-ac)
-;     (add-hook 'slime-repl-mode-hook 'set-up-slime-ac)
-
-;     (eval-after-load "auto-complete"
-;       '(add-to-list 'ac-modes 'slime-repl-mode))))
-#+end_src
 *** Keybindings
 #+begin_src emacs-lisp
-(global-set-key [f4] 'slime-selector)
 (define-key lisp-mode-map (kbd "C-c l") 'lispdoc)
 (define-key emacs-lisp-mode-map (kbd "M-.") 'find-function-at-point)
 (define-key emacs-lisp-mode-map (kbd "C-c v") 'eval-buffer)
@@ -455,26 +327,17 @@ See [[https://github.com/purcell/ac-slime][github-link]]
 #+end_src
 *** Hooks
 #+begin_src emacs-lisp
-  (eval-after-load "slime"
-    '(progn
-      (add-hook 'slime-mode-hook 'pretty-lambdas)
-      (add-hook 'slime-repl-mode-hook 'enable-paredit-mode)))
-
   (dolist (hook '(emacs-lisp-mode-hook ielm-mode-hook))
     (add-hook hook 'pretty-lambdas)
-    (add-hook hook 'enable-paredit-mode)
+;    (add-hook hook 'enable-paredit-mode)
     (add-hook hook 'turn-on-eldoc-mode)
     (add-hook hook 'remove-elc-on-save))
-
-  (add-hook 'minibuffer-setup-hook 'conditionally-enable-paredit-mode)
-
+  
+;  (add-hook 'minibuffer-setup-hook 'conditionally-enable-paredit-mode)
+  
   (dolist (hook '(emacs-lisp-mode-hook ielm-mode-hook)))
-
+  
   (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
-  (add-hook 'lisp-mode-hook (lambda ()
-                              (cond ((not (featurep 'slime))
-                                     (require 'slime)
-                                     (normal-mode)))))
 #+end_src
 ** Python
 #+begin_src emacs-lisp
@@ -484,7 +347,6 @@ See [[https://github.com/purcell/ac-slime][github-link]]
 (autoload 'jedi:setup "jedi" nil t)
 (add-hook 'python-mode-hook 'jedi:setup)
 
-
 ;; autopair hook for triple quotes
 (add-hook 'python-mode-hook
 #'(lambda ()
@@ -493,41 +355,15 @@ See [[https://github.com/purcell/ac-slime][github-link]]
 #'autopair-python-triple-quote-action))))
 #+end_src
 
-
 ** Clojure
 #+begin_src emacs-lisp
 (autoload 'clojure-mode "clojure-mode" "Major mode for editing Clojure code." t nil)
-(autoload 'clojure-test-mode "clojure-test-mode" "A minor mode for running Clojure tests." t nil)
-
-;(eval-after-load "clojure-mode"
-;  '(progn
-;     (require 'clojure-test-mode)))
-
-#+end_src
-*** Durendal
-Durendal - various odd tricks and stunts from Technomancy. Pretty cool guy eh?
-#+begin_src emacs-lisp
-;(require 'durendal)
-;(durendal-enable t)
-#+end_src
-*** Slime setup for clojure
-#+begin_src emacs-lisp
-  (defun slime-clojure-repl-setup ()
-    "Some REPL setup additional to that in durendal"
-    (when (string-equal (slime-lisp-implementation-name) "clojure")
-      (when (slime-inferior-process)
-        (message "Setting up repl for clojure")
-        (slime-redirect-inferior-output))
-
-      (set-syntax-table clojure-mode-syntax-table)
-      (setq lisp-indent-function 'clojure-indent-function)))
 #+end_src
 *** Hooks
 #+begin_src emacs-lisp
 (add-hook 'clojure-mode-hook 'clojure-test-maybe-enable)
-(add-hook 'clojure-mode-hook 'enable-paredit-mode)
+;(add-hook 'clojure-mode-hook 'enable-paredit-mode)
 (add-hook 'clojure-mode-hook 'font-lock-mode) ; bug in emacs24?
-(add-hook 'slime-repl-mode-hook 'slime-clojure-repl-setup)
 #+end_src
 *** File extensions
 #+begin_src emacs-lisp
@@ -537,8 +373,6 @@ Durendal - various odd tricks and stunts from Technomancy. Pretty cool guy eh?
 #+begin_src emacs-lisp
 (setq erlang-root-dir "/usr/lib/erlang")
 (require 'erlang-start)
-(require 'distel)
-(distel-setup)
 #+end_src
 
 Erlang settings
@@ -551,13 +385,6 @@ Erlang settings
                                    erlang-electric-newline
                                           ; erlang-electric-gt ; ...annoying
                                    erlang-electric-lt))
-#+end_src
-*** Setup distel
-#+begin_src emacs-lisp
-(add-hook 'erlang-mode-hook
-          (lambda ()
-            ;; when starting an Erlang shell in Emacs, default in the node name
-            (setq inferior-erlang-machine-options '("-sname" "emacs"))))
 #+end_src
 *** Kfind
 Find in kred dirs.
@@ -604,12 +431,6 @@ Prefer Cperl to regular perl mode
   (add-hook 'after-save-hook
     'executable-make-buffer-file-executable-if-script-p)
 #+end_src
-*** Flymake for shellscripts
-#+begin_src emacs-lisp
-  (autoload 'flymake-shell-load "flymake-shell"
-    "On-the-fly syntax checking of shell scripts" t)
-  (add-hook 'sh-mode-hook 'flymake-shell-load)
-#+end_src
 *** File extensions
 #+begin_src emacs-lisp
 (setq auto-mode-alist (cons '("\\.bashrc" . sh-mode) auto-mode-alist))
@@ -619,13 +440,8 @@ Prefer Cperl to regular perl mode
 #+end_src
 ** Javascript
 
-TODO, this does not work?
-
-#+begin_src emacs-lisp
-
-;; adds ac-source-jquery to the ac-sources list
-;(add-hook 'js2-mode-hook 'jquery-doc-setup)
-#+end_src
+   TODO, this does not work?
+   
 ** CSS
 #+begin_src emacs-lisp
   ;; CSS and Rainbow modes
@@ -642,8 +458,6 @@ TODO, this does not work?
 #+end_src
 ** Haskell
 #+begin_src emacs-lisp
-;(load-library "haskell-site-file")
-
 (setq haskell-program-name (executable-find "ghci"))
 (setq haskell-font-lock-symbols t)
 
@@ -661,6 +475,12 @@ TODO, this does not work?
   (add-hook 'makefile-mode-hook 'indent-makefile-mode-hook)
 #+end_src
 
+** Lua
+#+begin_src emacs-lisp
+    (autoload 'lua-mode "lua-mode" "Lua editing mode." t)
+    (add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
+    (add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
+#+end_src
 * Modes
 ** Ido mode
 #+begin_src emacs-lisp
@@ -758,7 +578,7 @@ On the fly syntax checking.
              (local-file (file-relative-name
                           temp-file
                           (file-name-directory buffer-file-name))))
-        (list "/home/jeff/bin/flymake-python" (list local-file))))
+        (list "~/bin/flymake-python" (list local-file))))
     (add-to-list 'flymake-allowed-file-name-masks
                  '("\\.py\\'" flymake-pychecker-init)))
 
@@ -890,15 +710,6 @@ TODO, set this up to work with yasnippet and tab
   (add-hook 'LaTeX-mode-hook 'ac-latex-mode-setup)
 #+end_src
 
-**** Slime
-#+begin_src emacs-lisp
-  (require 'ac-slime)
-  (add-hook 'slime-mode-hook 'set-up-slime-ac)
-   (add-hook 'slime-repl-mode-hook 'set-up-slime-ac)
-   (eval-after-load "auto-complete"
-     '(add-to-list 'ac-modes 'slime-repl-mode))
-#+end_src
-
 **** Ac-sources
 #+begin_src emacs-lisp
   (set-default 'ac-sources
@@ -1000,18 +811,6 @@ Prevent flickery behaviour due to hl-sexp-mode unhighlighting before each comman
   (when turn-on
     (remove-hook 'pre-command-hook #'hl-sexp-unhighlight)))
 #+end_src
-
-** Diminish
-Shorten names of minor modes in modeline.
-#+begin_src emacs-lisp
-  (require 'diminish)
-  (eval-after-load "undo-tree" '(diminish 'undo-tree-mode))
-  (eval-after-load "whole-line-or-region-mode" (diminish 'whole-line-or-region-mode))
-  (eval-after-load "fuzzy-format-mode" (diminish 'fuzzy-format-mode))
-  (diminish 'yas/minor-mode)
-  (diminish 'abbrev-mode "Abv")
-  ;; (diminish 'wrap-region-mode)
-#+end_src
 ** Yasnippet
 [[http://code.google.com/p/yasnippet/][yasnippet]] is yet another snippet expansion system for Emacs. It is
 inspired by TextMate's templating syntax.
@@ -1020,8 +819,8 @@ inspired by TextMate's templating syntax.
 #+begin_src emacs-lisp
 ; the following is obsolete, right?
 ;(add-to-list 'yas/snippet-dirs (concat user-emacs-directory "snippets"))
-(add-to-list 'yas/root-directory "/home/jeff/.emacs.d/snippets/")
 (require 'yasnippet)
+(add-to-list 'yas/root-directory "~/.emacs.d/snippets/")
 (yas/global-mode 1)
 (yas/reload-all)
 #+end_src
@@ -1092,6 +891,18 @@ inspired by TextMate's templating syntax.
             (lambda ()
               (org-set-local 'yas/trigger-key [tab])
               (define-key yas/keymap [tab] 'yas/next-field-or-maybe-expand)))
+#+end_src
+
+** Diminish
+Shorten names of minor modes in modeline.
+#+begin_src emacs-lisp
+  (require 'diminish)
+  (eval-after-load "undo-tree" '(diminish 'undo-tree-mode))
+  (eval-after-load "whole-line-or-region-mode" (diminish 'whole-line-or-region-mode))
+  (eval-after-load "fuzzy-format-mode" (diminish 'fuzzy-format-mode))
+;;  (diminish 'yas/minor-mode)
+  (diminish 'abbrev-mode "Abv")
+  ;; (diminish 'wrap-region-mode)
 #+end_src
 ** Magit
 #+begin_src emacs-lisp
@@ -1462,6 +1273,14 @@ Mode for interfacing with Archlinux PKGBUILD system
       (append '(("rndwiki" "https://rndwiki.hq.kred/mediawiki/" "jeff.eklund" "" "Main Page"))
               mediawiki-site-alist))
 #+end_src
+*** ssh config mode
+#+begin_src emacs-lisp
+  (autoload 'ssh-config-mode "ssh-config-mode" t)
+  (add-to-list 'auto-mode-alist '(".ssh/config\\'"  . ssh-config-mode))
+  (add-to-list 'auto-mode-alist '("sshd?_config\\'" . ssh-config-mode))
+  (add-hook 'ssh-config-mode-hook 'turn-on-font-lock)
+#+end_src
+
 * Apperance
 Various apperance related settings
 
@@ -1514,7 +1333,7 @@ Make buffer names more unique when multiple share the same name.
 (setq uniquify-after-kill-buffer-p t)
 (setq uniquify-ignore-buffers-re "^\\*")
 #+end_src
-** Text
+ ** Text
 Default font/text size
 #+begin_src emacs-lisp
 ;(set-default-font "Bitstream Vera Sans Mono-11")
@@ -1592,13 +1411,13 @@ convert tabs to spaces and more.
 Shows a thin line on the screen at 79 chars, as a visual representation of when
 you are nearing the 80 char limit.
 #+begin_src emacs-lisp
-  (fci-mode 1)
-
-  (define-globalized-minor-mode real-global-fci-mode
-    fci-mode (lambda ()
-               (if (not (minibufferp (current-buffer)))
-                   (fci-mode 1))))
-  (real-global-fci-mode 1)
+;  (fci-mode 1)
+;
+;  (define-globalized-minor-mode real-global-fci-mode
+;   fci-mode (lambda ()
+;               (if (not (minibufferp (current-buffer)))
+;                   (fci-mode 1))))
+;  (real-global-fci-mode 1)
 #+end_src
 *** Fill-column
 Columns are 80 chars, not 72, yo.
@@ -1624,34 +1443,12 @@ Automatically insert newlines, matching braces, indentation and so on.
 (require 'volatile-highlights)
 (volatile-highlights-mode t)
 #+end_src
-** Change background color on read-only
-When editing a file that is read-only, show this visually, by turning the
-background yellow.
-[[http://permalink.gmane.org/gmane.emacs.help/83843][mailing-list link]]
-#+begin_src emacs-lisp
-  ;; (add-hook 'find-file-hooks
-  ;;  (lambda ()
-  ;;    (when buffer-read-only
-  ;;      (set-background-color "yellow"))))
-#+end_src
 ** Ranbow delimiters
 #+begin_src emacs-lisp
 (require 'rainbow-delimiters)
 (add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode)
 (add-hook 'scheme-mode-hook 'rainbow-delimiters-mode)
 (add-hook 'clojure-mode-hook 'rainbow-delimiters-mode)
-#+end_src
-** unicode-progress-reporter
-#+begin_src emacs-lisp
-(require 'unicode-progress-reporter)
-(unicode-progress-reporter-setup)
-#+end_src
-** ssh config mode
-#+begin_src emacs-lisp
-  (autoload 'ssh-config-mode "ssh-config-mode" t)
-  (add-to-list 'auto-mode-alist '(".ssh/config\\'"  . ssh-config-mode))
-  (add-to-list 'auto-mode-alist '("sshd?_config\\'" . ssh-config-mode))
-  (add-hook 'ssh-config-mode-hook 'turn-on-font-lock)
 #+end_src
 
 * Misc
@@ -2173,6 +1970,7 @@ Courtesy Phil hagelberg
 #+begin_src emacs-lisp
 (defalias 'auto-tail-revert-mode 'tail-mode)
 #+end_src
+
 ** Randomness
 Seed random generator
 #+begin_src emacs-lisp
@@ -2303,6 +2101,7 @@ Various settings for games
 #+begin_src emacs-lisp
 (setq tetris-score-file "~/.emacs.d/cache/tetris-scores")
 #+end_src
+
 ** Read only mode in minibuffer
 Fix the extremely annoying "Text read only" messages when the cursor accidentally
 enters the minibuffer.
@@ -2311,11 +2110,7 @@ enters the minibuffer.
          (plist-put minibuffer-prompt-properties
                     'point-entered 'minibuffer-avoid-prompt))
 #+end_src
-** Redo+
-#+begin_src emacs-lisp
-  (require 'redo+)
-  (global-set-key (kbd "C-x r") 'redo)
-#+end_src
+
 ** Create directory on save file if it does not exist
 #+begin_src emacs-lisp
   (add-hook 'before-save-hook
@@ -2354,13 +2149,11 @@ Add Urban Dictionary to webjump
 ** Ibus
 #+begin_src emacs-lisp
   (require 'ibus)
-  ;; Turn on ibus-mode automatically after loading .emacs
   (add-hook 'after-init-hook 'ibus-mode-on)
   ;; Use C-SPC for Set Mark command
   (ibus-define-common-key ?\C-\s nil)
   ;; Change cursor color depending on IBus status
-  (setq ibus-cursor-color '("red" "blue" "limegreen"))
-  (setq ibus-python-shell-command-name "python2")
-;  (custom-set-variables '(ibus-python-shell-command-name "python2"))
+  (setq ibus-cursor-color '("limegreen" "white"))
   (global-set-key (kbd "C-S-j") 'ibus-toggle)
 #+end_src
+
