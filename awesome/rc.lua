@@ -213,6 +213,20 @@ root.buttons(awful.util.table.join(
 
 promptkey = "p"
 
+
+-- modal prompt keys
+prompt_keys = {
+   r = function (c)
+      mypromptbox[mouse.screen]:run() end,
+   x = function (c)
+      awful.prompt.run({ prompt = "Run Lua code: " },
+                       mypromptbox[mouse.screen].widget,
+                       awful.util.eval, nil,
+                       awful.util.getdir("cache") .. "/history_eval")
+   end,
+}
+
+
 globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
     awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
@@ -270,16 +284,16 @@ globalkeys = awful.util.table.join(
 
 
     -- Prompt
-    awful.key({ modkey, promptkey }, "r",
-              function () mypromptbox[mouse.screen]:run() end),
-    
-    awful.key({ modkey, "p" }, "x",
-              function ()
-                  awful.prompt.run({ prompt = "Run Lua code: " },
-                  mypromptbox[mouse.screen].widget,
-                  awful.util.eval, nil,
-                  awful.util.getdir("cache") .. "/history_eval")
-              end)
+    awful.key({ modkey }, "p", function(c)
+                 keygrabber.run(function(mod, key, event)
+                                   if event == "release" then
+                                      return true
+                                   end
+                                   keygrabber.stop()
+                                   if prompt_keys[key] then prompt_keys[key](c) end
+                                   return true
+                                end)
+                               end)
 )
 
 clientkeys = awful.util.table.join(
