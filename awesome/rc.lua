@@ -418,3 +418,21 @@ end)
 client.add_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.add_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
+
+-- notify when the layout of a tag changes
+awful.tag.attached_add_signal(1, "property::layout", function(t)
+    layout = awful.tag.getproperty(t, "layout").name
+    naughty.notify({text = layout, timeout = 1})
+end)
+
+-- notify when the nmaster of a tag changes
+awful.tag.attached_add_signal(1, "property::nmaster", function(t)
+    nmaster = awful.tag.getnmaster(t)
+    naughty.notify({text = "nmaster: "..nmaster, timeout = 1})
+end)
+
+-- notify when the ncol of a tag changes
+awful.tag.attached_add_signal(1, "property::ncol", function(t)
+    ncol = awful.tag.getncol(t)
+    naughty.notify({text = "ncol: "..ncol, timeout = 1})
+end)
