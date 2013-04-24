@@ -47,6 +47,9 @@ autostart.run("thunar --daemon &")
 -- Themes define colours, icons, and wallpapers
 beautiful.init("/usr/share/awesome/themes/default/theme.lua")
 
+-- Java fix
+awful.util.spawn_with_shell("wmname LG3D")
+
 -- This is used later as the default terminal and editor to run.
 terminal = "urxvtc"
 editor = os.getenv("EDITOR") or "emacs"
