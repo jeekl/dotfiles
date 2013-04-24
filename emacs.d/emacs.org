@@ -908,7 +908,7 @@ Shorten names of minor modes in modeline.
 #+begin_src emacs-lisp
 (require 'magit)
 (autoload 'magit-status "magit" nil t)
-(global-set-key (kbd "C-c g") 'magit-status)
+(global-set-key (kbd "C-x g") 'magit-status)
 #+end_src
 *** Auto-fill-mode in commit messages/logs
 #+begin_src emacs-lisp
