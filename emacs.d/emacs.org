@@ -2135,7 +2135,7 @@ highlight changes before they are made when doing regex-replace
 ** webjump
 Add Urban Dictionary to webjump
 #+begin_src emacs-lisp
-(global-set-key (kbd "C-x g") 'webjump)
+;(global-set-key (kbd "C-x g") 'webjump)
 
 (eval-after-load "webjump"
 '(add-to-list 'webjump-sites
