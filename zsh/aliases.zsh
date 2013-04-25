@@ -51,3 +51,6 @@ alias ccat='pygmentize -f terminal -g'
 
 # Pretty print json documents (usefull together with ccat)
 alias jsonlint='python -mjson.tool'
+
+# debian stuff
+alias lintian="lintian --color always"
