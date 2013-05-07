@@ -20,6 +20,9 @@ dropboxd &
 
 /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 &
 
+xcalib $HOME/.config/X1_Carbon_EyeOne.icc
+mpd ~/.config/mpd/mpd.conf
+
 export QT_IM_MODULE=ibus
 export GTK_IM_MODULE=ibus
 ibus-daemon -d -x -r -n awesome
