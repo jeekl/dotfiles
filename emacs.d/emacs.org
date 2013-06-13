@@ -98,6 +98,7 @@ Emacs lisp package archive. Bundled in emacs 24.
       expand-region
       fill-column-indicator
       find-file-in-project
+      flx
       fringe-helper
       gist
       git-commit-mode
@@ -483,6 +484,12 @@ Prefer Cperl to regular perl mode
 #+end_src
 * Modes
 ** Ido mode
+*** Flx
+#+begin_src emacs-lisp
+(require 'flx-ido)
+(ido-everywhere 1)
+#+end_src
+*** Ido
 #+begin_src emacs-lisp
   (setq ido-enable-prefix nil
         ido-enable-flex-matching t
@@ -497,6 +504,11 @@ Prefer Cperl to regular perl mode
   (set-default 'imenu-auto-rescan t)
   (ido-mode t)
   (ido-everywhere t)
+  
+  (flx-ido-mode 1)
+  ;; disable ido faces to see flx highlights.
+ ; (setq ido-use-faces nil)
+
   (setq ido-save-directory-list-file "~/.emacs.d/cache/ido.last")
 #+end_src
 *** vertical results
