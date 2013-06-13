@@ -112,6 +112,8 @@ Emacs lisp package archive. Bundled in emacs 24.
       hl-sexp
       htmlize
       httpcode
+      ido-ubiquitous
+      ido-vertical-mode
       inf-ruby
       ioccur
       jedi
@@ -506,52 +508,31 @@ Prefer Cperl to regular perl mode
   (set-default 'imenu-auto-rescan t)
   (ido-mode t)
   (ido-everywhere t)
-  
+  (ido-vertical-mode t) ; Vertical line of results. a little bit like lusty-explorer.
+
   (flx-ido-mode 1)
   ;; disable ido faces to see flx highlights.
  ; (setq ido-use-faces nil)
 
   (setq ido-save-directory-list-file "~/.emacs.d/cache/ido.last")
 #+end_src
-*** vertical results
-Vertical line of results. a little bit like lusty-explorer.
-#+begin_src emacs-lisp
-  (setq ido-decorations (quote ("\n-> " "" "\n   " "\n   ..." "[" "]" " [No match]" " [Matched]" " [Not readable]" " [Too big]" " [Confirm]")))
-  (add-hook 'ido-minibuffer-setup-hook #'(lambda() (set (make-local-variable 'truncate-lines) nil)))
-  (add-hook 'ido-minibuffer-setup-hook #'(lambda() (enlarge-window 10)))
-#+end_src
-
 *** ido-ubiquitous
-[[https://github.com/technomancy/ido-ubiquitous][github]]
 #+begin_src emacs-lisp
-(require 'ido)
-;;;###autoload
-(defvar ido-ubiquitous-enabled t
-  "If non-nil, use ido-completing-read instead of completing-read if possible.
+;; Use ido everywhere
+(require 'ido-ubiquitous)
+(ido-ubiquitous-mode 1)
 
-  Set it to nil using let in around-advice for functions where the
-  original completing-read is required.  For example, if a function
-  foo absolutely must use the original completing-read, define some
-  advice like this:
+;; Fix ido-ubiquitous for newer packages
+(defmacro ido-ubiquitous-use-new-completing-read (cmd package)
+  `(eval-after-load ,package
+     '(defadvice ,cmd (around ido-ubiquitous-new activate)
+        (let ((ido-ubiquitous-enable-compatibility nil))
+          ad-do-it))))
 
-  (defadvice foo (around original-completing-read-only activate)
-    (let (ido-ubiquitous-enabled) ad-do-it))")
-
-;;;###autoload
-(defadvice completing-read (around use-ido-when-possible activate)
-  (if (or (not ido-mode)
-          (not ido-ubiquitous-enabled) ; Manual override disable ido
-          (and (boundp 'ido-cur-list)
-               ido-cur-list)) ; Avoid infinite loop from ido calling this
-      ad-do-it
-    (let ((allcomp (all-completions "" collection predicate)))
-      (if allcomp
-          (setq ad-return-value
-                (ido-completing-read prompt allcomp
-                                     nil require-match initial-input hist def))
-        ad-do-it))))
+(ido-ubiquitous-use-new-completing-read webjump 'webjump)
+(ido-ubiquitous-use-new-completing-read yas/expand 'yasnippet)
+(ido-ubiquitous-use-new-completing-read yas/visit-snippet-file 'yasnippet)
 #+end_src
-
 ** Smex
 #+begin_src emacs-lisp
 (smex-initialize)
