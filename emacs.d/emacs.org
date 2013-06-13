@@ -95,6 +95,7 @@ Emacs lisp package archive. Bundled in emacs 24.
       diminish
       dired-details
       erlang
+      esup
       expand-region
       fill-column-indicator
       find-file-in-project
@@ -141,6 +142,7 @@ Emacs lisp package archive. Bundled in emacs 24.
       smex
       switch-window
       volatile-highlights
+      web-mode
       whole-line-or-region
       yaml-mode
       yasnippet)
@@ -1285,12 +1287,30 @@ Mode for interfacing with Archlinux PKGBUILD system
       (append '(("rndwiki" "https://rndwiki.hq.kred/mediawiki/" "jeff.eklund" "" "Main Page"))
               mediawiki-site-alist))
 #+end_src
-*** ssh config mode
+** ssh config mode
 #+begin_src emacs-lisp
   (autoload 'ssh-config-mode "ssh-config-mode" t)
   (add-to-list 'auto-mode-alist '(".ssh/config\\'"  . ssh-config-mode))
   (add-to-list 'auto-mode-alist '("sshd?_config\\'" . ssh-config-mode))
   (add-hook 'ssh-config-mode-hook 'turn-on-font-lock)
+#+end_src
+
+** web-mode
+http://web-mode.org/
+#+begin_src emacs-lisp
+(require 'web-mode)
+(add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.jsp\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode)) 
+#+end_src
+** Emacs startup profiler
+#+begin_src emacs-lisp
+(autoload 'esup "esup" "Emacs Start Up Profiler." nil)
 #+end_src
 
 * Apperance
