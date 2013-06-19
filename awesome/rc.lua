@@ -45,7 +45,7 @@ autostart.run("thunar --daemon &")
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
-beautiful.init("/usr/share/awesome/themes/default/theme.lua")
+beautiful.init("/home/jeekl/.config/awesome/theme.lua")
 
 -- Java fix
 awful.util.spawn_with_shell("wmname LG3D")
@@ -217,7 +217,9 @@ promptkey = "p"
 -- modal prompt keys
 prompt_keys = {
    r = function (c)
-      mypromptbox[mouse.screen]:run() end,
+      awful.util.spawn("/usr/local/bin/dmenu_run -fn 'DejaVu Sans Mono-12' -l 10 -i -p '>'") end,
+      -- mypromptbox[mouse.screen]:run() end,
+      
    x = function (c)
       awful.prompt.run({ prompt = "Run Lua code: " },
                        mypromptbox[mouse.screen].widget,
@@ -252,6 +254,7 @@ globalkeys = awful.util.table.join(
     -- Sctachpads
     awful.key({ modkey,          }, "s", function () teardrop("urxvt -name scratchterm", "bottom", "center", 1, 0.5) end),
     awful.key({ modkey,          }, "i", function () teardrop("urxvt -name scratchirc", "bottom", "center", 1, 1) end),    
+    awful.key({ modkey,          }, "y", function () teardrop("urxvt -name scratchncmpcpp -e ncmpcpp", "bottom", "center", 1, 1) end),    
     -- Layout manipulation
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end),
     awful.key({ modkey, "Shift"   }, "k", function () awful.client.swap.byidx( -1)    end),
@@ -281,6 +284,8 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
 
     awful.key({ modkey, "Control" }, "n", awful.client.restore),
+    
+    awful.key({ modkey,           }, "d",     function () awful.util.spawn("thunar") end),
 
 
     -- Prompt
@@ -300,7 +305,7 @@ clientkeys = awful.util.table.join(
     awful.key({ modkey,           }, "f",      function (c) c.fullscreen = not c.fullscreen  end),
     awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end),
     awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ),
-    awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end),
+    awful.key({ modkey,           }, "Return", function (c) c:swap(awful.client.getmaster()) end),
     awful.key({ modkey,           }, "o",      awful.client.movetoscreen                        ),
     awful.key({ modkey, "Shift"   }, "r",      function (c) c:redraw()                       end),
     awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end),
@@ -320,7 +325,7 @@ clientkeys = awful.util.table.join(
 -- Compute the maximum number of digit we need, limited to 9
 keynumber = 0
 for s = 1, screen.count() do
-   keynumber = math.min(9, math.max(#tags[s], keynumber));
+   keynumber = math.min(10, math.max(#tags[s], keynumber));
 end
 
 -- Bind all key numbers to tags.
@@ -380,11 +385,16 @@ awful.rules.rules = {
       properties = { floating = true } },
     { rule = { class = "gimp" },
       properties = { floating = true } },
+    { rule = { class = "Steam" },
+      properties = { floating = true } },
     -- Set Firefox to always map on tags number 2 of screen 1.
     -- { rule = { class = "Firefox" },
     --   properties = { tag = tags[1][2] } },
     { rule = { instance = "plugin-container" },
         properties = { floating = true } },
+    { rule = { name = "File Operation Progress" },
+        properties = { floating = true } },
+
 }
 -- }}}
 
