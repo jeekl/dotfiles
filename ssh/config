@@ -1,35 +1,15 @@
 Compression  yes
 ForwardAgent yes
 
-host ftp.klarna.com
-     user ftp
-
-host saxfisk
-     user root
-
 host jeekl.me
      port 2222
      user jeff
-
-host jenkins-*
-     user root
-
-host rapid-depl-*
-     user root
-
-host 10.210.37.150
-     user root
-     IdentityFile ~/.ssh/id_dsa
-
-host staging-prod-gw1
-     user root
-     ForwardAgent yes
 
 host localhost
      NoHostAuthenticationForLocalhost yes
 
 host *
-     user jeff.eklund
+     user jeekl
      # Keep ssh from timing out when leaving the connection idle.
      ServerAliveInterval 300
      ControlMaster auto
