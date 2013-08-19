@@ -33,6 +33,7 @@ This is set after init.el has been loaded, but works well enough.
 (make-directory "~/.emacs.d/data" t)
 (make-directory "~/.emacs.d/desktop" t)
 (make-directory "~/.emacs.d/cache" t)
+(make-directory "~/.emacs.d/vendor" t)
 (make-directory "~/.emacs.d/el-get" t)
 (make-directory "~/.emacs.d/elpa" t)
 #+end_src
@@ -100,6 +101,7 @@ Emacs lisp package archive. Bundled in emacs 24.
       fill-column-indicator
       find-file-in-project
       flx
+      flx-ido
       fringe-helper
       gist
       git-commit-mode
