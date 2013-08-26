@@ -670,8 +670,8 @@ TODO, set this up to work with yasnippet and tab
 (require 'auto-complete-config)
 
 (global-auto-complete-mode t)
-;(setq ac-auto-start nil)
-(setq ac-auto-start 7)
+(setq ac-auto-start t)
+(setq ac-auto-show-menu 0.1)
 (setq ac-dwim t)
 #+end_src
 
