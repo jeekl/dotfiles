@@ -4,7 +4,7 @@
 #
 # Copyright (c) 2008 David O'Neill
 #               2012 Noah K. Tilton <noahktilton@gmail.com>
-#               2012 Jan Larres <jan@majutsushi.net>
+#               2012-2013 Jan Larres <jan@majutsushi.net>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to
@@ -63,22 +63,31 @@ my %escapecodes = (
     "boldItalicFont" => 713
 );
 
+sub on_start
+{
+    my ($self) = @_;
+
+    $self->{step} = $self->x_resource("%.step") || 1;
+}
+
 sub on_user_command
 {
     my ($self, $cmd) = @_;
 
+    my $step = $self->{step};
+
     if ($cmd eq "font-size:increase") {
-        fonts_change_size($self,  1, 0);
+        fonts_change_size($self,  $step, 0);
     } elsif ($cmd eq "font-size:decrease") {
-        fonts_change_size($self, -1, 0);
+        fonts_change_size($self, -$step, 0);
     } elsif ($cmd eq "font-size:incglobal") {
-        fonts_change_size($self,  1, 1);
+        fonts_change_size($self,  $step, 1);
     } elsif ($cmd eq "font-size:decglobal") {
-        fonts_change_size($self, -1, 1);
+        fonts_change_size($self, -$step, 1);
     } elsif ($cmd eq "font-size:incsave") {
-        fonts_change_size($self,  1, 2);
+        fonts_change_size($self,  $step, 2);
     } elsif ($cmd eq "font-size:decsave") {
-        fonts_change_size($self, -1, 2);
+        fonts_change_size($self, -$step, 2);
     }
 }
 
@@ -90,7 +99,8 @@ sub fonts_change_size
 
     my $curres = $term->resource('font');
     if (!$curres) {
-        return;
+        $term->scr_add_lines("\r\nWarning: No font configured, trying a default.\r\nPlease set a font with the 'URxvt.font' resource.");
+        $curres = "fixed";
     }
     my @curfonts = split(/,/, $curres);
 
@@ -154,7 +164,7 @@ sub handle_font
     if ($font =~ /^\s*(\[.*\])?xft:/) {
         ($newfont, $newsize) = font_change_size_xft($term, $font, $change, $basesize);
     } elsif ($font =~ /^\s*-/) {
-        ($newfont, $newsize) = font_change_size_x11($term, $font, $change, $basesize);
+        ($newfont, $newsize) = font_change_size_xlfd($term, $font, $change, $basesize);
     } else {
         # check whether the font is a valid alias and if yes resolve it to the
         # actual font
@@ -171,7 +181,7 @@ sub handle_font
 
         my $fontinfo = (split(/\n/, $lsfinfo))[-1];
         my ($fontfull) = ($fontinfo =~ /\s+([-a-z0-9]+$)/);
-        ($newfont, $newsize) = font_change_size_x11($term, $fontfull, $change, $basesize);
+        ($newfont, $newsize) = font_change_size_xlfd($term, $fontfull, $change, $basesize);
     }
 
     # $term->scr_add_lines("\r\nNew font is $newfont\n");
@@ -191,16 +201,16 @@ sub font_change_size_xft
     my $new_size = 0;
 
     foreach my $piece (@pieces) {
-        if ($piece =~ /pixelsize=(\d+)/) {
+        if ($piece =~ /^(?:(?:pixel)?size=|[^=-]+-)(\d+)$/) {
             $size = $1;
 
             if ($basesize != 0) {
                 $new_size = $basesize;
             } else {
-                $new_size = ($change > 0 ? ($size + 1) : ($size - 1));
+                $new_size = $size + $change
             }
 
-            $piece =~ s/pixelsize=$size/pixelsize=$new_size/;
+            $piece =~ s/(=|-)$size/$1$new_size/;
         }
         push @resized, $piece;
     }
@@ -208,7 +218,7 @@ sub font_change_size_xft
     my $resized_str = join(":", @resized);
 
     # don't make fonts too small
-    if ($new_size >= 10) {
+    if ($new_size >= 6) {
         return ($resized_str, $new_size);
     } else {
         if ($basesize == 0) {
@@ -218,7 +228,7 @@ sub font_change_size_xft
     }
 }
 
-sub font_change_size_x11
+sub font_change_size_xlfd
 {
     my ($term, $fontstring, $change, $basesize) = @_;
 
@@ -230,6 +240,10 @@ sub font_change_size_x11
     $fontstring =~ s/^-//;  # Strip leading - before split
     @font{@fields} = split(/-/, $fontstring);
 
+    if ($font{pixelSize} eq '*') {
+        $term->scr_add_lines("\r\nWarning: Font size undefined, assuming 12.\r\nPlease set the 'URxvt.font' resource to a font with a concrete size.");
+        $font{pixelSize} = '12'
+    }
     if ($font{registry} eq '*') {
         $font{registry} ='iso8859';
     }
@@ -288,7 +302,7 @@ sub font_change_size_x11
         @possible = sort {$a->[0] <=> $b->[0]} @possible;
 
         foreach my $candidate (@possible) {
-            if ($candidate->[0] > $font{pixelSize}) {
+            if ($candidate->[0] >= $font{pixelSize} + $change) {
                 return ($candidate->[1], $candidate->[0]);
             }
         }
@@ -297,7 +311,7 @@ sub font_change_size_x11
         @possible = sort {$b->[0] <=> $a->[0]} @possible;
 
         foreach my $candidate (@possible) {
-            if ($candidate->[0] < $font{pixelSize} && $candidate->[0] != 0) {
+            if ($candidate->[0] <= $font{pixelSize} + $change && $candidate->[0] != 0) {
                 return ($candidate->[1], $candidate->[0]);
             }
         }
@@ -337,3 +351,4 @@ sub font_apply_new
         close(XRDB_MERGE) || die "bad xrdb: $! $?";
     }
 }
+
