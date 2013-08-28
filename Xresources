@@ -36,12 +36,20 @@ urxvt.italicFont:       xft:Dejavu Sans Mono:italic:antialias=true
 urxvt.boldItalicFont:   xft:Dejavu Sans Mono:bold:italic:antialias=true
 URxvt.iconFile:         /usr/share/icons/Tango/scalable/apps/terminal.svg
 URxvt.perl-lib:         /home/jeekl/.config/urxvt/
-URxvt.perl-ext-common:  default,matcher,mark-yank-urls,font-size,keyboard-select
+URxvt.perl-ext-common:  default,font-size,keyboard-select,url-select,clipboard
 URxvt.urlLauncher:      /usr/bin/firefox
 URxvt.matcher.button:   1
 URxvt.keysym.M-u:       perl:url-select:select_next
+URxvt.keysym.M-Escape:  perl:keyboard-select:activate
+URxvt.keysym.M-s:       perl:keyboard-select:search
+URxvt.keysym.M-c:       perl:clipboard:copy
+URxvt.keysym.M-v:       perl:clipboard:paste
+URxvt.keysym.M-C-v:     perl:clipboard:paste_escaped
 urxvt.keysym.Control-Shift-Up:   perl:font:increment
 urxvt.keysym.Control-Shift-Down: perl:font:decrement
+! this automagically copies anything in primary selection
+URxvt.clipboard.autocopy:        true
+URxvt.url-select.underline:      true
 URxvt.scrollBar:        false
 URxvt.scrollstyle:      plain
 URxvt.saveLines:        65535
