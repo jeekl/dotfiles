@@ -11,6 +11,7 @@ thumbs.db		# Windows
 *.py[co]
 *.egg
 *.egg-info
+.coverage
 
 #---- Ruby
 *.rbc

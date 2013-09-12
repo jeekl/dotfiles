@@ -1,6 +1,6 @@
 [user]
         name  = Jeff Eklund
-        email = jeff.eklund@klarna.com
+        email = jeekl@spotify.com
 [core]
         excludesfile = ~/.gitignore
 [push]
@@ -56,3 +56,5 @@
         
         brlog = "!sh -c 'for C in $(git for-each-ref --sort=committerdate refs/heads --format=\"%(refname:short)\") ; do git show -s --pretty=format:\"%Cgreen%ci %Cblue%cr%Creset $C\" \"$C\" -- ; git show --stat -s $C ; echo; done'"
         remove-submodule = "!git rm --cached $1 && git config -f .git/config --remove-section submodule.$1 && git config -f .gitmodules --remove-section submodule.$1"
+        push-review = !sh -c 'git push origin HEAD:refs/for/`git symbolic-ref refs/remotes/origin/HEAD|cut -d/ -f4-`/`git rev-parse --abbrev-ref HEAD`'
+        push-draft = !sh -c 'git push origin HEAD:refs/drafts/`git symbolic-ref refs/remotes/origin/HEAD|cut -d/ -f4-`/`git rev-parse --abbrev-ref HEAD`'
