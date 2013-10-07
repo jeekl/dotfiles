@@ -58,3 +58,5 @@
         remove-submodule = "!git rm --cached $1 && git config -f .git/config --remove-section submodule.$1 && git config -f .gitmodules --remove-section submodule.$1"
         push-review = !sh -c 'git push origin HEAD:refs/for/`git symbolic-ref refs/remotes/origin/HEAD|cut -d/ -f4-`/`git rev-parse --abbrev-ref HEAD`'
         push-draft = !sh -c 'git push origin HEAD:refs/drafts/`git symbolic-ref refs/remotes/origin/HEAD|cut -d/ -f4-`/`git rev-parse --abbrev-ref HEAD`'
+[hub]
+	host = ghe.spotify.net
