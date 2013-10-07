@@ -83,6 +83,7 @@ Emacs lisp package archive. Bundled in emacs 24.
   (defvar elpa-packages
     '(ac-dabbrev
       ack-and-a-half
+      adoc-mode
       auto-complete
       autopair
       browse-kill-ring
@@ -1296,6 +1297,11 @@ http://web-mode.org/
 (autoload 'esup "esup" "Emacs Start Up Profiler." nil)
 #+end_src
 
+** Adoc-mode
+#+begin_src emacs-lisp
+(add-to-list 'auto-mode-alist (cons "\\.ascii\\'" 'adoc-mode))
+(add-to-list 'auto-mode-alist (cons "\\.asciidoc\\'" 'adoc-mode))
+#+end_src
 * Apperance
 Various apperance related settings
 
