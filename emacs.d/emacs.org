@@ -673,6 +673,7 @@ TODO, set this up to work with yasnippet and tab
 (global-auto-complete-mode t)
 (setq ac-auto-start t)
 (setq ac-auto-show-menu 0.1)
+;(setq ac-auto-start 7)
 (setq ac-dwim t)
 #+end_src
 
@@ -815,8 +816,6 @@ inspired by TextMate's templating syntax.
 - watch the [[http://www.youtube.com/watch?v=vOj7btx3ATg][video on YouTube]]
 - see the [[http://yasnippet.googlecode.com/svn/trunk/doc/index.html][intro and tutorial]]
 #+begin_src emacs-lisp
-; the following is obsolete, right?
-;(add-to-list 'yas/snippet-dirs (concat user-emacs-directory "snippets"))
 (require 'yasnippet)
 (add-to-list 'yas/root-directory "~/.emacs.d/snippets/")
 (yas/global-mode 1)
@@ -843,22 +842,22 @@ inspired by TextMate's templating syntax.
 #+end_src
 
 *** Misc
+Don't expand yasnippets in every setting
 #+begin_src emacs-lisp
-;; Don't expand yasnippets in every setting
 (setq yas/expand-only-for-last-commands
-      '(
-        self-insert-command
+      '(self-insert-command
         yas/exit-all-snippets
         yas/abort-snippet
         yas/skip-and-clear-or-delete-char
-        yas/next-field-or-maybe-expand
-        ))
-;; Wrap around region
+        yas/next-field-or-maybe-expand))
+#+end_src
+Wrap around region
+#+begin_src emacs-lisp
 (setq yas/wrap-around-region t)
 #+end_src
 *** File bindings
+Snippets
 #+begin_src emacs-lisp
-  ;; Snippets
   (add-to-list 'auto-mode-alist '("snippets/" . snippet-mode))
   (add-to-list 'auto-mode-alist '("\\.yasnippet$" . snippet-mode))
 #+end_src
