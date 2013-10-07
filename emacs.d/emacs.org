@@ -1991,7 +1991,16 @@ Courtesy Phil hagelberg
 #+begin_src emacs-lisp
 (defalias 'auto-tail-revert-mode 'tail-mode)
 #+end_src
+** Ack-and-a-half
+#+begin_src emacs-lisp
+  (require 'ack-and-a-half)
 
+  ;; Create shorter aliases
+  (defalias 'ack 'ack-and-a-half)
+  (defalias 'ack-same 'ack-and-a-half-same)
+  (defalias 'ack-find-file 'ack-and-a-half-find-file)
+  (defalias 'ack-find-file-same 'ack-and-a-half-find-file-same)
+#+end_src
 ** Randomness
 Seed random generator
 #+begin_src emacs-lisp
