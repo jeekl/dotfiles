@@ -54,3 +54,7 @@ alias jsonlint='python -mjson.tool'
 
 # debian stuff
 alias lintian="lintian --color always"
+
+# Hub for git
+eval "$(hub alias -s)"
+

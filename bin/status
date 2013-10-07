@@ -11,3 +11,4 @@
     print "Erlang    : $(~/bin/erl-version)"
     print "Perl      : $(perl -v | awk '/This/ {print $9}' \
                          | sed -e 's/v//;s/(//;s/)//')"
+    print "Hub       : $(hub version | grep hub | awk '{ print $3}')"
