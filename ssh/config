@@ -1,6 +1,3 @@
-Compression  yes
-ForwardAgent yes
-
 host jeekl.me
      port 2222
      user jeff
@@ -9,6 +6,10 @@ host localhost
      NoHostAuthenticationForLocalhost yes
 
 host *
+     Compression  yes
+     ForwardAgent yes
+     ForwardX11 yes
+     ForwardX11Trusted yes
      user jeekl
      # Keep ssh from timing out when leaving the connection idle.
      ServerAliveInterval 300
