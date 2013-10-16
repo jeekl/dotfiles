@@ -101,6 +101,7 @@ Emacs lisp package archive. Bundled in emacs 24.
       expand-region
       fill-column-indicator
       find-file-in-project
+      fiplr
       flx
       flx-ido
       fringe-helper
@@ -1300,6 +1301,11 @@ http://web-mode.org/
 #+begin_src emacs-lisp
 (add-to-list 'auto-mode-alist (cons "\\.ascii\\'" 'adoc-mode))
 (add-to-list 'auto-mode-alist (cons "\\.asciidoc\\'" 'adoc-mode))
+#+end_src
+** Fiplr
+[[https://github.com/d11wtq/fiplr][Github]]
+#+begin_src emacs-lisp
+(global-set-key (kbd "C-x f") 'fiplr-find-file)
 #+end_src
 * Apperance
 Various apperance related settings
