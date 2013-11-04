@@ -136,7 +136,6 @@ Emacs lisp package archive. Bundled in emacs 24.
       pkgbuild-mode
       pos-tip ;; requirement for popup-kill-ring
       puppet-mode
-      pyregexp
       rainbow-delimiters
       rainbow-mode
       redo+
@@ -147,6 +146,8 @@ Emacs lisp package archive. Bundled in emacs 24.
       stripe-buffer
       smex
       switch-window
+      visual-regexp
+      visual-regexp-steroids
       volatile-highlights
       web-mode
       whole-line-or-region
@@ -171,8 +172,6 @@ Emacs lisp package archive. Bundled in emacs 24.
             (package-install p)))))
 
     (elpa-install-packages)
-
-
 #+end_src
 ** El-get
 pEl-get manages pacakges from different package sources, like ELPA, git, svn,
@@ -341,11 +340,11 @@ From [[http://bc.tech.coop/blog/070515.html][here]]
 ;    (add-hook hook 'enable-paredit-mode)
     (add-hook hook 'turn-on-eldoc-mode)
     (add-hook hook 'remove-elc-on-save))
-  
+
 ;  (add-hook 'minibuffer-setup-hook 'conditionally-enable-paredit-mode)
-  
+
   (dolist (hook '(emacs-lisp-mode-hook ielm-mode-hook)))
-  
+
   (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
 #+end_src
 ** Python
@@ -450,7 +449,7 @@ Prefer Cperl to regular perl mode
 ** Javascript
 
    TODO, this does not work?
-   
+
 ** CSS
 #+begin_src emacs-lisp
   ;; CSS and Rainbow modes
@@ -1290,7 +1289,7 @@ http://web-mode.org/
 (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode)) 
+(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 #+end_src
 ** Emacs startup profiler
 #+begin_src emacs-lisp
@@ -2156,16 +2155,17 @@ enters the minibuffer.
                            (y-or-n-p (format "Directory %s does not exist. Create it?" dir)))
                   (make-directory dir t))))))
 #+end_src
-** Pyregexp
+** Visual-regexp
 Use python regex' instead of the strange elisp syntax for regex'ing. Also
 highlight changes before they are made when doing regex-replace
 #+begin_src emacs-lisp
-(require 'pyregexp)
-(define-key global-map (kbd "C-c r") 'pyregexp-replace)
-(define-key global-map (kbd "C-c q") 'pyregexp-query-replace)
-;; to use pyregexp isearch instead of the built-in regexp isearch, also include the following lines:
-(define-key esc-map (kbd "C-r") 'pyregexp-isearch-backward)
-(define-key esc-map (kbd "C-s") 'pyregexp-isearch-forward)
+  (require 'visual-regexp)
+  (require 'visual-regexp-steroids)
+  (define-key global-map (kbd "C-c r") 'vr/replace)
+  (define-key global-map (kbd "C-c q") 'vr/query-replace)
+  ;; to use pyregexp isearch instead of the built-in regexp isearch, also include the following lines:
+  (define-key esc-map (kbd "C-r") 'vr/isearch-backward)
+  (define-key esc-map (kbd "C-s") 'vr/isearch-forward)
 #+end_src
 ** webjump
 Add Urban Dictionary to webjump
