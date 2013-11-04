@@ -1,0 +1,17 @@
+#!/usr/bin/env zsh
+
+# Simple keyboardswitcher. defaults to laptop keyboard, if $1=hhkb
+# loads just hhkb without reseting ctrl
+
+if [ "$1" = "hhkb" ] ; then
+    xkbcomp -I$HOME/dotfiles/xkb $HOME/dotfiles/xkb/hhkb2.xkb $DISPLAY &>/dev/null \
+        && echo 'Loaded HHKB config.'
+else
+    xkbcomp -I$HOME/dotfiles/xkb $HOME/dotfiles/xkb/hhkb2.xkb $DISPLAY &>/dev/null \
+        && xmodmap -e 'keycode 66 = Control_L' \
+        && xmodmap -e 'clear Lock' \
+        && xmodmap -e 'add Control = Control_L' \
+        && echo 'Loaded laptop config.'
+fi
+    
+xset r rate 330 45              # Schnappy!
