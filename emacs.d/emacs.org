@@ -100,7 +100,6 @@ Emacs lisp package archive. Bundled in emacs 24.
       esup
       expand-region
       fill-column-indicator
-      find-file-in-project
       fiplr
       flx
       flx-ido
@@ -2182,13 +2181,14 @@ Add Urban Dictionary to webjump
 #+end_src
 
 ** Ibus
+This is currently broken due to ibus 1.5 being retarded. Will prolly need to switch to using something else. sigh...
 #+begin_src emacs-lisp
-  (require 'ibus)
-  (add-hook 'after-init-hook 'ibus-mode-on)
-  ;; Use C-SPC for Set Mark command
-  (ibus-define-common-key ?\C-\s nil)
-  ;; Change cursor color depending on IBus status
-  (setq ibus-cursor-color '("limegreen" "white"))
-  (global-set-key (kbd "C-S-j") 'ibus-toggle)
+  ;; (require 'ibus)
+  ;; (add-hook 'after-init-hook 'ibus-mode-on)
+  ;; ;; Use C-SPC for Set Mark command
+  ;; (ibus-define-common-key ?\C-\s nil)
+  ;; ;; Change cursor color depending on IBus status
+  ;; (setq ibus-cursor-color '("limegreen" "white"))
+  ;; (global-set-key (kbd "C-S-j") 'ibus-toggle)
 #+end_src
 
