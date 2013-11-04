@@ -1852,10 +1852,12 @@ Save your position in a file
 Settings for Emacs autosave, backup and similar systems. Basically they litter
 your system with useless files everywhere. :-/
 #+begin_src emacs-lisp
-  (defvar autosave-dir "~/.emacs.d/cache/autosave")
+  (defvar autosave-dir "~/.emacs.d/cache/autosave/")
   (make-directory autosave-dir t)
   (defvar backup-dir (concat "~/.emacs.d/cache/backup"))
   (setq backup-directory-alist (list (cons "." backup-dir)))
+  (setq auto-save-file-name-transforms `((".*" ,autosave-dir t)))
+  (setq tramp-auto-save-directory autosave-dir)
   (setq
      version-control t            ;; user numbers for backups
      delete-old-versions t        ;; silently delete extra backup versions
