@@ -1870,8 +1870,8 @@ your system with useless files everywhere. :-/
      delete-old-versions t        ;; silently delete extra backup versions
      backup-by-copying t
      kept-new-versions 6
-     kept-old-versions 2
-  )
+     kept-old-versions 2)
+  (setq create-lockfiles nil) ; those annoying .# lockfile symlinks. To prevent simultaneous editing of files, but srsly?
 #+end_src
 ** Mouse
 *** Avoid Mouse
