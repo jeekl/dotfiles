@@ -899,11 +899,15 @@ Shorten names of minor modes in modeline.
   (eval-after-load "undo-tree" '(diminish 'undo-tree-mode))
   (eval-after-load "whole-line-or-region-mode" (diminish 'whole-line-or-region-mode))
   (eval-after-load "fuzzy-format-mode" (diminish 'fuzzy-format-mode))
-;;  (diminish 'yas/minor-mode)
-  (diminish 'abbrev-mode "Abv")
   ;; (diminish 'wrap-region-mode)
+  (eval-after-load "eldoc" '(diminish 'eldoc-mode))
+  (eval-after-load "abbrev" '(diminish 'abbrev-mode))
+  (eval-after-load "yasnippet" '(diminish 'yas-minor-mode))
+  (eval-after-load "elisp-slime-nav" '(diminish 'elisp-slime-nav-mode))
+  (eval-after-load "git-gutter" '(diminish 'git-gutter-mode))
 #+end_src
 ** Magit
+[[http://magit.github.io/magit/magit.html][Magit user manual]].
 #+begin_src emacs-lisp
 (require 'magit)
 (autoload 'magit-status "magit" nil t)
@@ -1898,13 +1902,13 @@ Various bindings for movement in files/buffers
 *** insertline-and-move-to-line
 #+begin_src emacs-lisp
   (defun insertline-and-move-to-line ()
-  "Insert an empty line after the current line and positon
-the curson at its beginning, according to the current mode."
-  (interactive)
-  (move-end-of-line nil)
-  (open-line 1)
-  (forward-line 1)
-  (indent-according-to-mode))
+    "Insert an empty line after the current line and positon
+  the curson at its beginning, according to the current mode."
+    (interactive)
+    (move-end-of-line nil)
+    (open-line 1)
+    (forward-line 1)
+    (indent-according-to-mode))
 #+end_src
 *** Goto line, with line number feedback
 #+begin_src emacs-lisp
