@@ -96,6 +96,7 @@ Emacs lisp package archive. Bundled in emacs 24.
       cyberpunk-theme
       diminish
       dired-details
+      dockerfile-mode
       erlang
       esup
       expand-region
@@ -1311,6 +1312,11 @@ http://web-mode.org/
 #+begin_src emacs-lisp
   (global-diff-hl-mode)
   (add-hook 'dired-mode-hook 'diff-hl-dired-mode)
+#+end_src
+** dockerfile-mode
+#+begin_src emacs-lisp
+(require 'dockerfile-mode)
+(add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
 #+end_src
 * Apperance
 Various apperance related settings
