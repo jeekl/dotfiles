@@ -1341,7 +1341,7 @@ Various apperance related settings
   (global-visual-line-mode 1) ; linewrap
   (setq query-replace-highlight t)
   (defalias 'yes-or-no-p 'y-or-n-p)
-  (setq whitespace-line-column 80) ; Highlight after 80 chars.
+  (add-hook 'text-mode-hook 'turn-on-auto-fill)
   (column-number-mode t)
 #+end_src
 ** Color themes
@@ -2207,3 +2207,34 @@ This is currently broken due to ibus 1.5 being retarded. Will prolly need to swi
   ;; (global-set-key (kbd "C-S-j") 'ibus-toggle)
 #+end_src
 
+** Flyspell
+#+begin_src emacs-lisp
+(require 'flyspell)
+(dolist (hook '(org-mode-hook
+                text-mode-hook
+                erc-mode-hook
+                message-mode-hook))
+  (add-hook hook (lambda ()
+                   (flyspell-mode 1))))
+(dolist (hook '(lisp-mode-hook
+                emacs-lisp-mode-hook
+                ruby-mode-hook
+                yaml-mode
+                python-mode-hook
+                shell-mode-hook
+                php-mode-hook
+                css-mode-hook
+                nxml-mode-hook
+                crontab-mode-hook
+                java-mode
+                c++-mode-hook
+                c-mode-hook
+                cperl-mode-hook
+                javascript-mode-hook
+                LaTeX-mode-hook))
+  (add-hook hook 'flyspell-prog-mode))
+
+(add-hook 'nxml-mode-hook
+          (lambda ()
+            (add-to-list 'flyspell-prog-text-faces 'nxml-text-face)))
+#+end_src
