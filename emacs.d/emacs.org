@@ -1567,152 +1567,119 @@ Buffer-list.
 
 TODO: Look at ibuffer-vc again. It sorts code inteo projects based on .git and such. Couldn't get it to work properly...
 #+begin_src emacs-lisp
-       (require 'ibuffer)
-       (require 'ibuf-ext)
-    ;   (require 'ibuffer-vc)
+  (require 'ibuffer)
+  (require 'ibuf-ext)
 
+  (eval-after-load 'ibuffer
+    '(progn
+       ;; Use human readable Size column instead of original one
+       (define-ibuffer-column size-h
+         (:name "Size" :inline t)
+         (cond
+          ((> (buffer-size) 1000000) (format "%7.1fM" (/ (buffer-size) 1000000.0)))
+          ((> (buffer-size) 1000) (format "%7.1fk" (/ (buffer-size) 1000.0)))
+          (t (format "%8d" (buffer-size)))))))
 
-        ;; (defun ibuffer-set-up-preferred-filters ()
-        ;;  (ibuffer-vc-set-filter-groups-by-vc-root)
-        ;;  (ibuffer-do-sort-by-filename/process))
-        ;; (add-hook 'ibuffer-mode-hook 'ibuffer-set-up-preferred-filters)
+  ;; Never show buffer beginning with *.
+  ;; Might be usefull, leave on for now.
+  (add-to-list 'ibuffer-never-show-predicates "^\\*")
 
+  ;; Switching to ibuffer puts the cursor on the most recent buffer
+  (defadvice ibuffer (around ibuffer-point-to-most-recent) ()
+    "Open ibuffer with cursor pointed to most recent buffer name"
+    (let ((recent-buffer-name (buffer-name)))
+      ad-do-it
+      (ibuffer-jump-to-buffer recent-buffer-name)))
+  (ad-activate 'ibuffer)
 
-
-
-
-    (eval-after-load 'ibuffer
-      '(progn
-         ;; Use human readable Size column instead of original one
-         (define-ibuffer-column size-h
-           (:name "Size" :inline t)
-           (cond
-            ((> (buffer-size) 1000000) (format "%7.1fM" (/ (buffer-size) 1000000.0)))
-            ((> (buffer-size) 1000) (format "%7.1fk" (/ (buffer-size) 1000.0)))
-            (t (format "%8d" (buffer-size)))))))
-
-    ;; Never show buffer beginning with *.
-    ;; Might be usefull, leave on for now.
-    (add-to-list 'ibuffer-never-show-predicates "^\\*")
-
-
-    ;; Switching to ibuffer puts the cursor on the most recent buffer
-    (defadvice ibuffer (around ibuffer-point-to-most-recent) ()
-      "Open ibuffer with cursor pointed to most recent buffer name"
-      (let ((recent-buffer-name (buffer-name)))
-        ad-do-it
-        (ibuffer-jump-to-buffer recent-buffer-name)))
-    (ad-activate 'ibuffer)
-
-
-        ;; Modify the default ibuffer-formats
-        (setq ibuffer-formats
-              '((mark modified read-only " "
-                      (name 30 30 :left :elide)
-                      " "
-                      (size-h 9 -1 :right)
-                      " "
-                      (mode 16 16 :left :elide)
-                      " "
-                      filename-and-process)))
+  ;; Modify the default ibuffer-formats
+  (setq ibuffer-formats
+        '((mark modified read-only " "
+                (name 30 30 :left :elide)
+                " "
+                (size-h 9 -1 :right)
+                " "
+                (mode 16 16 :left :elide)
+                " "
+                filename-and-process)))
   ;; TODO: replace filename-and-process with something that truuncates.
 
+  (setq ibuffer-saved-filter-groups
+        (quote (("default"
+                 ("emacs-config" (filename . ".emacs.d"))
+                 ("Org" (or (mode . org-mode)))
+                 ("Markup" (or (mode . html-mode)
+                               (mode . markdown-mode)
+                               (mode . xml-mode)
+                               (name . "\\.xml$")
+                               (mode . text-mode)))
+                 ("wiki" (mode . mediawiki-mode))
+                 ("Code" (or
+                          (mode . java-mode)
+                          (mode . clojure-mode)
+                          (mode . scheme-mode)
+                          (mode . ruby-mode)
+                          (mode . python-mode)
+                          (mode . shell-script-mode)
+                          (mode . sh-mode)
+                          (mode . c-mode)
+                          (mode . lisp-mode)
+                          (mode . cperl-mode)
+                          (mode . asm-mode)
+                          (mode . emacs-lisp-mode)
+                          (mode . c++-mode)
+                          (mode . erlang-mode)
+                          (mode . erlang-extended-mode)
+                          (name . "\\.erl")
+                          (name . "\\*erl")
+                          (name . "\\.hrl")
+                          (name . "\\.yaws")))
+                 ("Network" (or
+                             (name . "^ssh.*$")
+                             (name . "^\\*nmap\\*$")
+                             (name . "^\\*dsniff\\*$")
+                             (name . "^\\*ftp.+\\*$")
+                             (name . "^\\*nmap.+\\*$")
+                             (name . "^\\*arpspoof.+\\*$")
+                             (name . "^\\*tramp+\\*$")
+                             (name . "^\\*trace.+SMTP.+\\*$")
+                             (mode . dsniff-mode)
+                             (mode . nmap-mode)))
+                 ("dired" (mode . dired-mode))
+                 ("emacs" (or
+                           (name . "^\\*info\\*$")
+                           (name . "^\\*mpg123\\*$")
+                           (name . "^\\.todo-do")
+                           (name . "^\\*scratch\\*$")
+                           (name . "^\\*git-status\\*$")
+                           (name . "^\\*git-diff\\*$")
+                           (name . "^\\*git-commit\\*$")
+                           (name . "^\\*Git Command Output\\*$")
+                           (name . "^\\*Messages\\*$")
+                           (name . "^\\*Completions\\*$")
+                           (name . "^\\*Backtrace\\*$")
+                           (name . "\*GNU Emacs\*")
+                           (name . "\*Apropos\*")
+                           (name . "\*info\*")
+                           (name . "\*Kill Ring\*")
+                           (name . "\*Customize .+\*")
+                           (name . "\*Proced\*")
+                           (name . "\*Disabled Command\*")
+                           (name . "\*RE-builder*")
+                           (name . "^TAGS$")
+                           (name . "^\\*Help\\*$")
+                           (name . "^\\*Shell Command Output\\*$")))))))
 
+  (add-hook 'ibuffer-mode-hook
+            (lambda ()
+              (local-set-key (kbd "C-g") 'ibuffer-quit)
+              (ibuffer-auto-mode 1)
+              (ibuffer-switch-to-saved-filter-groups "default")))
 
+  (setq ibuffer-show-empty-filter-groups nil)
+  (setq ibuffer-expert t) ;; Don't ask for confirmation when deleting buffers
 
-          (setq ibuffer-saved-filter-groups
-                (quote (("default"
-                         ("emacs-config" (filename . ".emacs.d"))
-                         ("Org" (or (mode . org-mode)))
-                         ("Markup" (or (mode . html-mode)
-                                       (mode . markdown-mode)
-                                       (mode . xml-mode)
-                                       (name . "\\.xml$")
-                                       (mode . text-mode)))
-                         ("wiki" (mode . mediawiki-mode))
-                         ("Code" (or
-                                    (mode . java-mode)
-                                    (mode . clojure-mode)
-                                    (mode . scheme-mode)
-                                    (mode . ruby-mode)
-                                    (mode . shell-script-mode)
-                                    (mode . sh-mode)
-                                    (mode . c-mode)
-                                    (mode . lisp-mode)
-                                    (mode . cperl-mode)
-                                    (mode . asm-mode)
-                                    (mode . emacs-lisp-mode)
-                                    (mode . c++-mode)))
-                       ("erlang code" (or
-                                       (mode . erlang-mode)
-                                       (mode . erlang-extended-mode)
-                                       (name . "\\.erl")
-                                       (name . "\\*erl")
-                                       (name . "\\.hrl")
-                                       (name . "\\.yaws")))
-
-                       ("erlang" (or
-                                  (name . "\\*derl")
-                                  (name . "\\*Erl")
-                                  (name . "\\*wrangler")
-                                  (name . "\\*trace")
-                                  (name . "\\*plist")
-                                  (name . "\\*pid <")
-                                  (name . "^\\*Wrangler")
-                                  (name . "^\\*trace")
-                                  (name . "\\*edb")))
-                         ("Terminal" (or (mode . term-mode)
-                                         (mode . inferior-lisp-mode)))
-                         ("Network" (or
-                                     (name . "^ssh.*$")
-                                     (name . "^\\*nmap\\*$")
-                                     (name . "^\\*dsniff\\*$")
-                                     (name . "^\\*ftp.+\\*$")
-                                     (name . "^\\*nmap.+\\*$")
-                                     (name . "^\\*arpspoof.+\\*$")
-                                     (name . "^\\*tramp+\\*$")
-                                     (name . "^\\*trace.+SMTP.+\\*$")
-                                     (mode . dsniff-mode)
-                                     (mode . nmap-mode)))
-                         ("dired" (mode . dired-mode))
-                         ("emacs" (or
-                                   (name . "^\\*info\\*$")
-                                   (name . "^\\*mpg123\\*$")
-                                   (name . "^\\.todo-do")
-                                   (name . "^\\*scratch\\*$")
-                                   (name . "^\\*git-status\\*$")
-                                   (name . "^\\*git-diff\\*$")
-                                   (name . "^\\*git-commit\\*$")
-                                   (name . "^\\*Git Command Output\\*$")
-                                   (name . "^\\*Messages\\*$")
-                                   (name . "^\\*Completions\\*$")
-                                   (name . "^\\*Backtrace\\*$")
-                                   (name . "\*GNU Emacs\*")
-                                   (name . "\*Apropos\*")
-                                   (name . "\*info\*")
-                                   (name . "\*Kill Ring\*")
-                                   (name . "\*Customize .+\*")
-                                   (name . "\*Proced\*")
-                                   (name . "\*Disabled Command\*")
-                                   (name . "\*RE-builder*")
-                                   (name . "^TAGS$")
-                                   (name . "^\\*Help\\*$")
-                                   (name . "^\\*Shell Command Output\\*$")))))))
-
-
-          (add-hook 'ibuffer-mode-hook
-                    (lambda ()
-                     (local-set-key (kbd "C-g") 'ibuffer-quit)
-                             (ibuffer-auto-mode 1)
-                      (ibuffer-switch-to-saved-filter-groups "default")
-        ))
-
-
-
-        (setq ibuffer-show-empty-filter-groups nil)
-        (setq ibuffer-expert t) ;; Don't ask for confirmation when deleting buffers
-
-        (global-set-key (kbd "C-x C-b") 'ibuffer)
+  (global-set-key (kbd "C-x C-b") 'ibuffer)
 #+end_src
 
 ** Calendar
