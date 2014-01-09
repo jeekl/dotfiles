@@ -34,6 +34,8 @@ alias mv='nocorrect mv'         # no spelling correction on mv
 alias rm='nocorrect rm'         # no spelling correction on rm
 alias slideshow="feh -zsZFD 5 $1"
 
+alias startx='startx &> ~/.xlog'
+
 alias packer='packer-color'
 
 # TODO should make this a function and pass it an argument, if no argument, try all files
