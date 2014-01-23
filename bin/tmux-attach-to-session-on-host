@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Checks if a tmux session with $name exists, if so connects to it,
+# otherwise creates session and connects to it.
+
+host=$1
+
+ssh $USER@$host tmux has-session -t $host 2>/dev/null
+
+if [ "$?" -eq 1 ] ; then
+    ssh $USER@$host tmux new-session -d -s $host
+    ssh -t $USER@$host tmux attach-session -t $host
+else
+    ssh -t $USER@$host tmux attach-session -t $host
+fi
