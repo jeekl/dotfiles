@@ -1,3 +1,25 @@
+# autoload wrapper - use this one instead of autoload directly
+function zrcautoload() {
+    emulate -L zsh
+    setopt extended_glob
+    local fdir ffile
+    local -i ffound
+
+    ffile=$1
+    (( found = 0 ))
+    for fdir in ${fpath} ; do
+        [[ -e ${fdir}/${ffile} ]] && (( ffound = 1 ))
+    done
+
+    (( ffound == 0 )) && return 1
+    if [[ $ZSH_VERSION == 3.1.<6-> || $ZSH_VERSION == <4->* ]] ; then
+        autoload -U ${ffile} || return 1
+    else
+        autoload ${ffile} || return 1
+    fi
+    return 0
+}
+
 # Path to zsh configuration.
 #export ZSH=$HOME/.config/dotfiles/zsh
 export ZSH=$HOME/.zsh
@@ -76,18 +98,6 @@ check_com -c dircolors && eval $(dircolors -b)
 # color setup for ls on OS X:
 isdarwin && export CLICOLOR=1
 
-
-# load our function and completion directories
-for fdir in /usr/share/grml/zsh/completion /usr/share/grml/zsh/functions; do
-    fpath=( ${fdir} ${fdir}/**/*(/N) ${fpath} )
-    if [[ ${fpath} == '/usr/share/grml/zsh/functions' ]] ; then
-        for func in ${fdir}/**/[^_]*[^~](N.) ; do
-            zrcautoload ${func:t}
-        done
-    fi
-done
-unset fdir func
-
 REPORTTIME=5       # report about cpu-/system-/user-time of
                    # command if running longer than 5 seconds
 watch=(notme root) # watch for everyone but me and root
@@ -101,42 +111,9 @@ typeset -U path cdpath fpath manpath
 #                 1 - disabled
 NOABBREVIATION=${NOABBREVIATION:-0}
 
-# power completion / abbreviation expansion / buffer expansion
-# see http://zshwiki.org/home/examples/zleiab for details
-# less risky than the global aliases but powerful as well
-# just type the abbreviation key and afterwards ',.' to expand it
-declare -A abk
-setopt extendedglob
-setopt interactivecomments
-abk=(
-#   key   # value                  (#d additional doc string)
-#A# start
-    '...'  '../..'
-    '....' '../../..'
-    'BG'   '& exit'
-    'C'    '| wc -l'
-    'G'    '|& grep --color=auto '
-    'H'    '| head'
-    'Hl'   ' --help |& less -r'    #d (Display help in pager)
-    'L'    '| less'
-    'LL'   '|& less -r'
-    'M'    '| most'
-    'N'    '&>/dev/null'           #d (No Output)
-    'R'    '| tr A-z N-za-m'       #d (ROT13)
-    'SL'   '| sort | less'
-    'S'    '| sort -u'
-    'T'    '| tail'
-    'V'    '|& vim -'
-#A# end
-    'co'   './configure && make && sudo make install'
-)
-
-
-
 # autoloading
 zrcautoload zmv    # who needs mmv or rename?
 zrcautoload history-search-end
-
 
 # completion system
 if zrcautoload compinit ; then
@@ -170,168 +147,12 @@ if [[ -f ${DIRSTACKFILE} ]] && [[ ${#dirstack[*]} -eq 0 ]] ; then
     [[ -d $dirstack[0] ]] && cd $dirstack[0] && cd $OLDPWD
 fi
 
-# display battery status on right side of prompt via running 'BATTERY=1 zsh'
-if [[ $BATTERY -gt 0 ]] ; then
-    if ! check_com -c acpi ; then
-        BATTERY=0
-    fi
-fi
-
-
-# set colors for use in prompts
-if zrcautoload colors && colors 2>/dev/null ; then
-    BLUE="%{${fg[blue]}%}"
-    BOLD_BLUE="%{${fg_bold[blue]}%}"
-    RED="%{${fg[red]}%}"
-    BOLD_RED="%{${fg_bold[red]}%}"
-    GREEN="%{${fg[green]}%}"
-    CYAN="%{${fg[cyan]}%}"
-    BOLD_CYAN="%{${fg_bold[cyan]}%}"
-    MAGENTA="%{${fg[magenta]}%}"
-    YELLOW="%{${fg[yellow]}%}"
-    WHITE="%{${fg[white]}%}"
-    NO_COLOUR="%{${reset_color}%}"
-else
-    BLUE=$'%{\e[1;34m%}'
-    RED=$'%{\e[1;31m%}'
-    GREEN=$'%{\e[1;32m%}'
-    CYAN=$'%{\e[1;36m%}'
-    WHITE=$'%{\e[1;37m%}'
-    MAGENTA=$'%{\e[1;35m%}'
-    YELLOW=$'%{\e[1;33m%}'
-    NO_COLOUR=$'%{\e[0m%}'
-fi
-
-# set prompt
-if zrcautoload promptinit && promptinit 2>/dev/null ; then
-    promptinit # people should be able to use their favourite prompt
-else
-    print 'Notice: no promptinit available :('
-fi
-
-setopt prompt_subst
-
-# make sure to use right prompt only when not running a command
-is41 && setopt transient_rprompt
-
-is4 && autoload -Uz vcs_info # Autoload vcs_info for
-                             # vcs information in prompt
-
-zstyle ':vcs_info:*' stagedstr '%F{3}●'
-#zstyle ':vcs_info:*' stagedstr ' [%F{green}%b%c%u%F{blue}]'
-#zstyle ':vcs_info:*' unstagedstr '[%F{green}%b%c%u%F{red}●%F{blue}]'
-zstyle ':vcs_info:*' unstagedstr '%F{2}●'
-zstyle ':vcs_info:*' check-for-changes true
-zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b%F{1}:%F{11}%r'
-zstyle ':vcs_info:*' enable git svn hg
-
-# precmd() => a function running each prompt
-is4 && [[ $NOPRECMD -eq 0 ]] && \
-    precmd () {
-    [[ $NOPRECMD -gt 0 ]] && return 0
-    # update VCS information
-    if [[ -z $(git ls-files --other --exclude-standard 2> /dev/null) ]] {
-            zstyle ':vcs_info:*' formats '[%F{green}%b%c%u%F{blue}]'
-        } else {
-            zstyle ':vcs_info:*' formats '[%F{green}%b%c%u%F{red}●%F{blue}]'
-        }
-        vcs_info
-
-        if [[ $TERM == screen* ]] ; then
-            if [[ -n ${VCS_INFO_message_1_} ]] ; then
-                ESC_print ${VCS_INFO_message_1_}
-            elif [[ -n ${vcs_info_msg_1_} ]] ; then
-                ESC_print ${vcs_info_msg_1_}
-            else
-                ESC_print "zsh"
-            fi
-        fi
-        # just use DONTSETRPROMPT=1 to be able to overwrite RPROMPT
-        if [[ $DONTSETRPROMPT -eq 0 ]] ; then
-            if [[ $BATTERY -gt 0 ]] ; then
-            # update battery (dropped into $PERCENT) information
-                battery
-                RPROMPT="%(?..:() ${PERCENT}"
-            else
-                RPROMPT="%(?..:() "
-            fi
-        fi
-        # adjust title of xterm
-        # see http://www.faqs.org/docs/Linux-mini/Xterm-Title.html
-        [[ ${NOTITLE} -gt 0 ]] && return 0
-        case $TERM in
-            xterm*|rxvt*)
-                set_title ${(%):-"%n@%m: %~"}
-                # echo -ne "\ek$(basename "$(pwd)")/\e\\"
-                echo -n "\ek${(%):-"%~"}\e\\"
-                ;;
-            screen*)
-                set_title ${(%):-"%n@%m: %~"}
-                echo -n "\ek${(%):-"%~"}\e\\"
-                ;;
-        esac
-}
-
-# preexec() => a function running before every command, when the command has been
-# read, but not yet executed.
-is4 && [[ $NOPRECMD -eq 0 ]] && \
-    preexec () {
-    [[ $NOPRECMD -gt 0 ]] && return 0
-
-    # set hostname
-    if [[ -n "$HOSTNAME" ]] && [[ "$HOSTNAME" != $(hostname) ]] ; then
-        NAME="@$HOSTNAME"
-    fi
-
-    # adjust title of xterm/rxvt
-    [[ ${NOTITLE} -gt 0 ]] && return 0
-    case $TERM in
-        xterm*|rxvt*)
-            set_title "${(%):-"%n@%m:"}" "$1" ;;
-        screen*)
-            set_title "${(%):-"%n@%m:"}" "$1"
-            echo -n "\ek${(%):-"$1"}\e\\"
-            ;;
-    esac
-}
-
-EXITCODE="%(?..%?%1v )"
-PS2='\`%_> '      # secondary prompt, printed when the shell needs more
-                  # information to complete a command.
-PS3='?# '         # selection prompt used within a select loop.
-PS4='+%N:%i:%_> ' # the execution trace prompt (setopt xtrace).
-                  # default: '+%N:%i>'
-
-# don't use colors on dumb terminals (like emacs):
-if [[ "$TERM" == dumb ]] ; then
-    PROMPT="$EXITCODE} %n@%m %40<...<%B%~%b%<< "
-else
-    P_EXIT="${RED}${EXITCODE}"
-    P_ROOT_USER='${RED}%n${NO_COLOUR}'
-    P_NORMAL_USER='${MAGENTA}%n${NO_COLOUR}'
-    P_AT='@'
-    P_HOST='${YELLOW}%m'
-    P_CWD=' ${BOLD_CYAN}%40<...<%B%~%b%<< '
-    if [[ $(command id -u) -eq 0 ]] ; then # if root
-        PROMPT="${PROMPT}${P_EXIT}${P_ROOT_USER}${P_AT}${P_HOST}${P_CWD}"
-    else                                   # if not root
-        PROMPT="${PROMPT}${P_EXIT}${P_NORMAL_USER}${P_AT}${P_HOST}${P_CWD}"
-    fi
-fi
-
-if (( GRML_VCS_INFO )); then
-    PROMPT="${PROMPT}${BLUE}"'${VCS_INFO_message_0_}'"${NO_COLOUR}%# "
-else
-    PROMPT="${PROMPT}${BLUE}"'${vcs_info_msg_0_}'"${NO_COLOUR}%# "
-fi
-
-
 # Use hard limits, except for a smaller stack and no core dumps
 unlimit
 is425 && limit stack 8192
 
 # Start completion system
-NOMENU=1 # No menu completion puh-leeeze.
+# NOMENU=1 # No menu completion puh-leeeze.
 is4 && grmlcomp
 
 zrcautoload lookupinit && lookupinit

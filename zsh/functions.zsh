@@ -29,6 +29,11 @@ is433() {
     return 1
 }
 
+is437() {
+    [[ $ZSH_VERSION == 4.3.<7->* || $ZSH_VERSION == 4.<4->* || $ZSH_VERSION == <5->* ]] && return 0
+    return 1
+}
+
 is439() {
     [[ $ZSH_VERSION == 4.3.<9->* || $ZSH_VERSION == 4.<4->* || $ZSH_VERSION == <5->* ]] && return 0
     return 1
@@ -48,29 +53,6 @@ isutfenv() {
         *)     return 1 ;;
     esac
 }
-
-# autoload wrapper - use this one instead of autoload directly
-function zrcautoload() {
-    emulate -L zsh
-    setopt extended_glob
-    local fdir ffile
-    local -i ffound
-
-    ffile=$1
-    (( found = 0 ))
-    for fdir in ${fpath} ; do
-        [[ -e ${fdir}/${ffile} ]] && (( ffound = 1 ))
-    done
-
-    (( ffound == 0 )) && return 1
-    if [[ $ZSH_VERSION == 3.1.<6-> || $ZSH_VERSION == <4->* ]] ; then
-        autoload -U ${ffile} || return 1
-    else
-        autoload ${ffile} || return 1
-    fi
-    return 0
-}
-
 
 # this function checks if a command exists and returns either true
 # or false. This avoids using 'which' and 'whence', which will
@@ -203,7 +185,7 @@ xunfunction() {
 source-host-config () {
     host=${$(hostname)//.*/}
     if [ -f "$HOME/.zsh/hosts/${host}.zsh" ] ; then
-	source "$HOME/.zsh/hosts/${host}.zsh"
+        source "$HOME/.zsh/hosts/${host}.zsh"
     fi
     return 0
 }
@@ -413,6 +395,31 @@ function grml-zsh-fg () {
 }
 zle -N grml-zsh-fg
 
+# Auto source/unsource of virtualenvs
+function _autovenv() {
+  cur=${1:-$PWD}
+  f="bin/activate"
+
+  # Find upwards and look for a $f. If it is found, source it.
+  until [[ -z "$cur" ]]; do
+    if [[ -f "$cur/$f" ]]; then
+      if [[ -z "$VIRTUAL_ENV" ]]; then
+        source $cur/$f
+        export VENV_PROMPT="%B${MAGENTA}venv:" # TODO
+      fi
+      return
+    fi
+    cur=${cur%/*}
+  done
+
+  # If set and no longer inside a virtualenv, deactivate it.
+  if [[ -n "$VIRTUAL_ENV" ]]; then
+    export VENV_PROMPT=''
+    deactivate
+  fi
+}
+_autovenv
+
 # run command line as user root via sudo:
 sudo-command-line () {
     [[ -z $BUFFER ]] && zle up-history
@@ -433,6 +440,15 @@ function jump_after_first_word () {
 }
 zle -N jump_after_first_word
 
+_check_for_battery () {
+    if [[ $(acpi 2&>/dev/null | grep -c '^Battery.*Discharging') -gt 0 ]] ; then
+        export BATTERY=1
+    else
+        export BATTERY=0
+    fi
+    battery
+}
+
 chpwd () {
     local -ax my_stack
     my_stack=( ${PWD} ${dirstack} )
@@ -441,6 +457,7 @@ chpwd () {
     else
         uprint my_stack >! ${DIRSTACKFILE}
     fi
+    _autovenv
 }
 
 
@@ -538,21 +555,50 @@ function chpwd_profiles () {
 }
 chpwd_functions=( ${chpwd_functions} chpwd_profiles )
 
+zstyle ':chpwd:profiles:/home/jeekl/projects(|/|/*)' profile spotify
+zstyle ':chpwd:profiles:/home/jeekl/personal(|/|/*)' profile personal
+
+chpwd_profile_default () {
+    [[ ${profile} == ${CHPWD_PROFILE} ]] && return 1
+    export GIT_AUTHOR_EMAIL="jeff.eklund@gmail.com"
+    export GIT_COMMITTER_EMAIL="jeff.eklund@gmail.com"
+}
+
+chpwd_profile_spotify () {
+    [[ ${profile} == ${CHPWD_PROFILE} ]] && return 1
+    echo -e "chpwd(): Switching to profile: \e[1;35m$profile"
+
+    export GIT_AUTHOR_EMAIL="jeekl@spotify.com"
+    export GIT_COMMITTER_EMAIL="jeekl@spotify.com"
+}
+
+chpwd_profile_personal () {
+    [[ ${profile} == ${CHPWD_PROFILE} ]] && return 1
+    print "chpwd(): Switching to profile: \e[1;35m$profile"
+
+    export GIT_AUTHOR_EMAIL="jeff.eklund@gmail.com"
+    export GIT_COMMITTER_EMAIL="jeff.eklund@gmail.com"
+}
+
 fi # is433
 
 battery () {
-if [[ $BATTERY -gt 0 ]] ; then
-    PERCENT="${${"$(acpi 2>/dev/null)"}/(#b)[[:space:]]#Battery <->: [^0-9]##, (<->)%*/${match[1]}}"
-    if [[ -z "$PERCENT" ]] ; then
-        PERCENT='acpi not present'
-    else
-        if [[ "$PERCENT" -lt 20 ]] ; then
-            PERCENT="warning: ${PERCENT}%%"
+    if [[ $BATTERY -gt 0 ]] ; then
+        zstyle ':prompt:grml:right:setup' items sad-smiley battery
+
+        PERCENT="${${"$(acpi 2>/dev/null)"}/(#b)[[:space:]]#Battery <->: [^0-9]##, (<->)%*/${match[1]}}"
+        if [[ -z "$PERCENT" ]] ; then
+            PERCENT='acpi not present'
         else
-            PERCENT="${PERCENT}%%"
+            if [[ "$PERCENT" -lt 20 ]] ; then
+                PERCENT="warning: ${PERCENT}%%"
+            else
+                PERCENT="${PERCENT}%%"
+            fi
         fi
+    else
+        zstyle ':prompt:grml:right:setup' items sad-smiley
     fi
-fi
 }
 
 
@@ -815,13 +861,13 @@ backup () { cp $1 `basename $1`-`date +%Y%m%d%H%M`.backup; }
 #}
 
 # Simple wiki function. Show furst paragraph of wikipedia results.
-wiki() { 
+wiki() {
     if [[ -z $1 ]] ; then
         printf 'Simple wikipedia search\nusage: wiki <search term>\n'
         return 1
     fi
 
-    dig +short txt $1.wp.dg.cx; 
+    dig +short txt $1.wp.dg.cx;
 }
 
 function start_agent {
@@ -830,5 +876,4 @@ function start_agent {
     chmod 600 ${GPG_ENV}
     . ${GPG_ENV} > /dev/null
 }
-
 
