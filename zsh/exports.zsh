@@ -1,4 +1,4 @@
-Export EDITOR=${EDITOR:-vim}
+export EDITOR=${EDITOR:-vim}
 export PAGER=${PAGER:-less}
 export MAIL=${MAIL:-/var/mail/$USER}
 export SHELL='/bin/zsh'
@@ -30,3 +30,6 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 
 # set terminal property (used e.g. by msgid-chooser)
 export COLORTERM="yes"
+
+export GIT_AUTHOR_EMAIL="jeff.eklund@gmail.com"
+export GIT_COMMITTER_EMAIL="jeff.eklund@gmail.com"
