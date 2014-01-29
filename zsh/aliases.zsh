@@ -60,3 +60,4 @@ alias lintian="lintian --color always"
 # Hub for git
 eval "$(hub alias -s)"
 
+alias ipy="python -c 'import IPython; IPython.terminal.ipapp.launch_new_instance()'"
