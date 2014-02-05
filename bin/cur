@@ -1,7 +1,7 @@
 #!/bin/zsh
 
 if [[ -z "$1" ]]; then
-  echo "Needs at least one argument. Defaults to converting USD to SEK. Type 'cur 500 jpy' nok to convert 500 Japanese Yen to Norweigan Kroner."
+  echo "Needs at least one argument. Defaults to converting USD to SEK. Type 'cur 500 jpy nok' to convert 500 Japanese Yen to Norweigan Kroner."
   exit 1
 fi
 

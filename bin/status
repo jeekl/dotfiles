@@ -1,14 +1,15 @@
 #!/usr/bin/env zsh
-    print "Date      : "$(date "+%Y-%m-%d %H:%M:%S")
-    print "Shell     : Zsh $ZSH_VERSION (PID = $$, $SHLVL nests)"
-    print "Term      : $TTY ($TERM), ${BAUD:+$BAUD bauds, }$COLUMNS x $LINES chars"
-    print "Login     : $LOGNAME (UID = $EUID) on $HOST"
-    print "System    : $(lsb_release -d | awk '{print $2 " " $NF}')"
-    print "Uptime    :$(uptime)"
-    print "SSH Agent : PID $SSH_AGENT_PID"
+    print "Date       : "$(date "+%Y-%m-%d %H:%M:%S")
+    print "Shell      : Zsh $ZSH_VERSION (PID = $$, $SHLVL nests)"
+    print "Term       : $TTY ($TERM), ${BAUD:+$BAUD bauds, }$COLUMNS x $LINES chars, $(tput colors) colours"
+    print "Login      : $LOGNAME (UID = $EUID) on $HOST"
+    print "System     : $(lsb_release -d | awk '{print $2 " " $NF}')"
+    print "Brightness : $(cat /sys/class/backlight/acpi_video0/actual_brightness)"
+    print "Uptime     :$(uptime)"
+    print "SSH Agent  : PID $SSH_AGENT_PID"
     print
-    print "Ruby      : $(ruby --version | awk '{print $2}')"
-    print "Erlang    : $(~/bin/erl-version)"
-    print "Perl      : $(perl -v | awk '/This/ {print $9}' \
+    print "Ruby       : $(ruby --version | awk '{print $2}')"
+    print "Erlang     : $(~/bin/erl-version)"
+    print "Perl       : $(perl -v | awk '/This/ {print $9}' \
                          | sed -e 's/v//;s/(//;s/)//')"
-    print "Hub       : $(hub version | grep hub | awk '{ print $3}')"
+    print "Hub        : $(hub version | grep hub | awk '{ print $3}')"
