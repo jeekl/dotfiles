@@ -459,9 +459,12 @@ Prefer Cperl to regular perl mode
 (setq auto-mode-alist (cons '("\\.bash$" . sh-mode) auto-mode-alist))
 #+end_src
 ** Javascript
-
-   TODO, this does not work?
-
+TODO, this does not work?
+#+begin_src emacs-lisp
+  (setq js-indent-level 2)
+  (setq js2-basic-offset 2)
+  (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+#+end_src
 ** CSS
 #+begin_src emacs-lisp
   ;; CSS and Rainbow modes
@@ -470,11 +473,11 @@ Prefer Cperl to regular perl mode
   ;; Load both major and minor modes in one call based on file type
   (add-to-list 'auto-mode-alist '("\\.css$" . all-css-modes))
 
-  (autoload 'rainbow-turn-on "rainbow-mode" "Enable rainbow mode colour literal overlays")
+  (autoload 'rainbow-turn-on "rainbow-mode"
+    "Enable rainbow mode colour literal overlays")
   (add-hook 'css-mode-hook 'rainbow-turn-on)
   (add-hook 'html-mode-hook 'rainbow-turn-on)
   (add-hook 'sass-mode-hook 'rainbow-turn-on)
-
 #+end_src
 ** Haskell
 #+begin_src emacs-lisp
@@ -596,7 +599,7 @@ On the fly syntax checking.
   ;;       (list "~/bin/flymake-python" (list local-file))))
   ;;   (add-to-list 'flymake-allowed-file-name-masks
   ;;                '("\\.py\\'" flymake-pychecker-init)))
-  
+
   ;; (add-hook 'python-mode-hook
   ;;           (lambda ()
   ;;             (unless (eq buffer-file-name nil)
@@ -1257,7 +1260,6 @@ Make C-d kill buffer when process is dead.
 #+begin_src emacs-lisp
 (require 'nginx-mode)
 #+end_src
-
 ** Puppet-mode
 #+begin_src emacs-lisp
 (autoload 'puppet-mode "puppet-mode" "Major mode for editing Puppet config" t)
@@ -1324,7 +1326,7 @@ http://web-mode.org/
     (set-face-attribute 'web-mode-html-tag-face nil :foreground "gold1")
     (set-face-attribute 'web-mode-current-element-highlight-face nil :background "DodgerBlue4"))
    ;; (set-face-attribute 'web-mode-current-element-highlight-face nil :background "#383838"))
-  
+
   (add-hook 'web-mode-hook 'web-mode-hook)
 #+end_src
 ** Emacs startup profiler
