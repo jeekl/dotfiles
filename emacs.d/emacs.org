@@ -1303,15 +1303,29 @@ Mode for interfacing with Archlinux PKGBUILD system
 ** web-mode
 http://web-mode.org/
 #+begin_src emacs-lisp
-(require 'web-mode)
-(add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.jsp\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+  (require 'web-mode)
+  (add-to-list 'auto-mode-alist '("\\.phtml$" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.jsp$" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.erb$" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.mustache$" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.djhtml$" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+  (defun web-mode-hook ()
+    "Hooks for Web mode."
+    (setq web-mode-markup-indent-offset 2)
+    (setq web-mode-style-padding 2)
+    (setq web-mode-script-padding 2)
+    (setq web-mode-enable-block-face t)
+    (setq web-mode-enable-part-face t)
+    (setq web-mode-enable-current-element-highlight t)
+    (setq web-mode-enable-heredoc-fontification t)
+    (set-face-attribute 'web-mode-html-tag-face nil :foreground "gold1")
+    (set-face-attribute 'web-mode-current-element-highlight-face nil :background "DodgerBlue4"))
+   ;; (set-face-attribute 'web-mode-current-element-highlight-face nil :background "#383838"))
+  
+  (add-hook 'web-mode-hook 'web-mode-hook)
 #+end_src
 ** Emacs startup profiler
 #+begin_src emacs-lisp
