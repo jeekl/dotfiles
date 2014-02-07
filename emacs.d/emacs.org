@@ -91,9 +91,11 @@ Emacs lisp package archive. Bundled in emacs 24.
       calfw
       calfw-gcal
       clojure-mode
+      color-identifiers-mode
       crontab-mode
       csv-mode
       cyberpunk-theme
+      dash
       diminish
       dired-details
       dockerfile-mode
@@ -129,6 +131,7 @@ Emacs lisp package archive. Bundled in emacs 24.
       markdown-mode
       mediawiki
       melpa
+      morlock
       nginx-mode
       org-bullets
       org-fstree
@@ -317,6 +320,12 @@ From [[http://bc.tech.coop/blog/070515.html][here]]
                             (if (string-equal search-type "f")
                                 "full+text+search"
                               "basic+search")))))))
+#+end_src
+*** Morlock
+More font-lock keywords for emacs lisp
+[[https://github.com/tarsius/morlock][Github]]
+#+begin_src emacs-lisp
+;(global-morlock-mode 1)
 #+end_src
 *** Keybindings
 #+begin_src emacs-lisp
@@ -1322,13 +1331,13 @@ http://web-mode.org/
 ** hl-diff
 [[https://github.com/dgutov/diff-hl][Github]]
 #+begin_src emacs-lisp
-  (global-diff-hl-mode)
-  (add-hook 'dired-mode-hook 'diff-hl-dired-mode)
+;  (global-diff-hl-mode)
+;  (add-hook 'dired-mode-hook 'diff-hl-dired-mode)
 #+end_src
 ** dockerfile-mode
 #+begin_src emacs-lisp
 (require 'dockerfile-mode)
-(add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
+(add-to-list 'auto-mode-alist '("Dockerfile$" . dockerfile-mode))
 #+end_src
 * Apperance
 Various apperance related settings
@@ -1495,6 +1504,7 @@ Automatically insert newlines, matching braces, indentation and so on.
 ** Ranbow delimiters
 #+begin_src emacs-lisp
 (require 'rainbow-delimiters)
+(global-rainbow-delimiters-mode t)
 (add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode)
 (add-hook 'scheme-mode-hook 'rainbow-delimiters-mode)
 (add-hook 'clojure-mode-hook 'rainbow-delimiters-mode)
