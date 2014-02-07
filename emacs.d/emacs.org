@@ -406,25 +406,6 @@ Erlang settings
                                           ; erlang-electric-gt ; ...annoying
                                    erlang-electric-lt))
 #+end_src
-*** Kfind
-Find in kred dirs.
-Stolen from rndwiki.
-
-#+begin_src emacs-lisp
-  ;(defun kfind (&optional word)
-  ; (interactive "r")
-  (defun kfind (word)
-    (interactive "MFind: ")
-    (kfind-at
-     ;(concat (car (split-string (buffer-file-name) "lib")) "{lib,test}/")
-     "$HOME/code/erlang/dev/{lib,test}/"
-     word))
-
-  (defun kfind-at (path word)
-    (grep-find
-     (concat "find " path
-             (concat " -type f \\( -name '*.erl' -o -name '*.hrl' \\) | xargs grep --color=auto " word))))
-#+end_src
 *** File bindings
 #+begin_src emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.[eh]rl$" . erlang-mode))
@@ -463,6 +444,13 @@ TODO, this does not work?
 #+begin_src emacs-lisp
   (setq js-indent-level 2)
   (setq js2-basic-offset 2)
+(setq-default js2-idle-timer-delay 0.1)
+(setq-default js2-auto-indent-p t)
+
+;; Let flycheck handle parse errors
+(setq-default js2-show-parse-errors nil)
+(setq-default js2-strict-missing-semi-warning nil)
+(setq-default js2-strict-trailing-comma-warning t) ;; jshint does not warn about this now for some reason
   (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 #+end_src
 ** CSS
@@ -577,110 +565,6 @@ Toggle showin details with ) and (.
 (add-hook 'after-init-hook #'global-flycheck-mode)
 (eval-after-load 'flycheck '(setq flycheck-completion-system 'ido))
 #+end_src
-** Flymake
-On the fly syntax checking.
-#+begin_src emacs-lisp
-;(require 'flymake)
-#+end_src
-
-*** Flymake for python
-[[http://people.cs.uct.ac.za/~ksmith/2011/better-python-flymake-integration-in-emacs.html][link.]]
-#+begin_src emacs-lisp
-  ;; (require 'flymake-python-pyflakes)
-  ;; (add-hook 'python-mode-hook 'flymake-python-pyflakes-load)
-  ;; Pyflakes for python
-  ;; (when (load "flymake" t)
-  ;;   (defun flymake-pychecker-init ()
-  ;;     (let* ((temp-file (flymake-init-create-temp-buffer-copy
-  ;;                        'flymake-create-temp-inplace))
-  ;;            (local-file (file-relative-name
-  ;;                         temp-file
-  ;;                         (file-name-directory buffer-file-name))))
-  ;;       (list "~/bin/flymake-python" (list local-file))))
-  ;;   (add-to-list 'flymake-allowed-file-name-masks
-  ;;                '("\\.py\\'" flymake-pychecker-init)))
-
-  ;; (add-hook 'python-mode-hook
-  ;;           (lambda ()
-  ;;             (unless (eq buffer-file-name nil)
-  ;;               (flymake-mode 1))
-  ;;             (local-set-key [f2] 'flymake-goto-prev-error)
-  ;;             (local-set-key [f3] 'flymake-goto-next-error)))
-#+end_src
-*** Flymake for erlang
-[[http://www.emacswiki.org/emacs/FlymakeErlang][emacswiki link]]
-#+begin_src emacs-lisp
-  ;; (defun flymake-erlang-init ()
-  ;;   (let* ((temp-file (flymake-init-create-temp-buffer-copy
-  ;;                      'flymake-create-temp-inplace))
-  ;;          (local-file (file-relative-name temp-file
-  ;;                 (file-name-directory buffer-file-name))))
-  ;;     (list "~/bin/flymake-erlang" (list local-file))))
-
-  ;; (add-to-list 'flymake-allowed-file-name-masks '("\\.erl\\'" flymake-erlang-init))
-  ;; (push '("\\.erl$" flymake-erlang-init) flymake-allowed-file-name-masks)
-  ;; (add-hook 'erlang-mode-hook
-  ;;          (function (lambda () (if buffer-file-name (flymake-mode)))))
-#+end_src
-*** Flymake for elisp
-[[http://www.emacswiki.org/emacs/FlymakeElisp][emacswiki link]]
-#+begin_src emacs-lisp
-  ;; (defun flymake-elisp-init ()
-  ;;   (let* ((temp-file   (flymake-init-create-temp-buffer-copy
-  ;;                        'flymake-create-temp-inplace))
-  ;;          (local-file  (file-relative-name
-  ;;                        temp-file
-  ;;                        (file-name-directory buffer-file-name))))
-  ;;     (list "elisplint" (list local-file))))
-  ;; (push '("\\.el$" flymake-elisp-init) flymake-allowed-file-name-masks)
-  ;; (add-hook 'emacs-lisp-mode-hook
-  ;;           ;; workaround for (eq buffer-file-name nil)
-  ;;           (function (lambda () (if buffer-file-name (flymake-mode)))))
-#+end_src
-*** Fringe helper
-Pretty icons in the fringe
-See [[http://nschum.de/src/emacs/fringe-helper/][link]]
-#+begin_src emacs-lisp
-(eval-after-load "flymake"
-  '(progn
-;     (require 'fringe-helper)
-
-     (defvar flymake-fringe-overlays nil)
-     (make-variable-buffer-local 'flymake-fringe-overlays)
-
-     (defadvice flymake-make-overlay (after add-to-fringe first
-                                            (beg end tooltip-text face mouse-face)
-                                            activate compile)
-       (push (fringe-helper-insert-region
-              beg end
-              (fringe-lib-load (if (eq face 'flymake-errline)
-                                   fringe-lib-exclamation-mark
-                                 fringe-lib-question-mark))
-              'left-fringe 'font-lock-warning-face)
-             flymake-fringe-overlays))
-
-     (defadvice flymake-delete-own-overlays (after remove-from-fringe activate
-                                                   compile)
-       (mapc 'fringe-helper-remove flymake-fringe-overlays)
-       (setq flymake-fringe-overlays nil))))
-#+end_src
-*** Keybindings
-#+begin_src emacs-lisp
-; (global-set-key (kbd "C-c f") 'flymake-show-next-error-in-minibuffer)
-#+end_src
-*** Apperance
-Looks and feel for flymake
-#+begin_src emacs-lisp
-;(set-face-background 'flymake-errline "red4")
-;(set-face-background 'flymake-warnline "dark slate blue")
-
-;(custom-set-faces
-; '(flymake-errline ((((class color)) (:underline "OrangeRed"))))
-; '(flymake-warnline ((((class color)) (:underline "yellow")))))
-
-;  (setq flymake-gui-warnings-enabled nil)
-
-#+end_src
 ** Completion
 *** Auto-complete
 
@@ -704,13 +588,6 @@ TODO, set this up to work with yasnippet and tab
 (define-key ac-menu-map "\C-p" 'ac-previous)
 #+end_src
 
-**** Python with ropemacs
-#+begin_src emacs-lisp
-  ;; (ac-ropemacs-initialize)
-  ;; (add-hook 'python-mode-hook
-  ;;           (lambda ()
-  ;;             (add-to-list 'ac-sources 'ac-source-ropemacs)))
-#+end_src
 **** LaTeX
 #+begin_src emacs-lisp
 
