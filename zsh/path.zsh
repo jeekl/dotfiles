@@ -1,5 +1,6 @@
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:~/bin
-export PATH=/usr/share/perl5/vendor_perl/auto/share/dist/Cope:$PATH
+#export PATH=/usr/share/perl5/vendor_perl/auto/share/dist/Cope:$PATH
+#export PATH=/usr/local/share/perl/5.14.2/auto/share/dist/Cope:$PATH
 #export PATH=/var/lib/gems/1.9.1/bin:$PATH # Ruby gems, for rails, among other things
 export PATH=/opt/java/jre/bin:$PATH
 export PATH=/usr/lib/perl5/vendor_perl/bin/:/usr/bin/site_perl:/usr/bin/venor_perl:$PATH
