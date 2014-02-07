@@ -102,6 +102,7 @@ Emacs lisp package archive. Bundled in emacs 24.
       expand-region
       fill-column-indicator
       fiplr
+      flycheck
       flx
       flx-ido
       fringe-helper
@@ -416,7 +417,7 @@ Stolen from rndwiki.
              (concat " -type f \\( -name '*.erl' -o -name '*.hrl' \\) | xargs grep --color=auto " word))))
 #+end_src
 *** File bindings
-#+begin-src emacs-lisp
+#+begin_src emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.[eh]rl$" . erlang-mode))
 (add-to-list 'auto-mode-alist '("\\.yaws$" . erlang-mode))
 (add-to-list 'interpreter-mode-alist '("escript" . erlang-mode))
@@ -559,10 +560,15 @@ Toggle showin details with ) and (.
 (dired-details-install)
 #+end_src
 
+** Flycheck
+#+begin_src emacs-lisp
+(add-hook 'after-init-hook #'global-flycheck-mode)
+(eval-after-load 'flycheck '(setq flycheck-completion-system 'ido))
+#+end_src
 ** Flymake
 On the fly syntax checking.
 #+begin_src emacs-lisp
-(require 'flymake)
+;(require 'flymake)
 #+end_src
 
 *** Flymake for python
@@ -571,23 +577,23 @@ On the fly syntax checking.
   ;; (require 'flymake-python-pyflakes)
   ;; (add-hook 'python-mode-hook 'flymake-python-pyflakes-load)
   ;; Pyflakes for python
-  (when (load "flymake" t)
-    (defun flymake-pychecker-init ()
-      (let* ((temp-file (flymake-init-create-temp-buffer-copy
-                         'flymake-create-temp-inplace))
-             (local-file (file-relative-name
-                          temp-file
-                          (file-name-directory buffer-file-name))))
-        (list "~/bin/flymake-python" (list local-file))))
-    (add-to-list 'flymake-allowed-file-name-masks
-                 '("\\.py\\'" flymake-pychecker-init)))
-
-  (add-hook 'python-mode-hook
-            (lambda ()
-              (unless (eq buffer-file-name nil)
-                (flymake-mode 1))
-              (local-set-key [f2] 'flymake-goto-prev-error)
-              (local-set-key [f3] 'flymake-goto-next-error)))
+  ;; (when (load "flymake" t)
+  ;;   (defun flymake-pychecker-init ()
+  ;;     (let* ((temp-file (flymake-init-create-temp-buffer-copy
+  ;;                        'flymake-create-temp-inplace))
+  ;;            (local-file (file-relative-name
+  ;;                         temp-file
+  ;;                         (file-name-directory buffer-file-name))))
+  ;;       (list "~/bin/flymake-python" (list local-file))))
+  ;;   (add-to-list 'flymake-allowed-file-name-masks
+  ;;                '("\\.py\\'" flymake-pychecker-init)))
+  
+  ;; (add-hook 'python-mode-hook
+  ;;           (lambda ()
+  ;;             (unless (eq buffer-file-name nil)
+  ;;               (flymake-mode 1))
+  ;;             (local-set-key [f2] 'flymake-goto-prev-error)
+  ;;             (local-set-key [f3] 'flymake-goto-next-error)))
 #+end_src
 *** Flymake for erlang
 [[http://www.emacswiki.org/emacs/FlymakeErlang][emacswiki link]]
@@ -607,17 +613,17 @@ On the fly syntax checking.
 *** Flymake for elisp
 [[http://www.emacswiki.org/emacs/FlymakeElisp][emacswiki link]]
 #+begin_src emacs-lisp
-(defun flymake-elisp-init ()
-  (let* ((temp-file   (flymake-init-create-temp-buffer-copy
-                       'flymake-create-temp-inplace))
-         (local-file  (file-relative-name
-                       temp-file
-                       (file-name-directory buffer-file-name))))
-    (list "elisplint" (list local-file))))
-(push '("\\.el$" flymake-elisp-init) flymake-allowed-file-name-masks)
-(add-hook 'emacs-lisp-mode-hook
-          ;; workaround for (eq buffer-file-name nil)
-          (function (lambda () (if buffer-file-name (flymake-mode)))))
+  ;; (defun flymake-elisp-init ()
+  ;;   (let* ((temp-file   (flymake-init-create-temp-buffer-copy
+  ;;                        'flymake-create-temp-inplace))
+  ;;          (local-file  (file-relative-name
+  ;;                        temp-file
+  ;;                        (file-name-directory buffer-file-name))))
+  ;;     (list "elisplint" (list local-file))))
+  ;; (push '("\\.el$" flymake-elisp-init) flymake-allowed-file-name-masks)
+  ;; (add-hook 'emacs-lisp-mode-hook
+  ;;           ;; workaround for (eq buffer-file-name nil)
+  ;;           (function (lambda () (if buffer-file-name (flymake-mode)))))
 #+end_src
 *** Fringe helper
 Pretty icons in the fringe
@@ -648,19 +654,19 @@ See [[http://nschum.de/src/emacs/fringe-helper/][link]]
 #+end_src
 *** Keybindings
 #+begin_src emacs-lisp
-(global-set-key (kbd "C-c f") 'flymake-show-next-error-in-minibuffer)
+; (global-set-key (kbd "C-c f") 'flymake-show-next-error-in-minibuffer)
 #+end_src
 *** Apperance
 Looks and feel for flymake
 #+begin_src emacs-lisp
-(set-face-background 'flymake-errline "red4")
-(set-face-background 'flymake-warnline "dark slate blue")
+;(set-face-background 'flymake-errline "red4")
+;(set-face-background 'flymake-warnline "dark slate blue")
 
 ;(custom-set-faces
 ; '(flymake-errline ((((class color)) (:underline "OrangeRed"))))
 ; '(flymake-warnline ((((class color)) (:underline "yellow")))))
 
-  (setq flymake-gui-warnings-enabled nil)
+;  (setq flymake-gui-warnings-enabled nil)
 
 #+end_src
 ** Completion
@@ -801,13 +807,13 @@ If opened file is using tabs, use tabs. If opened file is using 8 spaces, use 8 
 #+end_src
 ** hl-sexp
 Highlight current sexp when editing lisp code.
-#+begin-src emacs-lisp
+#+begin_src emacs-lisp
 (require 'hl-sexp)
 (add-hook 'paredit-mode-hook (lambda () (hl-sexp-mode t)))
 #+end_src
 
 Prevent flickery behaviour due to hl-sexp-mode unhighlighting before each command
-#+begin-src emacs-lisp
+#+begin_src emacs-lisp
 (defadvice hl-sexp-mode (after unflicker (turn-on) activate)
   (when turn-on
     (remove-hook 'pre-command-hook #'hl-sexp-unhighlight)))
@@ -959,6 +965,7 @@ W to ignore whitespace diffs in magit.
 (define-key magit-status-mode-map (kbd "q") 'magit-quit-session)
 #+end_src
 ** git{configure,ignore,-commit}-mode
+
 #+begin_src emacs-lisp
 (require 'gitconfig-mode)
 (require 'gitignore-mode)
