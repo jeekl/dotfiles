@@ -147,9 +147,10 @@ Emacs lisp package archive. Bundled in emacs 24.
       rspec-mode
       rvm
       sass-mode
+      smart-mode-line
+      smex
       ssh-config-mode
       stripe-buffer
-      smex
       switch-window
       visual-regexp
       visual-regexp-steroids
@@ -547,10 +548,11 @@ TODO, this does not work?
   (global-set-key (kbd "M-X") 'smex-major-mode-commands)
 #+end_src
 
-** Dired / Dired+
+** Dired
 #+begin_src emacs-lisp
 (setq dired-recursive-deletes 'top)
 (define-key dired-mode-map [mouse-2] 'dired-find-file)
+(setq-default dired-listing-switches "-alhv")
 #+end_src
 *** Make dired less verbose
 Toggle showin details with ) and (.
@@ -1402,6 +1404,12 @@ Automatically insert newlines, matching braces, indentation and so on.
 (add-hook 'scheme-mode-hook 'rainbow-delimiters-mode)
 (add-hook 'clojure-mode-hook 'rainbow-delimiters-mode)
 #+end_src
+** Smart-mode-line
+[[https://github.com/Bruce-Connor/smart-mode-line][Github]]
+#+begin_src emacs-lisp
+  (setq sml/theme 'dark)
+  (sml/setup)
+#+end_src
 
 * Misc
 ** Xterm
@@ -1990,17 +1998,17 @@ Align your code in a pretty way.
 Save buffers active on exit and on idle
 #+begin_src emacs-lisp
   (require 'desktop)
-
+    
   (setq history-length 250)
   (add-to-list 'desktop-globals-to-save 'file-name-history)
-
+    
   (setq desktop-dirname             "~/.emacs.d/desktop/"
         desktop-base-file-name      "emacs.desktop"
         desktop-base-lock-name      "lock"
         desktop-path                (list desktop-dirname)
         desktop-save                t
         desktop-load-locked-desktop nil)
-
+  (setq desktop-save 'if-exists) ; Only try to save desktop if loaded from one.
   (desktop-save-mode 1)
 #+end_src
 *** Save buffers on editor idle
