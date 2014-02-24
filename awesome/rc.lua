@@ -44,6 +44,7 @@ autostart.run("xfce4-power-manager &")
 autostart.run("gnome-screensaver &")
 autostart.run("$HOME/bin/wallpaper &")
 autostart.run("urxvtd -q -f -o")
+autostart.run("compton --config $HOME/.config/compton.conf -b")
 -- autostart.run("urxvt -name scratchterm -e '$HOME/bin/tmux-attach-to-session scratch'")
 -- {{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
