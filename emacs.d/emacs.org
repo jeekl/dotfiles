@@ -102,6 +102,7 @@ Emacs lisp package archive. Bundled in emacs 24.
       csv-mode
       cyberpunk-theme
       dash
+      diff-hl
       diminish
       dired-details
       dockerfile-mode
@@ -168,6 +169,10 @@ Emacs lisp package archive. Bundled in emacs 24.
       yaml-mode
       yasnippet)
     "A list of packages to ensure are installed at launch.")
+#+end_src
+
+** Install packages from elpa & others
+#+begin_src emacs-lisp
 
   (when (not package-archive-contents)
     (package-refresh-contents))
@@ -189,7 +194,7 @@ Emacs lisp package archive. Bundled in emacs 24.
                     (mapcar 'car package-archive-contents))))
 #+end_src
 ** El-get
-pEl-get manages pacakges from different package sources, like ELPA, git, svn,
+El-get manages pacakges from different package sources, like ELPA, git, svn,
 apt and so on.
 *** Load El-get
 Try to load el-get and install el-get if it fails.
@@ -1241,8 +1246,11 @@ http://web-mode.org/
 ** hl-diff
 [[https://github.com/dgutov/diff-hl][Github]]
 #+begin_src emacs-lisp
-;  (global-diff-hl-mode)
-;  (add-hook 'dired-mode-hook 'diff-hl-dired-mode)
+  (require 'diff-hl)
+  (global-diff-hl-mode)
+  (add-hook 'dired-mode-hook 'diff-hl-dired-mode)
+  (defadvice magit-mode-quit-window (after update-diff-hl-after-commit activate)
+    (diff-hl-update))
 #+end_src
 ** dockerfile-mode
 #+begin_src emacs-lisp
