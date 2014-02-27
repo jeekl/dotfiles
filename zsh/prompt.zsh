@@ -614,7 +614,7 @@ zstyle ':prompt:grml:left:items:at' pre "%B${BLUE}"
 zstyle ':prompt:grml:left:items:host' pre "%B${WHITE}"
 zstyle ':prompt:grml:left:items:path' pre "%B${BOLD_CYAN}"
 zstyle ':prompt:grml:left:items:path' token '%40<..<%~%<< '
-zstyle ':prompt:grml:left:items:percent' pre "%B"
+zstyle ':prompt:grml:left:items:percent' pre "%B${WHITE}"
 zstyle ':prompt:grml:left:items:vcs' pre '$VENV_PROMPT'
 zstyle ':prompt:grml:right:items:sad-smiley' pre '%B%F{196}'
 
@@ -626,7 +626,7 @@ zstyle ':vcs_info:*' stagedstr "%F{202}" # ${c[18]}
 # zstyle ':vcs_info:git*:*' get-revision true
 zstyle ':vcs_info:git*:*' check-for-changes true
 
-local gitformat="%B%F{214}%r%F{237}(%a%F{083}%u%c%b%m%F{237}) " # 14, 15
+local gitformat="%B%F{237}(%a%F{083}%u%c%b%m%F{237}) " # 14, 15
 zstyle ':vcs_info:git*' formats $gitformat
 zstyle ':vcs_info:git*' actionformats $gitformat
 

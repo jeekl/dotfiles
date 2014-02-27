@@ -405,7 +405,7 @@ function _autovenv() {
     if [[ -f "$cur/$f" ]]; then
       if [[ -z "$VIRTUAL_ENV" ]]; then
         source $cur/$f
-        export VENV_PROMPT="%B${MAGENTA}venv:" # TODO
+        export VENV_PROMPT="%B${MAGENTA}venv " # TODO
       fi
       return
     fi
