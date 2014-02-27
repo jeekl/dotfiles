@@ -25,8 +25,14 @@ This file depends on Emacs24 with a recent (summmer 2011 and beyond) org-mode.
 ** Real preparations
 This is set after init.el has been loaded, but works well enough.
 #+begin_src emacs-lisp
-(setq message-log-max 16384)
-(defconst emacs-start-time (current-time))
+  (setq message-log-max 16384)
+  (defconst emacs-start-time (current-time))
+#+end_src
+
+Error out when running on Emacs23 or below.
+#+begin_src emacs-lisp
+(when (< emacs-major-version 24)
+  (error "This setup requires Emacs 24.0, or higher. You have: v%d" emacs-major-version))
 #+end_src
 
 #+begin_src emacs-lisp
