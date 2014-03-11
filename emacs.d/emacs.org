@@ -2094,3 +2094,13 @@ This is currently broken due to ibus 1.5 being retarded. Will prolly need to swi
           (lambda ()
             (add-to-list 'flyspell-prog-text-faces 'nxml-text-face)))
 #+end_src
+** Popwin
+[[https://github.com/m2ym/popwin-el][Github]]
+#+begin_src emacs-lisp
+  (require 'popwin)
+  (popwin-mode 1)
+  ;;(require 'popwin-browse-kill-ring)
+  (push "*Kill Ring*" popwin:special-display-config)
+  (push "*Ack-and-a-half*" popwin:special-display-config)
+#+end_src
+
