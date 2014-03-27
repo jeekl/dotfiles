@@ -885,14 +885,6 @@ TODO: Keybindings
 
 (add-hook 'find-file-hook 'sm-try-smerge t)
 #+end_src
-** Google weather
-#+begin_src emacs-lisp
-(require 'google-weather)
-(require 'org-google-weather)
-#+end_src
-%%(org-google-weather "London" "en-gb")
-
-%%(org-google-weather)
 ** Org-mode
 #+begin_cite
 One mode to rule them all,
