@@ -253,7 +253,19 @@ This might be obsolete as various electric-funs are included in emacs24?
 ;  (setq autopair-dont-activate t)
 ;  (autopair-mode -1))
 #+end_src
+*** Recompile elc when saving a file
+Yoinked from Emacs Prelude:
+https://github.com/bbatsov/prelude/blob/master/modules/prelude-emacs-lisp.el
 
+#+begin_src emacs-lisp
+(defun recompile-elc-on-save ()
+  "Recompile your elc when saving an elisp file."
+
+  (when (file-exists-p (byte-compile-dest-file buffer-file-name))
+    (emacs-lisp-byte-compile)))
+
+(add-hook 'after-save-hook 'recompile-elc-on-save)
+#+end_src
 *** conditionally-enable-paredit-mode
 Only enable in minibuffer when editing a sexp. See hooks.
 #+begin_src emacs-lisp
