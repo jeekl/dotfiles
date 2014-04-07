@@ -1,0 +1,61 @@
+#!/usr/bin/env ruby
+# Simple script for randomising logging into jumphosts and opsjumphosts
+require 'optparse'
+
+jumphosts = ['ash-jumphost-a1.ash.spotify.net',
+             'ash1-jumphost-b1.ash.spotify.net',
+             'ash2-jumphost-a1.ash2.spotify.net',
+             'ash2-jumphost-b1.ash2.spotify.net',
+             'lon-jumphost-a1.lon.spotify.net',
+             'lon1-jumphost-b1.lon.spotify.net',
+             'lon3-jumphost-a1.lon3.spotify.net',
+             'lon3-jumphost-b1.lon3.spotify.net',
+             'sjc1-jumphost-a1.sjc1.spotify.net',
+             'sjc1-jumphost-b1.sjc1.spotify.net',
+             'sto-jumphost-a1.sto.spotify.net']
+
+opsjumphosts = ['laxmi.sto.spotify.net',
+                'ash1-jumphost-b1.ash.spotify.net',
+                'lon1-jumphost-b1.lon.spotify.net',
+                'lon3-jumphost-b1.lon3.spotify.net',
+                'sjc1-jumphost-b1.sjc1.spotify.net']
+
+hosts = jumphosts + opsjumphosts
+
+options = {}
+options[:normal] = true         # This is the default
+
+optparser = OptionParser.new do |opts|
+  opts.banner = "Usage: jumphost [options]"
+  opts.on('-o', '--opshost', 'Jump to a random opsjumphost.') do
+    options[:opshost] = true
+  end
+  opts.on('-n', '--normal', 'Jump to a random normal jumphost. This is the default') do
+    options[:normal] = true
+  end
+  opts.on('-j HOST', '--jump HOST', hosts, 'Jump to a specific host.') do |host|
+    options[:host] = host
+  end
+  opts.on('-h', '--help', 'Display this text and exit.') do
+    options[:help]   = true
+    options[:normal] = false
+  end
+end
+
+optparser.parse!
+
+if not options[:host] == nil 
+  dest_host = options[:host]
+  puts "Jumping to #{dest_host}..."
+elsif options[:opshost]
+  dest_host = opsjumphosts.sample
+  puts "Jumping to opshost #{dest_host}, make sure to authenticate with your yubikey..."
+elsif options[:normal]
+  dest_host = jumphosts.sample
+  puts "Jumping to #{dest_host}..."
+elsif options[:help]
+  puts optparser
+  exit
+end
+
+system("ssh -A #{dest_host}")
