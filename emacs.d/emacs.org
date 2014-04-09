@@ -194,39 +194,6 @@ Emacs lisp package archive. Bundled in emacs 24.
                               (package-installed-p x)))
                     (mapcar 'car package-archive-contents))))
 #+end_src
-** El-get
-El-get manages pacakges from different package sources, like ELPA, git, svn,
-apt and so on.
-*** Load El-get
-Try to load el-get and install el-get if it fails.
-#+begin_src emacs-lisp
-  (unless (require 'el-get nil t)
-    (with-current-buffer
-        (url-retrieve-synchronously
-         "https://raw.github.com/dimitri/el-get/master/el-get-install.el")
-      (end-of-buffer)
-      (eval-print-last-sexp)))
-  (setq el-get-verbose t)
-  (el-get 'sync)
-#+end_src
-*** Define packages
-**** Own definitions
-
-**** Basic / Misc
-These are packages that add basic or very general functionality to emacs.
-#+begin_src emacs-lisp
-  (setq my-packages
-        (append
-         '(el-get
-           fuzzy-format
-           popup-kill-ring)
-        ))
-#+end_src
-
-#+begin_src emacs-lisp
-(el-get 'sync my-packages)
-#+end_src
-
 * Languages
 ** TODO Automatic major mode for buffers
 Automatically set major mode for buffers not connected to any file based on
@@ -720,14 +687,6 @@ Kill, yank and such on current line if no region is selected.
 #+begin_src emacs-lisp
 (require 'whole-line-or-region)
 (whole-line-or-region-mode t)
-#+end_src
-** Fuzzy format
-Set indent rules to that of opened file.
-If opened file is using tabs, use tabs. If opened file is using 8 spaces, use 8 spaces.
-#+begin_src emacs-lisp
-(require 'fuzzy-format)
-(setq fuzzy-format-default-indent-tabs-mode nil) ; Dont use tabs by default
-(global-fuzzy-format-mode t)
 #+end_src
 ** hl-sexp
 Highlight current sexp when editing lisp code.
