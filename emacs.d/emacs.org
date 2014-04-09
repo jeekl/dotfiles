@@ -368,6 +368,31 @@ More font-lock keywords for emacs lisp
 (list #'autopair-default-handle-action
 #'autopair-python-triple-quote-action))))
 #+end_src
+*** COMMENT Compile with tox
+[[https://gist.github.com/mcdonc/3977930][gist]]
+#+begin_src emacs-lisp
+  (require 'compile)
+
+  (defun* get-closest-pathname (&optional (file "tox.ini"))
+    "Determine the pathname of the first instance of FILE starting
+  from the current directory towards root. This may not do the
+  correct thing in presence of links. If it does not find FILE,
+  then it shall return the name of FILE in the current directory,
+  suitable for creation"
+    (let ((root (expand-file-name "/")))
+      (expand-file-name file
+                        (loop
+                         for d = default-directory then (expand-file-name ".." d)
+                         if (file-exists-p (expand-file-name file d))
+                         return d
+                         if (equal d root)
+                         return nil))))
+
+  (add-hook 'python-mode-hook
+            (lambda ()
+              (set (make-local-variable 'compile-command)
+                   (format "tox -c %s" (get-closest-pathname)))))
+#+end_src
 
 ** Clojure
 #+begin_src emacs-lisp
