@@ -799,7 +799,6 @@ Shorten names of minor modes in modeline.
   (require 'diminish)
   (eval-after-load "undo-tree" '(diminish 'undo-tree-mode))
   (eval-after-load "whole-line-or-region-mode" (diminish 'whole-line-or-region-mode))
-  (eval-after-load "fuzzy-format-mode" (diminish 'fuzzy-format-mode))
   ;; (diminish 'wrap-region-mode)
   (eval-after-load "eldoc" '(diminish 'eldoc-mode))
   (eval-after-load "abbrev" '(diminish 'abbrev-mode))
