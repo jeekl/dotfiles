@@ -368,7 +368,7 @@ More font-lock keywords for emacs lisp
 (list #'autopair-default-handle-action
 #'autopair-python-triple-quote-action))))
 #+end_src
-*** COMMENT Compile with tox
+*** Compile with tox
 [[https://gist.github.com/mcdonc/3977930][gist]]
 #+begin_src emacs-lisp
   (require 'compile)
