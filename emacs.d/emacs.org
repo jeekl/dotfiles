@@ -122,6 +122,7 @@ Emacs lisp package archive. Bundled in emacs 24.
       gitignore-mode
       google-maps
       google-weather
+      groovy-mode
       haml-mode
       haskell-mode
       hl-diff
@@ -506,6 +507,18 @@ TODO, this does not work?
     (add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
     (add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
 #+end_src
+** Groovy
+#+begin_src emacs-lisp
+  (autoload 'groovy-mode "groovy-mode" "Major mode for editing Groovy code." t)
+  (add-to-list 'auto-mode-alist '("\.groovy$" . groovy-mode))
+  (add-to-list 'auto-mode-alist '("\.pipeline$" . groovy-mode)) ;; build.pipeline 
+  (add-to-list 'interpreter-mode-alist '("groovy" . groovy-mode))
+  (add-hook 'groovy-mode-hook
+            '(lambda ()
+               (require 'groovy-electric)
+               (groovy-electric-mode)))
+#+end_src
+
 * Modes
 ** Fullframe
 Advice commands to execute fullscreen, restoring the window setup when exiting.
@@ -1760,7 +1773,7 @@ Paste at point instead of at mouse
 #+end_src
 
 ** Savehist
-Save my searches and other stuff
+Save my searches and other minibuffer stuff between sessions.
 #+begin_src emacs-lisp
 (setq savehist-additional-variables
   '(search ring regexp-search-ring)
