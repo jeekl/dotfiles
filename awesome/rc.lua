@@ -247,7 +247,7 @@ promptkey = "p"
 -- modal prompt keys
 prompt_keys = {
    r = function (c)
-      awful.util.spawn("dmenu_run -fn 'DejaVu Sans Mono-12' -l 10 -i -p '>'") end,
+      awful.util.spawn("dmenu_run -fn 'DejaVu Sans Mono-14' -l 10 -i -p '>'") end,
       -- mypromptbox[mouse.screen]:run() end,
 
    x = function (c)
@@ -294,7 +294,18 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "u", awful.client.urgent.jumpto),
     awful.key({ modkey,           }, "Tab",
         function ()
-            awful.client.focus.history.previous()
+           -- awful.client.focus.history.previous()
+           -- Alt + Tab like in other wms
+           awful.client.focus.byidx(1)
+            if client.focus then
+                client.focus:raise()
+            end
+        end),
+    awful.key({ modkey, "Shift"   }, "Tab",
+        function ()
+           -- awful.client.focus.history.previous()
+           -- Alt + Tab like in other wms
+           awful.client.focus.byidx(-1)
             if client.focus then
                 client.focus:raise()
             end
