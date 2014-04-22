@@ -105,6 +105,7 @@ Emacs lisp package archive. Bundled in emacs 24.
       diff-hl
       diminish
       dired-details
+      direx
       dockerfile-mode
       erlang
       esup
@@ -135,6 +136,7 @@ Emacs lisp package archive. Bundled in emacs 24.
       inf-ruby
       ioccur
       jedi
+      jedi-direx
       js2-mode
       lua-mode
       magit
@@ -149,6 +151,7 @@ Emacs lisp package archive. Bundled in emacs 24.
       otp
       pastels-on-dark-theme
       pkgbuild-mode
+      popwin
       pos-tip ;; requirement for popup-kill-ring
       puppet-mode
       rainbow-delimiters
@@ -394,6 +397,13 @@ More font-lock keywords for emacs lisp
                    (format "tox -c %s" (get-closest-pathname)))))
 #+end_src
 
+*** Jedi-direx
+#+begin_src emacs-lisp
+(eval-after-load "python"
+  '(define-key python-mode-map (kbd "C-x C-j") 'jedi-direx:pop-to-buffer))
+
+(add-hook 'jedi-mode-hook 'jedi-direx:setup)
+#+end_src
 ** Clojure
 #+begin_src emacs-lisp
 (autoload 'clojure-mode "clojure-mode" "Major mode for editing Clojure code." t nil)
@@ -585,10 +595,20 @@ Advice commands to execute fullscreen, restoring the window setup when exiting.
   (global-set-key (kbd "M-X") 'smex-major-mode-commands)
 #+end_src
 
+** Popwin
+[[https://github.com/m2ym/popwin-el][Github]]
+#+begin_src emacs-lisp
+  (require 'popwin)
+  (popwin-mode 1)
+  ;;(require 'popwin-browse-kill-ring)
+  (push "*Kill Ring*" popwin:special-display-config)
+  (push "*Ack-and-a-half*" popwin:special-display-config)
+#+end_src
+
 ** Dired
 #+begin_src emacs-lisp
 (setq dired-recursive-deletes 'top)
-(define-key dired-mode-map [mouse-2] 'dired-find-file)
+;(define-key dired-mode-map [mouse-2] 'dired-find-file)
 (setq-default dired-listing-switches "-alhv")
 #+end_src
 *** Make dired less verbose
@@ -597,6 +617,19 @@ Toggle showin details with ) and (.
 (require 'dired-details)
 (setq-default dired-details-hidden-string "--- ")
 (dired-details-install)
+#+end_src
+
+** Direx
+#+begin_src emacs-lisp
+(require 'direx)
+(setq direx:leaf-icon " "
+      direx:open-icon "▼ "
+      direx:closed-icon "▶ ")
+
+(push '(direx:direx-mode :position left :width 30 :dedicated t)
+      popwin:special-display-config)
+
+(global-set-key (kbd "C-x C-j") 'direx:jump-to-directory-other-window)
 #+end_src
 
 ** Flycheck
@@ -2117,14 +2150,5 @@ This is currently broken due to ibus 1.5 being retarded. Will prolly need to swi
 (add-hook 'nxml-mode-hook
           (lambda ()
             (add-to-list 'flyspell-prog-text-faces 'nxml-text-face)))
-#+end_src
-** Popwin
-[[https://github.com/m2ym/popwin-el][Github]]
-#+begin_src emacs-lisp
-  (require 'popwin)
-  (popwin-mode 1)
-  ;;(require 'popwin-browse-kill-ring)
-  (push "*Kill Ring*" popwin:special-display-config)
-  (push "*Ack-and-a-half*" popwin:special-display-config)
 #+end_src
 
