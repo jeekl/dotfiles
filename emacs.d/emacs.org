@@ -110,6 +110,7 @@ Emacs lisp package archive. Bundled in emacs 24.
       erlang
       esup
       expand-region
+      fancy-narrow
       fill-column-indicator
       fiplr
       flycheck
@@ -1486,6 +1487,10 @@ Automatically insert newlines, matching braces, indentation and so on.
 #+begin_src emacs-lisp
   (setq sml/theme 'dark)
   (sml/setup)
+#+end_src
+** Fancy-narrow
+#+begin_src emacs-lisp
+(fancy-narrow-mode)
 #+end_src
 
 * Misc
