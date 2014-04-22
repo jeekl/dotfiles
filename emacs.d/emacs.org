@@ -150,6 +150,7 @@ Emacs lisp package archive. Bundled in emacs 24.
       org-fstree
       org-jekyll
       otp
+      paradox
       pastels-on-dark-theme
       pkgbuild-mode
       popwin
