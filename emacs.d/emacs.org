@@ -1193,11 +1193,10 @@ Usage: emacs -diff file1 file2
 [[http://emacsrocks.com/e09.html][EmacsRocks video]]
 Dynamically expand mark around terms, tags, paragraphs and so on.
 #+begin_src emacs-lisp
-(require 'expand-region)
-(global-set-key (kbd "C-v") 'er/expand-region)
-(global-set-key (kbd "C-S-v") 'er/contract-region)
+  (require 'expand-region)
+  (global-set-key (kbd "C-v") 'er/expand-region)
+  (global-set-key (kbd "C-S-v") 'er/contract-region)
 #+end_src
-
 ** Shell mode
 Make C-d kill buffer when process is dead.
 #+begin_src emacs-lisp
@@ -1367,20 +1366,18 @@ Make buffer names more unique when multiple share the same name.
 (setq uniquify-after-kill-buffer-p t)
 (setq uniquify-ignore-buffers-re "^\\*")
 #+end_src
- ** Text
+** Text
 Default font/text size
 #+begin_src emacs-lisp
 ;(set-default-font "Bitstream Vera Sans Mono-11")
 (set-default-font "DejaVu Sans Mono-15")
 #+end_src
-
-Increase/decrese text size with keys
 *** Keybindings
+Increase/decrese text size with keys
 #+begin_src emacs-lisp
 (define-key global-map (kbd "C-+") 'text-scale-increase)
 (define-key global-map (kbd "C--") 'text-scale-decrease)
 #+end_src
-
 *** Size
 Column size and so on
 #+begin_src emacs-lisp
@@ -1400,7 +1397,7 @@ Add warning highlighting of todo/fix keywords.
  1 font-lock-warning-face t)))))
 #+end_src
 ** Show active region
- ;; Visually show marked text
+Visually show marked text
 #+begin_src emacs-lisp
   (setq transient-mark-mode t)
   (make-variable-buffer-local 'transient-mark-mode)
@@ -1437,10 +1434,6 @@ convert tabs to spaces and more.
         whitespace-line-column 80)
 #+end_src
 
-** Modeline
-#+begin_src emacs-lisp
-;
-#+end_src
 ** fci-mode
 Shows a thin line on the screen at 79 chars, as a visual representation of when
 you are nearing the 80 char limit.
