@@ -333,7 +333,9 @@ More font-lock keywords for emacs lisp
 (define-key emacs-lisp-mode-map (kbd "C-c v") 'eval-buffer)
 #+end_src
 *** File extensions
+#+begin_src emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.lisp$" . lisp-clojure-mode))
+#+end_src
 *** Remove elc when editing elisp
 #+begin_src emacs-lisp
   (defun remove-elc-on-save ()
@@ -412,7 +414,7 @@ More font-lock keywords for emacs lisp
 #+end_src
 *** Hooks
 #+begin_src emacs-lisp
-(add-hook 'clojure-mode-hook 'clojure-test-maybe-enable)
+; (add-hook 'clojure-mode-hook 'clojure-test-maybe-enable)
 ;(add-hook 'clojure-mode-hook 'enable-paredit-mode)
 (add-hook 'clojure-mode-hook 'font-lock-mode) ; bug in emacs24?
 #+end_src
