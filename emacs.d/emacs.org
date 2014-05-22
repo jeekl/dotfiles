@@ -167,6 +167,7 @@ Emacs lisp package archive. Bundled in emacs 24.
       smex
       ssh-config-mode
       stripe-buffer
+      sublimity
       switch-window
       visual-regexp
       visual-regexp-steroids
@@ -1813,9 +1814,9 @@ Paste at point instead of at mouse
 *** Mouse scrolling
 #+begin_src emacs-lisp
 ;; mouse-wheel scroll one line at a time
-(setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
+;(setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
 ;; but accelerate
-(setq mouse-wheel-progressive-speed t)
+;(setq mouse-wheel-progressive-speed t)
 #+end_src
 
 ** Savehist
@@ -2159,3 +2160,20 @@ This is currently broken due to ibus 1.5 being retarded. Will prolly need to swi
             (add-to-list 'flyspell-prog-text-faces 'nxml-text-face)))
 #+end_src
 
+** Sublimity
+#+begin_src emacs-lisp
+(require 'sublimity)
+(require 'sublimity-scroll)
+
+(setq sublimity-scroll-weight 5
+      sublimity-scroll-drift-length 10)
+#+end_src
+** Beautify json
+#+begin_src emacs-lisp
+(defun beautify-json ()
+  (interactive)
+  (let ((b (if mark-active (min (point) (mark)) (point-min)))
+        (e (if mark-active (max (point) (mark)) (point-max))))
+    (shell-command-on-region b e
+      "python -mjson.tool" (current-buffer) t)))
+#+end_src
