@@ -1222,6 +1222,11 @@ Make C-d kill buffer when process is dead.
               (define-key shell-mode-map (kbd "C-d")
                 'comint-delchar-or-eof-or-kill-buffer)))
 #+end_src
+Color shell text
+#+begin_src emacs-lisp
+(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+#+end_src
+
 ** nginx-mode
 #+begin_src emacs-lisp
 (require 'nginx-mode)
