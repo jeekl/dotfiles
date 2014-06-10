@@ -107,6 +107,7 @@ Emacs lisp package archive. Bundled in emacs 24.
       dired-details
       direx
       dockerfile-mode
+      enh-ruby-mode
       erlang
       esup
       expand-region
@@ -134,7 +135,7 @@ Emacs lisp package archive. Bundled in emacs 24.
       ibuffer-vc
       ido-ubiquitous
       ido-vertical-mode
-      inf-ruby
+;;      inf-ruby
       ioccur
       jedi
       jedi-direx
@@ -160,7 +161,7 @@ Emacs lisp package archive. Bundled in emacs 24.
       rainbow-mode
       redo+
       rspec-mode
-      rvm
+;;      rvm
       sass-mode
       smart-mode-line
       smex
@@ -212,20 +213,25 @@ TODO: This gives an
           (set-auto-mode))))
 #+end_src
 ** Ruby
+#+begin_src emacs-lisp
+(require 'enh-ruby-mode)
+(setq enh-ruby-check-syntax nil)
+#+end_src
+
 *** RVM
 Ruby version manager
 #+begin_src emacs-lisp
-(require 'rvm)
-(rvm-use-default)
+  ;; (require 'rvm)
+  ;; (rvm-use-default)
 #+end_src
-*** Inf-ruby
+*** COMMENT Inf-ruby
 inf-ruby.el provides a REPL buffer connected to a IRB subprocess.
 
 #+begin_src emacs-lisp
-  (autoload 'inf-ruby "inf-ruby" "Run an inferior Ruby process" t)
-  (autoload 'inf-ruby-setup-keybindings "inf-ruby" "" t)
-  (eval-after-load 'ruby-mode
-    '(add-hook 'ruby-mode-hook 'inf-ruby-setup-keybindings))
+  ;; (autoload 'inf-ruby "inf-ruby" "Run an inferior Ruby process" t)
+  ;; (autoload 'inf-ruby-setup-keybindings "inf-ruby" "" t)
+  ;; (eval-after-load 'ruby-mode
+  ;;   '(add-hook 'ruby-mode-hook 'inf-ruby-setup-keybindings))
 #+end_src
 
 *** Keybindings
