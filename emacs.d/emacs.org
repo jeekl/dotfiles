@@ -202,7 +202,7 @@ Emacs lisp package archive. Bundled in emacs 24.
                     (mapcar 'car package-archive-contents))))
 #+end_src
 * Languages
-** TODO Automatic major mode for buffers
+** Automatic major mode for buffers
 Automatically set major mode for buffers not connected to any file based on
 buffer name (C-x b test.py will give a python buffer instead of a
 fundamental one)
@@ -480,20 +480,28 @@ Prefer Cperl to regular perl mode
 (setq auto-mode-alist (cons '("\\.bash$" . sh-mode) auto-mode-alist))
 #+end_src
 ** Javascript
-TODO, this does not work?
+
+Disable indenting with tabs.
+#+begin_src emacs-lisp
+  (setq js2-mode-hook
+        '(lambda () (progn
+                 (set-variable 'indent-tabs-mode nil))))
+#+end_src
+
+General js2-mode stuff
 #+begin_src emacs-lisp
   (setq js-indent-level 2)
   (setq js2-basic-offset 2)
-(setq-default js2-idle-timer-delay 0.1)
-(setq-default js2-auto-indent-p t)
+  (setq-default js2-idle-timer-delay 0.1)
+  (setq-default js2-auto-indent-p t)
 
-;; Stop js2-mode from adding newlines after ever { or }
-(add-hook 'js2-init-hook (lambda () (setq electric-layout-rules '((?\; . after)))))
+  ;; Stop js2-mode from adding newlines after ever { or }
+  (add-hook 'js2-init-hook (lambda () (setq electric-layout-rules '((?\; . after)))))
 
-;; Let flycheck handle parse errors
-(setq-default js2-show-parse-errors nil)
-(setq-default js2-strict-missing-semi-warning nil)
-(setq-default js2-strict-trailing-comma-warning t) ;; jshint does not warn about this now for some reason
+  ;; Let flycheck handle parse errors
+  (setq-default js2-show-parse-errors nil)
+  (setq-default js2-strict-missing-semi-warning nil)
+  (setq-default js2-strict-trailing-comma-warning t) ;; jshint does not warn about this now for some reason
   (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 #+end_src
 ** CSS
