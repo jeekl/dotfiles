@@ -487,6 +487,9 @@ TODO, this does not work?
 (setq-default js2-idle-timer-delay 0.1)
 (setq-default js2-auto-indent-p t)
 
+;; Stop js2-mode from adding newlines after ever { or }
+(add-hook 'js2-init-hook (lambda () (setq electric-layout-rules '((?\; . after)))))
+
 ;; Let flycheck handle parse errors
 (setq-default js2-show-parse-errors nil)
 (setq-default js2-strict-missing-semi-warning nil)
