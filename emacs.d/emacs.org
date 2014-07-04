@@ -499,8 +499,8 @@ General js2-mode stuff
   (add-hook 'js2-init-hook (lambda () (setq electric-layout-rules '((?\; . after)))))
 
   ;; Let flycheck handle parse errors
-  (setq-default js2-show-parse-errors nil)
-  (setq-default js2-strict-missing-semi-warning nil)
+  (setq-default js2-show-parse-errors 't)
+  (setq-default js2-strict-missing-semi-warning 't)
   (setq-default js2-strict-trailing-comma-warning t) ;; jshint does not warn about this now for some reason
   (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 #+end_src
@@ -1305,6 +1305,9 @@ http://web-mode.org/
     (set-face-attribute 'web-mode-html-tag-face nil :foreground "gold1")
     (set-face-attribute 'web-mode-current-element-highlight-face nil :background "DodgerBlue4"))
    ;; (set-face-attribute 'web-mode-current-element-highlight-face nil :background "#383838"))
+  (setq web-mode-hook
+        '(lambda () (progn
+                 (set-variable 'indent-tabs-mode nil))))
 
   (add-hook 'web-mode-hook 'web-mode-hook)
 #+end_src
