@@ -106,6 +106,7 @@ Emacs lisp package archive. Bundled in emacs 24.
       diminish
       dired-details
       direx
+      discover-my-major
       dockerfile-mode
       enh-ruby-mode
       erlang
@@ -2196,4 +2197,11 @@ This is currently broken due to ibus 1.5 being retarded. Will prolly need to swi
         (e (if mark-active (max (point) (mark)) (point-max))))
     (shell-command-on-region b e
       "python -mjson.tool" (current-buffer) t)))
+#+end_src
+** discover-my-major
+[[https://github.com/steckerhalter/discover-my-major][Github]]
+Better representation of keybindings in current major mode. Instead of C-h m,
+you get something nicer.
+#+begin_src emacs-lisp
+(global-set-key (kbd "C-h C-m") 'discover-my-major)
 #+end_src
