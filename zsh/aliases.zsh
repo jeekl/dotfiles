@@ -8,6 +8,7 @@ alias cd..='cd ..'
 alias history='fc -l 1'
 alias ls='ls -hF --color=always'
 alias l='ls -laFh'
+alias ll='l -tr'
 alias sl=ls
 alias da='date "+%A, %B %d, %Y [%T]"'
 alias hist='history | grep $1'      # requires an argument

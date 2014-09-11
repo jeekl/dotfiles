@@ -877,3 +877,6 @@ function start_agent {
     . ${GPG_ENV} > /dev/null
 }
 
+function sppip() {
+    pip install -i http://pypi.spotify.net/simple/ $*
+}
