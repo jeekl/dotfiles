@@ -169,4 +169,6 @@ if [ -z "$SSH_AUTH_SOCK" ] || [ ! -w "$SSH_AUTH_SOCK" ]; then
         ssh-add
 fi
 
+source plugins/*/*.zsh
+
 source-host-config
